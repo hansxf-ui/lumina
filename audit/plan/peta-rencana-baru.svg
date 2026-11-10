@@ -1,0 +1,250 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1020" height="750" viewBox="0 0 1020 750">
+<rect width="1020" height="750" fill="#8ecae6"/>
+<rect x="20" y="158" width="358" height="304" fill="#a8c686" stroke="none" stroke-width="0"/>
+<rect x="640" y="-50" width="370" height="300" fill="#8fb573" stroke="none" stroke-width="0"/>
+<rect x="350" y="550" width="340" height="180" fill="#b5d99a" stroke="none" stroke-width="0"/>
+<rect x="377" y="296" width="67" height="144" fill="#a8c686" stroke="none" stroke-width="0"/>
+<rect x="377" y="160" width="55" height="104" fill="#a8c686" stroke="none" stroke-width="0"/>
+<rect x="612" y="196" width="32" height="72" fill="#a8c686" stroke="none" stroke-width="0"/>
+<rect x="576" y="4" width="104" height="92" fill="#a8c686" stroke="none" stroke-width="0"/>
+<rect x="430" y="-140" width="180" height="164" fill="#a8c686" stroke="none" stroke-width="0"/>
+<circle cx="344" cy="476" r="28" fill="#a8c686" stroke="none" stroke-width="0"/>
+<circle cx="520" cy="280" r="120" fill="#b9d98a" stroke="none" stroke-width="0"/>
+<circle cx="600" cy="360" r="50" fill="#b9d98a" stroke="none" stroke-width="0"/>
+<circle cx="612" cy="280" r="52" fill="#b9d98a" stroke="none" stroke-width="0"/>
+<circle cx="520" cy="80" r="68" fill="#b9d98a" stroke="none" stroke-width="0"/>
+<circle cx="527" cy="164" r="64" fill="#b9d98a" stroke="#1d6fb8" stroke-width="2" stroke-dasharray="6 3"/>
+<ellipse cx="520" cy="404" rx="96" ry="42" fill="#e8d9a0"/>
+<rect x="488" y="100" width="80" height="128" fill="#3a86ff" stroke="none" stroke-width="0" opacity="0.1"/>
+<rect x="540" y="256" width="90" height="48" fill="#ff9f1c" stroke="none" stroke-width="0" opacity="0.15"/>
+<rect x="20" y="356" width="160" height="100" fill="#2ec4b6" stroke="none" stroke-width="0" opacity="0.12"/>
+<rect x="350" y="550" width="340" height="180" fill="#8338ec" stroke="none" stroke-width="0" opacity="0.08"/>
+<text x="528" y="96" font-size="9" fill="#1d4e89" text-anchor="middle" font-family="sans-serif" font-weight="bold">CITY WALK (lobus r32 BARU)</text>
+<text x="584" y="252" font-size="9" fill="#7a4a00" text-anchor="middle" font-family="sans-serif" font-weight="bold">PASAR (pejalan kaki)</text>
+<text x="100" y="352" font-size="10" fill="#0b5e55" text-anchor="middle" font-family="sans-serif" font-weight="bold">SEKOLAH</text>
+<text x="520" y="544" font-size="10" fill="#4a148c" text-anchor="middle" font-family="sans-serif" font-weight="bold">REKREASI SELATAN</text>
+<text x="820" y="96" font-size="9" fill="#1e4d2b" text-anchor="middle" font-family="sans-serif" font-weight="bold">HUTAN PINUS — rumah + lapangan (BARU)</text>
+<polygon points="602,80 598,90 596,100 594,110 594,120 596,130 600,140 606,150 614,160 620,170 628,180 632,190 634,200 634,210 630,220 624,230 618,240 612,250 608,260 604,270 604,280 604,290 608,300 612,310 618,320 624,330 628,340 632,350 634,360 632,370 626,380 620,390 614,400 606,410 600,420 596,430 594,440 596,450 598,460 600,470 604,480 608,490 612,500 618,510 632,510 628,500 622,490 616,480 612,470 608,460 606,450 606,440 608,430 612,420 620,410 626,400 634,390 640,380 644,370 646,360 646,350 644,340 638,330 634,320 628,310 622,300 618,290 616,280 618,270 622,260 628,250 632,240 638,230 642,220 644,210 646,200 644,190 640,180 634,170 626,160 620,150 614,140 608,130 606,120 606,110 610,100 614,90 618,80" fill="#4a90d9"/>
+<text x="612" y="160" font-size="8" fill="#0b3d91" text-anchor="middle" font-family="sans-serif" font-weight="bold">SUNGAI</text>
+<circle cx="160" cy="240" r="42" fill="#4a90d9" stroke="none" stroke-width="0"/>
+<rect x="114" y="204" width="92" height="72" fill="#4a90d9" stroke="#0b3d91" stroke-width="1.5" stroke-dasharray="4 2"/>
+<text x="160" y="196" font-size="8" fill="#0b3d91" text-anchor="middle" font-family="sans-serif" font-weight="bold">DANAU CERMIN + danau GLB (PINDAH)</text>
+<rect x="512" y="88" width="16" height="154" fill="#4a4e54" stroke="none" stroke-width="0"/>
+<rect x="512" y="320" width="16" height="350" fill="#4a4e54" stroke="none" stroke-width="0"/>
+<rect x="276" y="264" width="352" height="32" fill="#4a4e54" stroke="none" stroke-width="0"/>
+<rect x="416" y="634" width="208" height="12" fill="#4a4e54" stroke="none" stroke-width="0"/>
+<rect x="340" y="256" width="8" height="44" fill="#4a4e54" stroke="none" stroke-width="0"/>
+<line x1="520" y1="320" x2="520" y2="670" stroke="#fff" stroke-width="1.5" stroke-dasharray="8 8"/>
+<text x="520" y="80" font-size="8" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">JALAN N-S</text>
+<text x="460" y="632" font-size="8" fill="#fff" text-anchor="middle" font-family="sans-serif" font-weight="bold">JALAN SELATAN z 177-183</text>
+<circle cx="520" cy="280" r="41" fill="#c9a86a" stroke="none" stroke-width="0"/>
+<circle cx="520" cy="280" r="28" fill="#e8dcc0" stroke="none" stroke-width="0"/>
+<text x="520" y="284" font-size="9" fill="#5a4632" text-anchor="middle" font-family="sans-serif" font-weight="bold">PLAZA</text>
+<rect x="462" y="178" width="16" height="17" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="454" y="240" width="23" height="25" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="493" y="296" width="26" height="40" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="530" y="335" width="19" height="19" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="459" y="306" width="27" height="27" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="540" y="310" width="21" height="20" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="543" y="206" width="36" height="38" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="476" y="202" width="32" height="25" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="580" y="241" width="19" height="19" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="567" y="301" width="24" height="26" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="436" y="203" width="29" height="29" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="563" y="273" width="4" height="14" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="561" y="255" width="5" height="4" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="597" y="300" width="5" height="5" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="494" y="153" width="20" height="23" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="487" y="181" width="26" height="23" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="493" y="130" width="19" height="20" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="542" y="181" width="23" height="22" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="542" y="156" width="16" height="19" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="496" y="113" width="13" height="13" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="543" y="135" width="16" height="18" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="541" y="109" width="19" height="21" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="542" y="88" width="19" height="19" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="551" y="56" width="19" height="17" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="532" y="24" width="22" height="23" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="489" y="23" width="21" height="22" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="467" y="50" width="24" height="22" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="474" y="83" width="25" height="24" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="532" y="389" width="3" height="5" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="441" y="421" width="7" height="7" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="79" y="360" width="61" height="25" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="46" y="386" width="39" height="28" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="95" y="422" width="23" height="20" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="150" y="417" width="29" height="25" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="119" y="417" width="29" height="30" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="23" y="423" width="24" height="18" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="843" y="88" width="5" height="5" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="869" y="103" width="9" height="9" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="816" y="134" width="168" height="112" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="384" y="669" width="35" height="21" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="655" y="187" width="31" height="33" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="705" y="154" width="31" height="26" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="748" y="198" width="35" height="35" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="630" y="666" width="40" height="28" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="554" y="647" width="51" height="79" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="376" y="572" width="48" height="36" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="630" y="574" width="40" height="32" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="562" y="262" width="9" height="8" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="564" y="291" width="7" height="6" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="574" y="263" width="7" height="6" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="572" y="290" width="9" height="8" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="584" y="263" width="7" height="6" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="584" y="291" width="7" height="6" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="592" y="262" width="9" height="8" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="594" y="291" width="7" height="6" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="392" y="275" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="376" y="285" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="361" y="275" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="586" y="332" width="2" height="1" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="612" y="362" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="590" y="359" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="529" y="91" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="541" y="62" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="514" y="47" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="497" y="74" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="280" y="364" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="230" y="376" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="188" y="390" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="148" y="412" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="86" y="388" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="134" y="414" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="84" y="382" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="142" y="384" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="120" y="414" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="164" y="416" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="849" y="115" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="531" y="-179" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="508" y="-161" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="177" y="242" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="224" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="200" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="176" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="152" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="128" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="536" y="104" width="2" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="531" y="282" width="2" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="522" y="291" width="3" height="2" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="510" y="287" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="507" y="275" width="2" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="515" y="267" width="3" height="2" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="527" y="270" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="364" y="276" width="1" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="364" y="281" width="1" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="588" y="348" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="597" y="357" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="605" y="309" width="3" height="1" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="601" y="255" width="3" height="1" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="483" y="187" width="1" height="3" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="483" y="131" width="1" height="3" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="483" y="159" width="1" height="3" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="567" y="107" width="1" height="3" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="526" y="72" width="2" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="525" y="64" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="515" y="61" width="3" height="2" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="511" y="69" width="1" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="493" y="428" width="3" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="549" y="429" width="3" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="448" y="419" width="3" height="2" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="178" y="239" width="1" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="523" y="-158" width="3" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="514" y="-158" width="3" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="351" y="469" width="2" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="852" y="106" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="866" y="91" width="3" height="3" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="494" y="229" width="9" height="9" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="541" y="234" width="7" height="7" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="552" y="251" width="7" height="7" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="592" y="342" width="14" height="13" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="615" y="335" width="6" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="590" y="382" width="7" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="569" y="344" width="10" height="10" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="583" y="370" width="5" height="4" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="595" y="362" width="7" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="598" y="321" width="10" height="10" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="570" y="353" width="5" height="5" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="539" y="75" width="8" height="8" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="529" y="45" width="8" height="8" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="497" y="50" width="8" height="8" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="498" y="84" width="8" height="8" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="194" y="323" width="12" height="11" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="237" y="328" width="9" height="8" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="192" y="274" width="11" height="10" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="326" y="481" width="13" height="12" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="210" y="284" width="12" height="16" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="230" y="279" width="6" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="517" y="67" width="6" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="350" y="464" width="4" height="4" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="52" y="420" width="36" height="24" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="110" y="392" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="86" y="386" width="4" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="150" y="385" width="4" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="87" y="412" width="1" height="4" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="162" y="389" width="4" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="54" y="382" width="4" height="4" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="70" y="382" width="4" height="4" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="162" y="406" width="4" height="4" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="140" y="410" width="4" height="4" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="501" y="390" width="5" height="5" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="537" y="398" width="5" height="5" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<rect x="477" y="377" width="6" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="565" y="381" width="5" height="5" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="585" y="409" width="6" height="6" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="549" y="292" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="532" y="309" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="507" y="309" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="489" y="292" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="489" y="267" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="507" y="249" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="532" y="249" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="549" y="267" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="497" y="257" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="541" y="301" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="541" y="257" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<rect x="497" y="301" width="1" height="1" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<text x="44" y="448" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Air Mancur Sekolah 2</text>
+<text x="160" y="240" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Danau</text>
+<text x="650" y="680" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Food Court</text>
+<text x="550" y="320" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G02</text>
+<text x="490" y="355" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G04</text>
+<text x="540" y="346" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G05</text>
+<text x="580" y="314" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G07</text>
+<text x="590" y="250" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G08</text>
+<text x="492" y="214" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung G10</text>
+<text x="580" y="688" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gedung Konser</text>
+<text x="565" y="280" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Gerbang Pasar</text>
+<text x="580" y="590" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Kolam Renang</text>
+<text x="900" y="190" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Lapangan Olahraga</text>
+<text x="470" y="188" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Menara Jam</text>
+<text x="770" y="220" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Rumah Cottage</text>
+<text x="670" y="210" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Rumah Modern</text>
+<text x="720" y="170" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Rumah Tradisional</text>
+<text x="400" y="590" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Skatepark</text>
+<text x="400" y="680" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Taman Bermain</text>
+<text x="650" y="590" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Taman Bunga</text>
+<text x="503" y="140" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Buku &amp; Kertas</text>
+<text x="503" y="120" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Bunga</text>
+<text x="550" y="192" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Es Krim</text>
+<text x="503" y="192" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Kopi Senja</text>
+<text x="550" y="120" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Mainan</text>
+<text x="503" y="164" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Roti &amp; Kopi</text>
+<text x="550" y="166" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Studio Foto</text>
+<text x="550" y="144" font-size="7.5" fill="#7f1d1d" text-anchor="middle" font-family="sans-serif" font-weight="bold">Toko Teh &amp; Rempah</text>
+<text x="466" y="252" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">G01</text>
+<text x="472" y="320" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">G03</text>
+<text x="450" y="216" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">G06</text>
+<text x="560" y="226" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">G09</text>
+<text x="444" y="424" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">Mercusuar</text>
+<text x="380" y="280" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">Dermaga Barat</text>
+<text x="520" y="70" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">Plaza Utara</text>
+<text x="860" y="100" font-size="7.5" fill="#333" text-anchor="middle" font-family="sans-serif">Perkemahan</text>
+<rect x="4" y="4" width="196" height="40" fill="#ffffff" stroke="#333" stroke-width="1"/>
+<rect x="8" y="8" width="16" height="16" fill="#e63946" stroke="#7f1d1d" stroke-width="0.7"/>
+<text x="28" y="20" font-size="8" fill="#222" text-anchor="start" font-family="sans-serif">= objek PINDAH (49)</text>
+<rect x="8" y="28" width="16" height="12" fill="#6c757d" stroke="#343a40" stroke-width="0.7"/>
+<text x="28" y="38" font-size="8" fill="#222" text-anchor="start" font-family="sans-serif">= objek tetap</text>
+<text x="520" y="4" font-size="10" fill="#10243e" text-anchor="middle" font-family="sans-serif" font-weight="bold">KOTA LUMINA — PETA RENCANA BARU (Fase B, 2026-11-09) — merah = pindah, garis putus-putus = lobus City Walk r32 / danau GLB pindah</text>
+<text x="520" y="744" font-size="8" fill="#10243e" text-anchor="middle" font-family="sans-serif">Jalan E-W z -8..8 = KORIDOR PASAR PEJALAN KAKI (tanpa marka kendaraan) | Lapangan 84x56 -&gt; Hutan Pinus (daratan selatan tidak muat) | Persilangan jalan-sungai z -5..0 tanpa jembatan = RISIKO TERBUKA (T4)</text>
+</svg>
