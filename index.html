@@ -21,11 +21,11 @@
     pointer-events:none;
   }
   #atasKiri { pointer-events:none; }
-  #judulKecil { font-weight:800; font-size:20px; letter-spacing:3px; text-shadow:0 2px 10px rgba(0,0,0,.55); }
-  #infoOnline { display:flex; align-items:center; gap:7px; margin-top:3px; font-size:13px; font-weight:600; text-shadow:0 1px 6px rgba(0,0,0,.6); }
+  #judulKecil { display:inline-block; font-weight:800; font-size:20px; letter-spacing:3px; text-shadow:0 2px 10px rgba(0,0,0,.55); background:linear-gradient(180deg, rgba(52,38,72,.72), rgba(26,20,38,.6)); border:1px solid rgba(255,255,255,.22); padding:6px 14px 6px 16px; border-radius:999px; box-shadow:0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.18); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+  #infoOnline { display:flex; width:max-content; align-items:center; gap:7px; margin-top:6px; font-size:13px; font-weight:600; text-shadow:0 1px 6px rgba(0,0,0,.6); background:rgba(26,20,38,.5); border:1px solid rgba(255,255,255,.18); padding:5px 11px; border-radius:999px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
   #titik { width:11px; height:11px; border-radius:50%; background:#f5c542; box-shadow:0 0 8px rgba(0,0,0,.4); flex:none; }
   #titik.hijau { background:#3ddc68; } #titik.kuning { background:#f5c542; } #titik.merah { background:#ef4444; }
-  #luring { display:none; margin-top:4px; font-size:12px; font-weight:600; color:#ffd9d0; text-shadow:0 1px 6px rgba(0,0,0,.7); }
+  #luring { display:none; width:max-content; margin-top:6px; font-size:12px; font-weight:600; color:#ffd9d0; text-shadow:0 1px 6px rgba(0,0,0,.7); background:rgba(26,20,38,.5); border:1px solid rgba(255,255,255,.18); padding:5px 11px; border-radius:999px; }
   .tombolAtas {
     pointer-events:auto; border:1px solid rgba(255,255,255,.28); cursor:pointer;
     background:rgba(26,20,38,.55); color:#fff; font:inherit; font-size:13px; font-weight:700;
@@ -73,7 +73,7 @@
   }
   #barEmote::-webkit-scrollbar { display:none; }
   .emote {
-    flex:none; border:none; cursor:pointer; font:inherit; font-size:14px; font-weight:700; color:#3a2430;
+    flex:none; border:2px solid rgba(109,67,48,.22); cursor:pointer; font:inherit; font-size:14px; font-weight:700; color:#3a2430;
     background:rgba(255,251,244,.95); padding:10px 14px; border-radius:999px; min-height:44px;
     box-shadow:0 2px 8px rgba(0,0,0,.25);
   }
@@ -90,6 +90,10 @@
     position:absolute; left:50%; top:50%; width:56px; height:56px; border-radius:50%;
     background:rgba(255,251,244,.92); box-shadow:0 4px 14px rgba(0,0,0,.35);
     transform:translate(-50%,-50%); pointer-events:none;
+  }
+  #joyKnob::after {
+    content:""; position:absolute; left:50%; top:50%; width:22px; height:22px;
+    transform:translate(-50%,-50%); border-radius:50%; border:2px solid rgba(109,67,48,.28);
   }
   #aksiKanan {
     position:fixed; z-index:21; right:18px; bottom: calc(92px + env(safe-area-inset-bottom));
@@ -121,45 +125,62 @@
   }
   #kartuMasuk {
     width:100%; box-sizing:border-box; text-align:center; color:#54301d;
-    background:#fff6e9; border:3px solid #6d4330; border-radius:28px;
-    padding:26px 22px 24px; box-shadow:0 7px 0 rgba(109,67,48,.9);
+    background:linear-gradient(180deg, #fff9ef, #fff6e9); border:3px solid #6d4330; border-radius:28px;
+    padding:22px 22px 20px; box-shadow:0 7px 0 rgba(109,67,48,.9);
   }
-  #kartuMasuk h1 { margin:0; font-size:34px; font-weight:800; letter-spacing:.5px; color:#54301d; }
+  #kartuMasuk::before {
+    content:""; display:block; width:64px; height:8px; margin:0 auto 12px; border-radius:999px;
+    background:linear-gradient(90deg, #ff8b2d, #ffb347, #7fb069);
+  }
+  #kartuMasuk h1 { margin:0; font-size:30px; font-weight:800; letter-spacing:.5px; line-height:1.05; color:#54301d; }
+  .subMasuk { font-size:13px; font-weight:800; letter-spacing:3px; text-transform:uppercase; color:#a06a45; margin-top:5px; }
   #kartuMasuk label {
     display:block; width:max-content; text-align:left; font-size:12.5px; font-weight:800;
-    margin:18px 0 8px 2px; color:#54301d; background:#bfe8c9;
+    margin:14px 0 7px 2px; color:#54301d; background:#bfe8c9;
     border:2.5px solid #6d4330; border-radius:999px; padding:3px 12px;
   }
   #kartuMasuk label[for="nama"] { background:#bfe8c9; }
   #kartuMasuk label:not([for]) { background:#ffc4b2; }
   #nama {
     width:100%; box-sizing:border-box; outline:none; border:3px solid #6d4330; border-radius:999px;
-    padding:12px 18px; font:inherit; font-size:17px; font-weight:700; color:#54301d;
-    background:#fff; text-align:center;
+    padding:11px 18px; font:inherit; font-size:17px; font-weight:700; color:#54301d;
+    background:#fff; text-align:center; transition:box-shadow .18s ease;
   }
   #nama:focus { box-shadow:0 3px 0 rgba(109,67,48,.9); }
   #pilKar { display:flex; justify-content:center; gap:12px; margin-top:2px; }
   .pilKarBtn {
     flex:1; display:flex; align-items:center; justify-content:center; gap:9px;
     border:3px solid #6d4330; cursor:pointer; font:inherit; font-size:16.5px; font-weight:800;
-    color:#54301d; background:#f7ead6; padding:7px 14px 7px 8px; border-radius:999px;
+    color:#54301d; background:#f7ead6; padding:6px 12px 6px 7px; border-radius:999px;
     box-shadow:0 3px 0 rgba(109,67,48,.9);
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, filter .18s ease, background-color .18s ease;
   }
   .pilKarBtn img.wajah {
-    width:38px; height:38px; flex:none; border-radius:50%; object-fit:cover;
+    width:36px; height:36px; flex:none; border-radius:50%; object-fit:cover;
     border:3px solid #6d4330; background:#fdeedd;
   }
   .pilKarBtn:active { transform:translateY(2px); box-shadow:0 1px 0 rgba(109,67,48,.9); }
-  .pilKarBtn.pilih { background:#ffb59e; }
+  .pilKarBtn.pilih { background:#ffb59e; box-shadow:0 3px 0 rgba(109,67,48,.9), 0 0 0 3px rgba(255,127,87,.4); }
   .pilKarBtn.pilih img.wajah { box-shadow:0 0 0 3px #ff7f57; }
   #btnMasuk {
-    margin-top:22px; width:100%; border:3px solid #6d4330; cursor:pointer; font:inherit;
-    font-size:17.5px; font-weight:800; color:#fff8ec;
-    background:#ff8b2d; padding:14px; border-radius:999px;
+    margin-top:18px; width:100%; border:3px solid #6d4330; cursor:pointer; font:inherit;
+    font-size:17.5px; font-weight:800; letter-spacing:.4px; color:#fff8ec;
+    background:linear-gradient(180deg, #ffa04d, #ff8b2d); padding:14px; border-radius:999px;
     box-shadow:0 5px 0 #6d4330;
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease, filter .18s ease;
   }
   #btnMasuk:active { transform:translateY(4px); box-shadow:0 1px 0 #6d4330; }
-  @media (max-height:520px) { #kartuMasuk h1 { font-size:28px; } #kartuMasuk { padding:20px 18px; } }
+  @media (max-height:520px) {
+    #kartuMasuk { padding:14px 16px 12px; }
+    #kartuMasuk::before { width:52px; height:6px; margin-bottom:8px; }
+    #kartuMasuk h1 { font-size:24px; }
+    .subMasuk { font-size:12px; margin-top:2px; }
+    #kartuMasuk label { margin:10px 0 6px 2px; font-size:12px; padding:2px 10px; }
+    #nama { padding:9px 14px; font-size:16px; }
+    .pilKarBtn { padding:5px 10px 5px 6px; font-size:15px; }
+    .pilKarBtn img.wajah { width:32px; height:32px; }
+    #btnMasuk { margin-top:12px; padding:11px; font-size:16.5px; }
+  }
   /* HUD ditahan selama layar masuk tampil (overlay kini transparan;
      tanpa aturan ini HUD terlihat dobel di belakang kartu) */
   body:has(#masuk:not([style*="display: none"])) #atas,
@@ -199,6 +220,8 @@
   @media (hover:hover) {
     .tombolAtas:hover, .tombolBulat:hover { filter:brightness(1.12); }
     .emote:hover { filter:brightness(1.03); }
+    #btnMasuk:hover { filter:brightness(1.07); }
+    .pilKarBtn:hover { filter:brightness(1.03); }
   }
   .tombolAtas:focus-visible, .tombolBulat:focus-visible, .emote:focus-visible {
     outline:2px solid rgba(255,217,138,.9); outline-offset:2px;
@@ -232,6 +255,46 @@
   }
   #infoOnline .ico { width:15px; height:15px; opacity:.9; }
   #luring .ico { width:14px; height:14px; vertical-align:-2px; margin-left:2px; }
+  /* ---------- gerbang: layar muat + putar-HP (gradasi senja, selaras kota) ---------- */
+  #layarMuat, #putarHP {
+    position:fixed; inset:0; z-index:9998; flex-direction:column; align-items:center; justify-content:center;
+    color:#fff6e9; text-align:center; padding:24px; box-sizing:border-box;
+    background:
+      radial-gradient(120% 55% at 50% 0%, rgba(255,214,138,.55), rgba(255,214,138,0) 60%),
+      radial-gradient(90% 55% at 50% 108%, rgba(255,127,87,.5), rgba(255,127,87,0) 62%),
+      linear-gradient(168deg, #ffd98a 0%, #ff9e7d 34%, #e2543e 58%, #7b3a6e 82%, #2a1745 100%);
+  }
+  #putarHP { z-index:9999; gap:16px; }
+  #layarMuat { gap:14px; }
+  #layarMuat > *, #putarHP > * { position:relative; z-index:1; }
+  .muatJudul { font-size:46px; font-weight:800; letter-spacing:1px; line-height:1; text-shadow:0 3px 0 rgba(109,67,48,.35), 0 10px 28px rgba(42,23,69,.55); }
+  .muatSub { font-size:13px; font-weight:800; letter-spacing:5px; text-transform:uppercase; color:#ffe9c9; margin-top:-6px; text-shadow:0 1px 8px rgba(42,23,69,.6); }
+  .muatBar {
+    width:min(280px,80vw); height:14px; border-radius:999px; overflow:hidden;
+    background:rgba(42,23,69,.45); border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 4px 16px rgba(42,23,69,.45), inset 0 2px 4px rgba(0,0,0,.25);
+  }
+  #barMuat {
+    height:100%; border-radius:999px;
+    background:linear-gradient(90deg, #ffd23e, #ff8b2d, #ff7f57);
+    box-shadow:0 0 14px rgba(255,179,71,.9); transition:width .45s ease;
+  }
+  #teksMuat {
+    font-size:15px; font-weight:700; background:rgba(42,23,69,.4); border:1px solid rgba(255,255,255,.22);
+    padding:6px 14px; border-radius:999px; backdrop-filter:blur(4px); -webkit-backdrop-filter:blur(4px);
+  }
+  .muatCatatan { font-size:13px; line-height:1.5; opacity:.88; max-width:340px; text-shadow:0 1px 6px rgba(42,23,69,.6); }
+  #putarHP .hpPutar {
+    width:58px; height:98px; border:3px solid #fff6e9; border-radius:14px; position:relative; flex:none;
+    background:rgba(255,255,255,.08);
+    box-shadow:0 0 0 4px rgba(255,255,255,.12), 0 10px 30px rgba(42,23,69,.5);
+  }
+  #putarHP .hpPutar::after {
+    content:""; position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
+    width:22px; height:3px; border-radius:2px; background:#fff6e9;
+  }
+  .putarJudul { font-size:21px; font-weight:800; text-shadow:0 2px 10px rgba(42,23,69,.6); }
+  .putarSub { font-size:14px; line-height:1.5; opacity:.85; max-width:300px; text-shadow:0 1px 6px rgba(42,23,69,.6); }
   /* animasi ikon putar-HP: goyang portrait -> landscape */
   #putarHP .hpPutar { animation:putarGoyang 1.8s ease-in-out infinite; }
   @keyframes putarGoyang { 0%,100% { transform:rotate(0deg); } 50% { transform:rotate(90deg); } }
@@ -273,20 +336,22 @@
 
 <div id="barEmote"></div>
 
-<div id="layarMuat" style="display:none;position:fixed;inset:0;z-index:9998;background:#1c1430;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#fff6e9;text-align:center;padding:24px;box-sizing:border-box;">
-  <div style="font-size:30px;font-weight:800;letter-spacing:.5px;">Lumina</div>
-  <div style="width:min(280px,80vw);height:12px;border-radius:8px;background:rgba(255,255,255,.18);overflow:hidden;"><div id="barMuat" style="height:100%;width:0%;background:#ffb347;border-radius:8px;"></div></div>
-  <div id="teksMuat" style="font-size:15px;opacity:.9;">Memuat kota…</div>
-  <div style="font-size:13px;opacity:.6;">Sebentar ya — kota dimuat lengkap dulu biar nggak ada yang berubah-ubah pas main.</div>
+<div id="layarMuat" style="display:none">
+  <div class="muatJudul">Lumina</div>
+  <div class="muatSub">Kota Senja</div>
+  <div class="muatBar"><div id="barMuat" style="width:0%"></div></div>
+  <div id="teksMuat">Memuat kota…</div>
+  <div class="muatCatatan">Sebentar ya — kota dimuat lengkap dulu biar nggak ada yang berubah-ubah pas main.</div>
 </div>
-<div id="putarHP" style="display:none;position:fixed;inset:0;z-index:9999;background:#1c1430;color:#fff6e9;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center;padding:24px;box-sizing:border-box;">
-  <div class="hpPutar" style="width:56px;height:96px;border:3px solid #fff6e9;border-radius:12px;position:relative;flex:none;"><div style="position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:22px;height:3px;border-radius:2px;background:#fff6e9;"></div></div>
-  <div style="font-size:20px;font-weight:800;">Putar HP kamu ke landscape</div>
-  <div style="font-size:14px;opacity:.75;max-width:280px;">Lumina paling enak dimainkan horizontal.</div>
+<div id="putarHP" style="display:none">
+  <div class="hpPutar"></div>
+  <div class="putarJudul">Putar HP kamu ke landscape</div>
+  <div class="putarSub">Lumina paling enak dimainkan horizontal.</div>
 </div>
 <div id="masuk">
   <div id="kartuMasuk">
     <h1>Lumina</h1>
+    <div class="subMasuk">✦ Kota Senja ✦</div>
     <label for="nama">Nama tamu kamu</label>
     <input id="nama" maxlength="16" autocomplete="off" placeholder="namamu…">
     <label>Pilih karakter</label>
@@ -528,7 +593,19 @@ try {
       }
     } catch (e3) { location.reload(); }
   }, false);
-  renderer.domElement.addEventListener('webglcontextrestored', function(){ location.reload(); }, false);
+  renderer.domElement.addEventListener('webglcontextrestored', function(){
+    /* FIX Ronde B 2026-11-10: restored TANPA pengaman = loop reload.
+       Pulih memicu reload LANGSUNG tanpa ctx=1, selalu mengalahkan reload
+       berpenanda handler lost (1200 ms) → ctx=1 tak pernah nempel → loop
+       tanpa henti di layar loading. Kini: hanya reload SEKALI dengan
+       ctx=1; bila ctx=1 sudah ada, JANGAN reload — konteks sudah pulih,
+       renderer boleh lanjut. */
+    try {
+      if (location.search.indexOf('ctx=1') >= 0) return;
+      var uRes = location.href;
+      location.href = uRes + (uRes.indexOf('?') >= 0 ? '&' : '?') + 'ctx=1';
+    } catch (e2) {}
+  }, false);
 } catch (e) {}
 
 /* ===== F18: RESOLUSI ADAPTIF =====
@@ -914,14 +991,14 @@ function buatTeksturPlaza(){
 }
 var plaza = new THREE.Mesh(
   new THREE.CircleGeometry(14, 44),
-  new THREE.MeshLambertMaterial({ map: buatTeksturPlaza() })
+  new THREE.MeshLambertMaterial({ map: buatTeksturPlaza(), polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2 })
 );
 plaza.rotation.x = -Math.PI/2; plaza.position.y = 0.03; plaza.receiveShadow = true;
 scene.add(plaza);
 
 var jalan = new THREE.Mesh(
   new THREE.RingGeometry(14, 20.5, 44),
-  new THREE.MeshLambertMaterial({ color:0x77664e })
+  new THREE.MeshLambertMaterial({ color:0x77664e, polygonOffset:true, polygonOffsetFactor:-1, polygonOffsetUnits:-1 })
 );
 jalan.rotation.x = -Math.PI/2; jalan.position.y = 0.022; jalan.receiveShadow = true;
 scene.add(jalan);
@@ -929,7 +1006,7 @@ scene.add(jalan);
 /* trotoar melingkar di tepi plaza */
 var trotoar = new THREE.Mesh(
   new THREE.RingGeometry(13.2, 14, 44),
-  new THREE.MeshLambertMaterial({ color:0xa98f66 })
+  new THREE.MeshLambertMaterial({ color:0xa98f66, polygonOffset:true, polygonOffsetFactor:-3, polygonOffsetUnits:-3 })
 );
 trotoar.rotation.x = -Math.PI/2; trotoar.position.y = 0.04; trotoar.receiveShadow = true;
 scene.add(trotoar);
@@ -964,7 +1041,8 @@ mancur.add(mancurPrimitif);
 /* FOUNTAIN REMOVED 2026-11-01 — replaced by Blender clock tower (pemilik: "buang aja air mancur") */
 // scene.add(mancur);
 // penabrak.push({ x:0, z:0, r:2.2 });   /* radius luar GLB final: 3.05/2 × SKALA_MANCUR */
-penabrak.push({ x:0, z:0, r:4.0 });   /* clock tower 7x7m */
+penabrak.push({ x:-25, z:-46, r:4.0 });   /* AUDIT 2026-11-09: menara jam pindah ke (-25,-46) */
+penabrak.push({ x:0, z:0, r:4.0 });   /* air mancur plaza (0,0) */
 
 /* ---------- menara jam (Blender) ---------- */
 (function pasangMenaraJamGLB(){
@@ -978,7 +1056,7 @@ penabrak.push({ x:0, z:0, r:4.0 });   /* clock tower 7x7m */
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(0, 0, -18.6);   /* pindah ke bekas jam bawaan; tengah (0,0,0) untuk air mancur Blender */
+      model.position.set(-25, 0, -46);   /* pindah ke bekas jam bawaan; tengah (0,0,0) untuk air mancur Blender */
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1023,6 +1101,8 @@ penabrak.push({ x:0, z:0, r:4.0 });   /* clock tower 7x7m */
       var model = gltf.scene;
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
+        /* AUDIT 2026-11-09: 3.368 segitiga winding terbalik di sungai GLB — DoubleSide, tanpa rebuild GLB */
+        if (o.isMesh && o.material){ (Array.isArray(o.material) ? o.material : [o.material]).forEach(function(mt){ mt.side = THREE.DoubleSide; }); }
         /* jembatan kayu lama DISEMBUNYIKAN — diganti jembatan batu v1 (2026-11-05, vonis pemilik "gas") */
         if (o.isMesh && /^sungai_bridge_/.test(o.name)) o.visible = false;
         /* air sungai pakai shader air pemilik (bukan material GLB) */
@@ -1072,6 +1152,32 @@ penabrak.push({ x:0, z:0, r:4.0 });   /* clock tower 7x7m */
   });
 })();
 
+/* --- jembatan sungai (R1): Blender v1 (2026-11-09, vonis Vesper "layak instal").
+   Deck datar 22x16 m menutup penyeberangan causeway tanpa jembatan di sungai (x 40-57).
+   Posisi (45,-2) TANPA offset: origin GLB = tengah deck; deck 22 m arah x menjangkau
+   tepi sungai + abutmen, 16 m arah z selebar jalan z -8..8. Permukaan deck y ~ -0,05.
+   Pemain jalan di atas deck — TIDAK dipasang collider (tinggiTanah di sana sudah 0).
+   GLB 1 mesh (JembatanSungai) + 10 material ter-embed; material LampuNyala sudah
+   emissive sendiri (tidak butuh wiring bahanJendela). */
+(function pasangJembatanSungaiGLB(){
+  if (typeof THREE.GLTFLoader !== 'function') return;
+  var sudah = false;
+  var batas = setTimeout(function(){ sudah = true; }, 180000);
+  try {
+    new THREE.GLTFLoader().load('jembatan-sungai-blender-v1.glb', function(gltf){
+      if (sudah) return; sudah = true; clearTimeout(batas);
+      var model = gltf.scene;
+      model.traverse(function(o){
+        if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
+      });
+      model.position.set(45, 0, -2);
+      scene.add(model);
+    }, undefined, function(){
+      if (sudah) return; sudah = true; clearTimeout(batas);
+    });
+  } catch (e) {}
+})();
+
 /* jalan muse town - dihapus per pemilik 2026-11-02 */
 
 /* F14 — model GLB air mancur (Hunyuan, bertekstur): pola swap aman seperti
@@ -1079,38 +1185,7 @@ penabrak.push({ x:0, z:0, r:4.0 });   /* clock tower 7x7m */
    disembunyikan dan GLB tampil di titik plaza yang sama persis. Collider
    sudah mengikuti radius GLB final di atas. Mesh Air di GLB terpisah —
    materialnya disimpan untuk dihidupkan (riak/kilau halus) di loop utama. */
-(function pasangMancurGLB(){
-  if (typeof THREE.GLTFLoader !== 'function') return;
-  var sudah = false;
-  var batas = setTimeout(function(){ sudah = true; }, 60000);   /* longgar: muat lambat di perangkat lemah tetap tertukar */
-  try {
-    new THREE.GLTFLoader().load('air-mancur.glb', function(gltf){
-      if (sudah) return; sudah = true; clearTimeout(batas);
-      var model = gltf.scene;
-      model.scale.setScalar(SKALA_MANCUR);
-      model.traverse(function(o){
-        if (o.isMesh){
-          o.castShadow = true; o.receiveShadow = true;
-          if (o.name === 'Air' || (o.material && o.material.name === 'Air')){
-            matAirMancur = o.material;
-            matAirMancur.transparent = true;
-            matAirMancur.opacity = 0.94;
-            if (matAirMancur.map){
-              matAirMancur.map = matAirMancur.map.clone();
-              matAirMancur.map.wrapS = matAirMancur.map.wrapT = THREE.RepeatWrapping;
-              matAirMancur.map.needsUpdate = true;
-            }
-          }
-        }
-      });
-      mancur.add(model);
-      mancurPrimitif.visible = false;
-    }, undefined, function(){
-      if (sudah) return; sudah = true; clearTimeout(batas);
-      /* gagal muat: primitif tetap tampil */
-    });
-  } catch (e) { /* loader bermasalah: primitif tetap tampil */ }
-})();
+/* AUDIT 2026-11-09 (A4/B3a/F1): loader air-mancur.glb Hunyuan pasangMancurGLB DIHAPUS — dimuat tapi tak terlihat; primitif tetap sebagai fallback */
 
 /* partikel semburan air */
 var JML_PARTIKEL = 130;
@@ -1188,6 +1263,166 @@ function acakAset(){ /* mulberry32 — acak deterministik per instance */
   t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
   return ((t ^ t >>> 14) >>> 0) / 4294967296;
 }
+var _rngVeg = 20261040;   /* AUDIT 2026-11-09: aliran TERPISAH dari _rngAset — acakAset() tidak boleh bergeser (replay POHON_DET + v/ry pohon deterministik tetap sama). Seed diubah 20261023→20261040 sesudah replay: seed lama menaruh 8 pohon di jalan/bangunan (uji segitiga, lih. LAPORAN-EKSEKUSI.md); 20261040 = 0 pelanggaran. */
+function acakVeg(){ /* mulberry32, seed 20261040, state terpisah — untuk penempatan vegetasi/awan */
+  _rngVeg |= 0; _rngVeg = _rngVeg + 0x6D2B79F5 | 0;
+  var t = Math.imul(_rngVeg ^ _rngVeg >>> 15, 1 | _rngVeg);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296;
+}
+/* ===== R6 (2026-11-09): TAPAK NYATA untuk filter vegetasi + kamera =====
+   Akar: lingkaran kollider kode (G01-G10 r 3,95-5,35) jauh lebih kecil dari
+   tapak GLB (G09 setengah-diagonal 9,48 m), toko/gerobak dimuat setelah blok
+   kota, dan filter padang hanya mengenal jalan barat z -12..0. Seed 20261023
+   menaruh 8 pohon di jalan/bangunan karena celah ini.
+   Bentuk: OBB [cx,cz,hx,hz,ry,maxY] — pusat VISUAL dari audit/bbox.json
+   (bukan posisi loader!), hx/hz = setengah-bentang lokal GLB. JANGAN ganti
+   dengan AABB dunia: AABB+1 m menolak 5 pohon hidup yang uji segitiga
+   nyatakan bersih (sudut bangunan putar + kanopi/teras).
+   G01 memakai rect perimeter kode (7,85x5,97) — OBB-bbox-nya menolak pohon
+   hidup (-26,8;-8,4) yang berdiri di teras terbuka (uji segitiga bersih).
+   maxY dipakai kamera; filter vegetasi memakai 5 angka pertama. */
+var ZONA_LARANG_VEG = [
+  [-27.00, -14.00, 3.93, 2.99, 0.000, 8.91],   /* G01 (rect kode) */
+  [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
+  [-23.83, 19.86, 5.05, 4.62, 5.404, 10.98],   /* G03 */
+  [-7.20, 17.89, 3.20, 9.41, 5.903, 19.06],    /* G04 — pusat VISUAL, bukan loader (-15,37.4)! */
+  [9.85, 32.42, 3.99, 4.05, 0.180, 15.77],     /* G05 */
+  [-34.54, -31.40, 5.20, 5.11, 3.797, 15.34],  /* G06 */
+  [29.72, 16.91, 5.36, 4.65, 1.249, 13.55],    /* G07 */
+  [34.57, -14.92, 3.66, 3.66, 1.903, 15.86],   /* G08 */
+  [20.71, -27.53, 5.40, 7.80, 2.504, 12.48],   /* G09 */
+  [-14.00, -33.00, 7.35, 4.90, 3.321, 8.32],   /* G10 */
+  [-9.89, -44.00, 5.69, 6.42, 1.571, 7.94],    /* Toko Kopi Senja */
+  [-8.02, -58.01, 5.68, 4.98, 1.571, 7.25],    /* Toko Roti & Kopi */
+  [-8.69, -70.00, 4.87, 4.71, 1.571, 8.92],    /* Toko Buku & Kertas */
+  [-8.57, -80.00, 3.30, 3.31, 1.571, 4.71],    /* Toko Bunga */
+  [16.64, -44.00, 5.62, 5.79, -1.571, 7.39],   /* Toko Es Krim */
+  [15.21, -57.00, 4.75, 4.01, -1.571, 6.58],   /* Toko Studio Foto */
+  [15.49, -68.00, 4.41, 3.96, -1.571, 6.86],   /* Toko Teh & Rempah */
+  [15.38, -80.00, 5.32, 4.75, -1.571, 8.62],   /* Toko Mainan */
+  [-25.00, -46.45, 3.90, 4.35, 0.000, 23.75],  /* Menara Jam */
+  [22.44, 0.00, 3.40, 1.06, 1.571, 5.13],      /* Gerbang Pasar */
+  [21.84, -11.69, 1.19, 0.55, 0.500, 2.09],    /* Gerobak Pasar 1 */
+  [39.77, 11.31, 1.19, 0.55, -2.200, 2.09],    /* Gerobak Pasar 2 */
+  [6.51, 55.59, 0.55, 1.19, 0.120, 2.09]       /* Gerobak Es Krim */
+];
+/* ===== KAMERA-MARKA (2026-11-10): keep-out KHUSUS kamera =====
+   Salinan VERBATIM ZONA_LARANG_VEG (23 OBB, nilai sama persis) —
+   JANGAN tambah/modifikasi ZONA_LARANG_VEG (dipakai filter vegetasi;
+   replay R6 byte-identik dipertahankan). Satu-satunya yang berubah di
+   sini adalah NAMA tabel; dorongKeluarTapak() dialihkan ke tabel ini.
+   TIDAK ADA baris baru dan TIDAK ADA koreksi nilai: audit tapak
+   nyata (GLB per-mesh) membuktikan semua OBB menutupi dindingnya
+   sampai ke zona dorong +0,3 m (under-cover maks 0,013 m di G03,
+   0,009 m di G04, 0,011 m di G08 — murni pembulatan 2 desimal,
+   jauh di dalam margin 0,3 m). Gedung di ketiga titik insiden
+   SUDAH ada di tabel — (a) G05 putih + G02 bata merah di gang
+   selatan plaza, (b) G09 (+ Toko Es Krim) di City Walk, (c) G02
+   di tenggara plaza. Dorongan sudah mengeluarkan kamera dari
+   dinding (harness: DINDING sesudah dorong kosong di semua sektor
+   yaw); yang tersisa adalah garis pandang TERHALANG (bangunan di
+   antara kamera dan pemain) + dorongan ke sisi jauh — itu butuh
+   logika sadar-pemain / sadar-garis-pandang, BUKAN baris OBB baru
+   (duplikasi baris tidak mengubah apa pun; dibuktikan harness
+   audit/plan/uji-kamera-marka.cjs). Dipakai HANYA oleh
+   dorongKeluarTapak() di bawah. */
+var ZONA_LARANG_KAMERA = [
+  [-27.00, -14.00, 3.93, 2.99, 0.000, 8.91],   /* G01 (rect kode) */
+  [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
+  [-23.83, 19.86, 5.05, 4.62, 5.404, 10.98],   /* G03 */
+  [-7.20, 17.89, 3.20, 9.41, 5.903, 19.06],    /* G04 — pusat VISUAL, bukan loader (-15,37.4)! */
+  [9.85, 32.42, 3.99, 4.05, 0.180, 15.77],     /* G05 */
+  [-34.54, -31.40, 5.20, 5.11, 3.797, 15.34],  /* G06 */
+  [29.72, 16.91, 5.36, 4.65, 1.249, 13.55],    /* G07 */
+  [34.57, -14.92, 3.66, 3.66, 1.903, 15.86],   /* G08 */
+  [20.71, -27.53, 5.40, 7.80, 2.504, 12.48],   /* G09 */
+  [-14.00, -33.00, 7.35, 4.90, 3.321, 8.32],   /* G10 */
+  [-9.89, -44.00, 5.69, 6.42, 1.571, 7.94],    /* Toko Kopi Senja */
+  [-8.02, -58.01, 5.68, 4.98, 1.571, 7.25],    /* Toko Roti & Kopi */
+  [-8.69, -70.00, 4.87, 4.71, 1.571, 8.92],    /* Toko Buku & Kertas */
+  [-8.57, -80.00, 3.30, 3.31, 1.571, 4.71],    /* Toko Bunga */
+  [16.64, -44.00, 5.62, 5.79, -1.571, 7.39],   /* Toko Es Krim */
+  [15.21, -57.00, 4.75, 4.01, -1.571, 6.58],   /* Toko Studio Foto */
+  [15.49, -68.00, 4.41, 3.96, -1.571, 6.86],   /* Toko Teh & Rempah */
+  [15.38, -80.00, 5.32, 4.75, -1.571, 8.62],   /* Toko Mainan */
+  [-25.00, -46.45, 3.90, 4.35, 0.000, 23.75],  /* Menara Jam */
+  [22.44, 0.00, 3.40, 1.06, 1.571, 5.13],      /* Gerbang Pasar */
+  [21.84, -11.69, 1.19, 0.55, 0.500, 2.09],    /* Gerobak Pasar 1 */
+  [39.77, 11.31, 1.19, 0.55, -2.200, 2.09],    /* Gerobak Pasar 2 */
+  [6.51, 55.59, 0.55, 1.19, 0.120, 2.09]       /* Gerobak Es Krim */
+];
+/* ===== TUGAS 4 (2026-11-10): keep-out KHUSUS PEMAIN =====
+   OBB tapak nyata gedung (pusat visual dari bbox.json / ukur GLB per-mesh) + margin
+   1,5 m — pemain tidak bisa masuk dinding DAN tidak bisa menempel <1,5 m ke muka
+   dinding (ruang kamera). Dipakai HANYA oleh dorongPemainKeluarTapak() di
+   perbaruiPemain. BUKAN untuk kamera (itu ZONA_LARANG_KAMERA) dan BUKAN untuk
+   vegetasi (itu ZONA_LARANG_VEG, seed 20261040, replay R6).
+   Baris: [cx, cz, hx, hz, ry, maxY] — hx/hz = setengah bentang TAPAK (bukan
+   +margin; margin 1,5 m ditambahkan di fungsi dorong).
+   G01 TIDAK ADA di sini (enterable — dindingnya pakai rantai lingkaran di
+   pasangGedungG01v3). 8 toko City Walk TIDAK ADA (pola 3-lingkaran sudah
+   benar; kanopi di atas kepala boleh dilewati). Gerbang Pasar TIDAK ADA
+   (boleh dilewati). Kolam: airnya diblokir, pagarnya tidak (lokasi gerbang
+   tidak pasti). */
+var ZONA_LARANG_PEMAIN = [
+  [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
+  [-23.83, 19.86, 5.05, 4.62, 5.404, 10.98],   /* G03 */
+  [-7.20, 17.89, 3.20, 9.41, 5.903, 19.06],    /* G04 (visual) */
+  [9.85, 32.42, 3.99, 4.05, 0.180, 15.77],     /* G05 */
+  [-34.54, -31.40, 5.20, 5.11, 3.797, 15.34],  /* G06 */
+  [29.72, 16.91, 5.36, 4.65, 1.249, 13.55],    /* G07 */
+  [34.57, -14.92, 3.66, 3.66, 1.903, 15.86],   /* G08 */
+  [20.71, -27.53, 5.40, 7.80, 2.504, 12.48],   /* G09 */
+  [-14.00, -33.00, 7.35, 4.90, 3.321, 8.32],   /* G10 */
+  [-25.00, -46.45, 3.90, 4.35, 0.000, 23.75],  /* Menara Jam */
+  [76.76, -35.96, 5.00, 3.50, 0.500, 6.50],    /* Rumah Modern (75,-35) */
+  [100.00, -55.00, 4.70, 3.00, -0.300, 6.00],  /* Rumah Tradisional (100,-55) */
+  [125.00, -30.00, 4.20, 2.75, 0.800, 5.80],   /* Rumah Cottage (125,-30) */
+  [15.02, -91.84, 4.00, 4.50, -2.291, 14.50],  /* Menara Utara 1 */
+  [19.83, -107.58, 4.50, 4.00, -1.442, 17.40], /* Menara Utara 2 */
+  [11.15, -121.61, 5.00, 4.50, -0.592, 20.30], /* Menara Utara 3 */
+  [-9.74, -122.47, 4.00, 4.50, 0.509, 23.20],  /* Menara Utara 4 */
+  [-19.55, -109.22, 4.50, 4.00, 1.358, 26.10], /* Menara Utara 5 */
+  [-16.07, -93.09, 5.00, 4.50, 2.207, 14.50], /* Menara Utara 6 */
+  [65.00, 200.40, 9.66, 6.06, 0.000, 3.41],    /* Food Court (65,200) */
+  [30.85, 157.60, 11.80, 5.55, 0.000, 1.00]    /* Kolam — air (30,155) */
+];
+/* Rect [x0,x1,z0,z1] — jalan terukur probe.py + sungai + perkemahan (hutan). */
+var RECT_LARANG_VEG = [
+  [-4, 4, -96, 195],       /* jalan N-S */
+  [-90, 54, -8, 8],        /* jalan E-W utama */
+  [-122, -86, -12, 0],     /* jalan E-W barat */
+  [-90, -86, 0, 20],       /* jalan E-W stub utara */
+  [-52, 52, 177, 183],     /* jalan selatan */
+  [-122, -118, -40, -12],  /* jalan vertikal barat */
+  [41, 58, -22, 22],       /* sungai (juga menutupi strip jembatan darat timur — sengaja) */
+  [161.2, 164.8, -96.7, -93.4],  /* Tenda Meja */
+  [174.2, 179.8, -88.9, -83.1],  /* Tenda Hijau */
+  [165.6, 168.0, -87.6, -85.3],  /* Bangku Log 1 */
+  [172.3, 174.7, -95.0, -92.6]   /* Bangku Log 2 */
+];
+function diOBBVeg(x, z, o, m){
+  var dx = x - o[0], dz = z - o[1];
+  var c = Math.cos(o[4]), s = Math.sin(o[4]);
+  var lx = dx * c - dz * s, lz = dx * s + dz * c;
+  return Math.abs(lx) <= o[2] + m && Math.abs(lz) <= o[3] + m;
+}
+function diZonaLarangVeg(x, z){
+  var i;
+  for (i = 0; i < ZONA_LARANG_VEG.length; i++){
+    /* G04 margin 0,3 m (bukan 0,5): tapaknya non-persegi + pohon hidup
+       (-8,53; 28,10) hanya 0,56 m di luar sisi OBB — margin 0,5
+       menyisakan 0,06 m, terlalu rapuh terhadap pembulatan. */
+    var m = (ZONA_LARANG_VEG[i][0] === -7.20 && ZONA_LARANG_VEG[i][1] === 17.89) ? 0.3 : 0.5;
+    if (diOBBVeg(x, z, ZONA_LARANG_VEG[i], m)) return true;
+  }
+  for (i = 0; i < RECT_LARANG_VEG.length; i++){
+    var r = RECT_LARANG_VEG[i];
+    if (x >= r[0] && x <= r[1] && z >= r[2] && z <= r[3]) return true;
+  }
+  return false;
+}
 function catatPohon(x, y, z, ry, s, zona, tanpaTabrak){
   if (ry === null || ry === undefined) ry = acakAset() * Math.PI * 2;
   var v = 0.85 + acakAset() * 0.30;           /* variasi skala ±15% */
@@ -1229,12 +1464,41 @@ function matBlobBayangan(){
   _matBlobBayangan = new THREE.MeshBasicMaterial({ map: teksturBlobBayangan(), transparent: true, depthWrite: false });
   return _matBlobBayangan;
 }
+/* PERF (diagnosis FPS 2026-11-09): geometri batang instanced terlalu padat —
+   pinus 4.026 tri & pohon 1.732 tri per instance, ~350 instance = ~1,2 jt tri
+   (~60% scene plaza). Ganti dengan lathe 8-segi dari profil radius aslinya:
+   siluet sama (profil = radius maks asli per pita tinggi), material tanpa
+   tekstur jadi UV lathe tak berpengaruh. Bola pembatas zona tetap dihitung
+   dari geometri ASLI (di bawah), jadi culling/disiplin jarak tak berubah. */
+function sederhanakanBatang(geo){
+  var pos = geo.attributes.position;
+  if (!pos || pos.count < 400) return geo;   /* sudah ringan: jangan sentuh */
+  var ymin = Infinity, ymax = -Infinity, i, y;
+  for (i = 0; i < pos.count; i++){ y = pos.getY(i); if (y < ymin) ymin = y; if (y > ymax) ymax = y; }
+  if (!(ymax > ymin)) return geo;
+  var N = 10, profil = [], b, r, rmax = 0;
+  for (b = 0; b < N; b++){
+    var ya = ymin + (ymax - ymin) * b / (N - 1), yb = ymin + (ymax - ymin) * (b + 1) / (N - 1);
+    r = 0;
+    for (i = 0; i < pos.count; i++){
+      y = pos.getY(i);
+      if (y >= ya && y <= yb){ var rr = Math.hypot(pos.getX(i), pos.getZ(i)); if (rr > r) r = rr; }
+    }
+    if (r > rmax) rmax = r;
+    profil.push(new THREE.Vector2(Math.max(r, 0.01), ya));
+  }
+  if (!rmax) return geo;
+  var lathe = new THREE.LatheGeometry(profil, 8);
+  lathe.computeBoundingSphere();
+  return lathe;
+}
 function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob){
   var geo = null, mat = null;
   gltf.scene.traverse(function(o){ if (o.isMesh && !geo){ geo = o.geometry; mat = o.material; } });
   if (!geo || !daftar.length) return;
   geo.computeBoundingSphere();
   var pusatGeo = geo.boundingSphere.center, rGeo = geo.boundingSphere.radius;
+  geo = sederhanakanBatang(geo);   /* PERF: batang 4.026/1.732 tri -> lathe ~144 tri */
   var perZona = {};
   daftar.forEach(function(p){ var z = p.zona || 'kota'; (perZona[z] = perZona[z] || []).push(p); });
   var d = new THREE.Object3D();
@@ -1296,8 +1560,8 @@ function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob){
 })();
 
 /* ===== F18: DISIPLIN JARAK VEGETASI =====
-   Zona yang pusatnya > ±140 m dari pemain disembunyikan (mesh + blob),
-   dicek 2x/detik dengan histeresis tampil <=138 m / sembunyi >148 m agar
+   Zona yang pusatnya > ±220 m dari pemain disembunyikan (mesh + blob),
+   dicek 2x/detik dengan histeresis tampil <=200 m / sembunyi >220 m agar
    tak berkedip di ambang. Padang & hutan jauh tak lagi digambar saat
    pemain di kota — penghematan vertex terbesar dari profil ronde 2. */
 function cekJarakVegetasi(){
@@ -1306,7 +1570,7 @@ function cekJarakVegetasi(){
   for (var i = 0; i < REGISTRI_VEG.length; i++){
     var z = REGISTRI_VEG[i];
     var jauh = Math.hypot(z.cx - px, z.cz - pz);
-    var target = z.mesh.visible ? (jauh <= 148) : (jauh <= 138);
+    var target = z.mesh.visible ? (jauh <= 220) : (jauh <= 200);
     if (target !== z.mesh.visible){
       z.mesh.visible = target;
       if (z.blob) z.blob.visible = target;
@@ -1361,9 +1625,9 @@ function teksturGedung(warnaDinding, malam){
     { d:'#f7e3b0', atap:0xb0563a }, { d:'#e5b8a0', atap:0x96502f }, { d:'#f0d0a0', atap:0x9a4a34 }
   ];
   var posisi = [
-    [-27, -14, 0.5], [-29, 4, 1.1], [-24, 20, 1.8], [-12, 30, 2.4], [6, 33, 3.0],
-    [-35, -32, 0.35], [30, 10, 4.3], [29, -10, 5.0], [20, -27, 5.6], [-6, -33, 0.2]
-  ];
+    [-27, -14, 0.5], [15, 20, 3.785], [-24, 20, 1.8], [-15, 37.4, 2.4], [10, 33, 3.0],
+    [-35, -32, 0.35], [30, 17, 4.3], [34.8, -15, 5.0], [20, -27, 5.6], [-14, -33, 0.2]
+  ];   /* AUDIT 2026-11-09: kollider ikut GLB pindah (G02/G04/G05/G07/G08/G10) */
   posisi.forEach(function(p, i){
     var gaya = palet[i % palet.length];
     var lebar = 6.5 + (i % 3) * 1.4, dalam = 6 + (i % 2) * 1.6;
@@ -1396,13 +1660,22 @@ function teksturGedung(warnaDinding, malam){
       pelat.castShadow = true; pelat.receiveShadow = true;
       scene.add(pelat);
     }
-    penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7 });
+    /* TUGAS 4 (2026-11-10) — penabrak pemain ring:
+       - G01 (i==0) DIHAPUS: gedung ini ENTERABLE (pintu + interior di pasangGedungG01v3);
+         lingkaran r 3,95 menutup pintu (pintu cuma 2,99 m dari pusat, lingkaran+0,55 = 4,50 m).
+         Replay R6 membuktikan pencabutan ini TIDAK menggeser vegetasi (kota 30/30, maxDiff 1,8e-15 m).
+       - G04 lama (i==3) DITANDAI tanpaPemain: lingkaran di (-15,37.4) adalah posisi LOADER lama,
+         9,67 m dari tapak visual (-7.20,17.89) — memblokir petak plaza kosong. Dihapus dari
+         penabrak PEMAIN saja (bendera), BUKAN dari penabrak: pencabutan penuh menggeser 2 pohon
+         kota s.d. 9,04 m (replay R6). Kamera S1 + snapshot pohon tetap memakai lingkaran ini. */
+    if (i === 0){ /* G01 enterable: tanpa lingkaran ring */ }
+    else if (i === 3) penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7, tanpaPemain:true });
+    else penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7 });
   });
   /* --- G01 GLB: pola muat gaya gerbang (timeout 180 dtk, tanpa
      gedungGagal: gedung plaza bukan gedung KUNCI_GEDUNG). Fasad model
      (pintu) ada di sisi Blender -Y = three +Z; rotation.y 1.091 membuat
-     fasad menghadap air mancur plaza (0,0) dari (-27,-14). Skala seragam
-     10.0: tinggi 8.05 m (kode 8.7), tapak 7.26 x 5.53 m (kode 6.5 x 6).
+     fasad menghadap air mancur plaza (0,0) dari (-27,-14). Skala 1.0 (ukuran dari GLB): tinggi 8.05 m (kode 8.7), tapak 7.26 x 5.53 m (kode 6.5 x 6).
      CATATAN: box kode G01 punya jendela malam menyala (bahanJendela);
      GLB ini tidak membawa glow itu — malam hari G01 gelap, tanpa solusi
      tambahan (sengaja tidak dikarang). */
@@ -1449,7 +1722,7 @@ function teksturGedung(warnaDinding, malam){
      gedungGagal). Fasad model (pintu + kanopi garis + 2 pot) ada di sisi
      Blender -Y = three +Z (diukur dari render pasca-decimate 4 sisi);
      rotation.y 2.761 membuat fasad menghadap air mancur plaza (0,0)
-     dari (-12,30). Skala seragam 15.45 dari tinggi: tinggi 17.40 m
+     dari (-12,30). Skala 1.0 (ukuran dari GLB): tinggi 17.40 m
      (= kode), tapak 5.65 x 5.67 m (kode 6.5 x 7.6, lebih kecil —
      setengah-diagonal 4.00 m < collider r 4.5, aman).
      CATATAN: box kode G04 punya jendela malam menyala (bahanJendela);
@@ -1468,7 +1741,7 @@ function teksturGedung(warnaDinding, malam){
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(-12, 0, 30);
+        model.position.set(-15, 14.9, 37.4);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1503,7 +1776,7 @@ function teksturGedung(warnaDinding, malam){
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(6, 0, 33);
+        model.position.set(10, 0, 33);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1566,11 +1839,11 @@ function teksturGedung(warnaDinding, malam){
       new THREE.GLTFLoader().load('gedung-g02-blender-v3.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var model = gltf.scene;
-        model.rotation.y = 1.7079;
+        model.rotation.y = 3.785;
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(-29, 0, 4);
+        model.position.set(15, 0, 20);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1647,7 +1920,7 @@ function teksturGedung(warnaDinding, malam){
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(-6, 0, -33);
+        model.position.set(-14, 0, -33);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1665,8 +1938,8 @@ function teksturGedung(warnaDinding, malam){
      G09 -0.6375, G10 0.1799).
      Skala seragam 15.67 dari tinggi (tanpa distorsi): tinggi 17.40 m
      (kode 17.4, tepat); tapak 5.13 x 6.09 m (kode 7.9 x 7.6 — model
-     lebih ramping dari kode, tapi setengah-diagonal 3.98 m < collider
-     r 4.65, jadi NOL tonjolan sudut, tidak seperti G02/G03/G10;
+     lebih ramping dari kode, tapi setengah-diagonal 3.98 m < collider lingkaran lama
+     r 4.65 (AUDIT 2026-11-09: filter kios kini pakai footprint AABB asli, bukan lingkaran), jadi NOL tonjolan sudut, tidak seperti G02/G03/G10;
      skala dari lebar ditolak karena tinggi jadi 21.7-26.8 m).
      CATATAN: box kode G08 punya jendela malam menyala (bahanJendela);
      GLB ini tidak membawa glow itu — malam hari G08 gelap, tanpa solusi
@@ -1683,7 +1956,7 @@ function teksturGedung(warnaDinding, malam){
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(29, 0, -10);
+        model.position.set(34.8, 0, -15);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1701,8 +1974,8 @@ function teksturGedung(warnaDinding, malam){
      G10 0.1799, G08 -1.2387).
      Skala seragam 12.0 (kompromi, tanpa distorsi): tinggi 10.76 m
      (kode 14.5, -26%); tapak 9.01 x 4.98 m (kode 6.5 x 6 — model jauh
-     lebih lebar dari kode); setengah-diagonal 5.15 m vs collider
-     r 3.95 (sudut menonjol 1.20 m dari collider, di antara preseden
+     lebih lebar dari kode); setengah-diagonal 5.15 m vs collider lingkaran lama
+     r 3.95 (AUDIT 2026-11-09: filter kios kini pakai footprint AABB asli, bukan lingkaran) (sudut menonjol 1.20 m dari collider, di antara preseden
      G10 1.01 m dan G03 1.42 m — pemain/kamera bisa menyenggol sudut
      visual saat sangat dekat; skala dari tinggi murni 16.17 ditolak
      karena tonjolan 2.99 m, skala dari lebar murni 8.66 ditolak
@@ -1722,7 +1995,7 @@ function teksturGedung(warnaDinding, malam){
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(30, 0, 10);
+        model.position.set(30, 0, 17);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -1770,11 +2043,15 @@ function teksturGedung(warnaDinding, malam){
   var jadi = 0, coba = 0;
   while (jadi < 30 && coba < 300){
     coba++;
-    var a = Math.random() * Math.PI * 2;
-    var r = 23.5 + Math.random() * 31;
+    var a = acakVeg() * Math.PI * 2;
+    var r = 23.5 + acakVeg() * 31;
     var px = Math.cos(a) * r, pz = Math.sin(a) * r;
     var nabrak = terlarang.some(function(t){ var dx = px-t.x, dz = pz-t.z; return dx*dx + dz*dz < (t.r + 1.6)*(t.r + 1.6); });
     if (nabrak) continue;
+    /* AUDIT 2026-11-09 (A18): zona larangan — slot kios baru (filter kios: r pohon + 2,1 m, pakai 3,2 m aman) + jalan-raya */
+    if ([23.5, 28.5, 33.5, 38.5].some(function(sx){ return [-6.8, 6.8].some(function(sz){ return Math.hypot(px - sx, pz - sz) < 3.2; }); })) continue;
+    if (Math.abs(px) <= 4 && pz >= -96 && pz <= 195) continue;   /* jalan-raya N-S */
+    if (Math.abs(pz) <= 8 && px >= -122 && px <= 54) continue;   /* jalan-raya E-W */
     if (Math.hypot(px - 37, pz - 37) < 20.5) continue; /* jangan tumbuh di Taman Bukit */
     if (px < -13 && Math.abs(pz) < 4.6) continue;     /* jangan tumbuh di jalan ke dermaga */
     if (px > 10.5 && Math.abs(pz) < 10.5) continue;   /* jangan tumbuh di lorong Pasar Malam */
@@ -1786,13 +2063,35 @@ function teksturGedung(warnaDinding, malam){
     /* F14: penempatan & undian acak persis seperti dulu — kini dicatat
        untuk InstancedMesh GLB (bulat → pohon, kerucut → pinus).
        Faktor: puncak lama bulat 3.34×s×reg / GLB 2.90; kerucut 3.55 / 3.20. */
-    var s = 0.85 + Math.random() * 0.55;
-    var reg = 0.9 + Math.random()*0.3;
-    var ry = Math.random() * Math.PI;
+    var s = 0.85 + acakVeg() * 0.55;
+    var reg = 0.9 + acakVeg()*0.3;
+    var ry = acakVeg() * Math.PI;
+    if (diZonaLarangVeg(px, pz)) continue;   /* R6: tapak nyata + jalan/sungai — cek SESUDAH undian s/reg/ry agar aliran acakVeg() kandidat yang ditolak sama dengan yang diterima (5 undian), sehingga pohon yang tetap sama posisinya */
     if (jadi % 3 === 2) catatPinus(px, 0, pz, ry, s * reg * 1.111, 'kota');
     else catatPohon(px, 0, pz, ry, s * reg * 1.153, 'kota');
     jadi++;
   }
+})();
+
+/* --- G04: kollider pemain 3 lingkaran sepanjang sumbu slab visual (2026-11-09, ronde jembatan).
+   Lingkaran lama di (-15,37.4) r 4,5 (posisi loader) berjarak 9,67 m dari tapak visual — pemain
+   bisa jalan menembus badan visual G04 (pusat visual (-7,20;17,89), slab 6,4x18,8 m, ry 5,903).
+   Pola toko: 3 lingkaran r 4,5 di offset -6/0/+6 sepanjang sumbu panjang lokal Z (arah dunia
+   (sin ry, cos ry)). Sudut tapak terjauh 4,68 m dari pusat lingkaran terdekat < r+0,55 = 5,05
+   (dorongan pemain) — pemain tidak bisa masuk tapak; sisi tengah terjaga 0,66 m.
+   DITARUH DI SINI (sesudah snapshot `terlarang = penabrak.slice()` blok pohon kota di atas),
+   BUKAN di loop gedung: lingkaran ini TIDAK boleh masuk snapshot pohon — pohon hidup
+   (-8,53;28,10) berjarak 5,15 m dari lingkaran ujung < r+1,6 = 6,1 dan akan gugur +
+   menggeser aliran RNG (seed 20261040 harus byte-identik). Pemain/kamera membaca
+   `penabrak` live per frame, jadi push di sini tetap berlaku. Lingkaran lama (-15,37.4)
+   DIBIARKAN (sudah masuk snapshot pohon; mencabutnya juga menggeser pohon) — ia memblokir
+   petak plaza kosong, kondisi lama, bukan yang baru. */
+(function(){
+  var _gx = -7.20, _gz = 17.89, _gr = 5.903;
+  var _sx = Math.sin(_gr), _sz = Math.cos(_gr);
+  [-6, 0, 6].forEach(function(off){
+    penabrak.push({ x:_gx + _sx * off, z:_gz + _sz * off, r:4.5 });
+  });
 })();
 
 /* ---------- lampu taman + glow ---------- */
@@ -2045,7 +2344,7 @@ function dalamArea(x, z){
   if (Math.hypot(x - 46, z) <= 23.3) return true;
   if (x <= -56.4 && x >= -80.2 && Math.abs(z) <= 2.9) return true;
   if (Math.abs(x - 3.5) <= 5.4 && z <= -18 && z >= -97) return true;
-  if (Math.hypot(x - 3.5, z + 58) <= 19.5) return true; /* lobus City Walk: tanah deretan toko */
+  if (Math.hypot(x - 3.5, z + 58) <= 31.5) return true; /* lobus City Walk: tanah deretan toko */
   if (Math.hypot(x, z + 100) <= 31.5) return true;
   var ep = (x / 45) * (x / 45) + ((z - 61.5) / 18.5) * ((z - 61.5) / 18.5);
   if (ep <= 1) return true;
@@ -2054,8 +2353,11 @@ function dalamArea(x, z){
   if (jembatanInfo(x, z).d <= 1.5) return true;                 /* jembatan pulau */
   if (Math.hypot(x + 88, z - 98) <= 13.2) return true;          /* Pulau Kecil */
   if (x >= -172.5 && x <= -156.5 && Math.abs(z + 20) <= 1.6) return true; /* dermaga danau */
-  /* danau adalah air: veto untuk semua daratan padang di bawah ini */
-  if (Math.hypot(x + 180, z + 20) > 20.8){
+  /* danau adalah air: veto untuk semua daratan padang di bawah ini.
+     AUDIT 2026-11-09 (R4): veto disesuaikan tapak GLB danau baru 46x36
+     (elips half 23x18 di (-180,-20); dulu lingkaran r 20,8) */
+  var _dl = ((x + 180) / 23) * ((x + 180) / 23) + ((z + 20) / 18) * ((z + 20) / 18);
+  if (_dl > 1){
     if (x >= -250 && x <= -71 && z >= -61 && z <= 91) return true;   /* Padang Barat */
     if (x >= -71.5 && x <= -38 && z >= 8 && z <= 80) return true;    /* penghubung selatan */
     if (x >= -71.5 && x <= -44 && z >= -60 && z <= -8) return true; /* penghubung utara */
@@ -2065,6 +2367,8 @@ function dalamArea(x, z){
     if (x >= -45 && x <= 45 && z >= -205 && z <= -128) return true;  /* penghubung gunung */
     if (Math.hypot(x - GUNUNG.x, z - GUNUNG.z) <= 56.5) return true; /* cakram Gunung Awan */
   }
+  /* AUDIT 2026-11-09 (TB2): daratan selatan rekreasi x -85..85, z 135..225 */
+  if (x >= -85 && x <= 85 && z >= 135 && z <= 225) return true;
   return false;
 }
 /* langkah sah = di dalam area DAN beda tinggi dari posisi sekarang kecil
@@ -2480,7 +2784,7 @@ var perahuList = [];
   scene.add(instBunga);
 
   /* lampu taman + bangku puncak (hadap kota & hadap laut) */
-  lampuF2(BUKIT.x + Math.cos(LANDAI1) * 15, BUKIT.z + Math.sin(LANDAI1) * 15);
+  lampuF2(33, 26);   /* AUDIT 2026-11-09: geser dari (30.76,23.36) — 0,25 m2 di tapak G07 baru */
   lampuF2(BUKIT.x + Math.cos(LANDAI2) * 10.2, BUKIT.z + Math.sin(LANDAI2) * 10.2);
   lampuF2(35.2, 39.6);
   buatBangkuF2(34.9, 34.9, Math.atan2(-0.707, -0.707));
@@ -2647,7 +2951,7 @@ var NONAKTIFKAN_GERBANG = false; /* BATCH 1 LOLOS 04:51: gerbang kembali (sudah 
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(13.2, 0, 0);
+        model.position.set(22.5, 0, 0);
         scene.add(model);
         /* overlay teks: anak model (ikut skala/rotasi/posisi gerbang),
            satu lapis menghadap plaza, tanpa bayangan (pola papan toko). */
@@ -2793,14 +3097,25 @@ var NONAKTIFKAN_GERBANG = false; /* BATCH 1 LOLOS 04:51: gerbang kembali (sudah 
     })();
   }
   var penabrakAsli = penabrak.slice();
+  /* AUDIT 2026-11-09 (A6): slot baru x 23,5-38,5 z +-6,8; uji tabrakan pakai
+     footprint AABB asli G07/G08 (posisi baru), bukan kollider lingkaran
+     (r 3,95/4,65) yang menggugurkan slot bebas + meloloskan slot di sungai.
+     AABB dari bbox dunia GLB: G07 (30,17) x 23,61..35,82 z 10,35..23,46;
+     G08 (34,8,-15) x 29,92..39,22 z -19,58..-10,26. */
+  var AABB_G07 = { x0:23.61, x1:35.82, z0:10.35, z1:23.46 };
+  var AABB_G08 = { x0:29.92, x1:39.22, z0:-19.58, z1:-10.26 };
+  function tabrakAABB(sx, sz, b){
+    return sx + 2.1 > b.x0 && sx - 2.1 < b.x1 && sz + 2.1 > b.z0 && sz - 2.1 < b.z1;
+  }
   var idxKios = 0;
-  [16, 21, 26, 31, 36, 41, 46].forEach(function(sx){
-    [-6.5, 6.5].forEach(function(sz){
+  [23.5, 28.5, 33.5, 38.5].forEach(function(sx){
+    [-6.8, 6.8].forEach(function(sz){
       var tabrak = penabrakAsli.some(function(t){
+        if ((t.x === 30 && t.z === 17) || (t.x === 34.8 && t.z === -15)) return false; /* G07/G08: diuji AABB di bawah */
         var dx = sx - t.x, dz = sz - t.z;
         return dx * dx + dz * dz < (t.r + 2.1) * (t.r + 2.1);
       });
-      if (tabrak) return;
+      if (tabrak || tabrakAABB(sx, sz, AABB_G07) || tabrakAABB(sx, sz, AABB_G08)) return;
       buatKios(sx, sz, sz > 0 ? Math.PI : 0, idxKios++);
     });
   });
@@ -2816,7 +3131,7 @@ var NONAKTIFKAN_GERBANG = false; /* BATCH 1 LOLOS 04:51: gerbang kembali (sudah 
      X seperti gerobak kode dan gagang di ujung +X seperti kode; bak
      hampir simetris di titik grup (+-0,3 m), gagang sampai +1,16 m,
      ujung depan -0,54 m (skala 1,76).
-     Skala seragam 1,76 (ikut panjang, tanpa distorsi): panjang model
+     Skala 1,0 di kode (setScalar(1.0); AUDIT 2026-11-09: klaim lama '1,76' basi, angka turunan di bawah memakai skala lama): panjang model
      0,9646 m -> 1,698 m (badan kode 1,7 m, tepat); lebar 0,5319 m ->
      0,936 m (kode 0,95 m, -1,5%); tinggi 0,8553 m -> 1,505 m (total kode
      ~1,76 m — model adalah gerobak utuh berproporsi lebih real, bukan
@@ -2838,8 +3153,8 @@ var NONAKTIFKAN_GERBANG = false; /* BATCH 1 LOLOS 04:51: gerbang kembali (sudah 
     grupGerobak.push(g);
     penabrak.push({ x:px, z:pz, r:1.1 });
   }
-  buatGerobak(19.5, -4.2, 0.5);
-  buatGerobak(44, 4.2, -2.2);
+  buatGerobak(21.5, -11.5, 0.5);
+  buatGerobak(40, 11, -2.2);
   (function pasangGerobakGLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2892,8 +3207,8 @@ var NONAKTIFKAN_GERBANG = false; /* BATCH 1 LOLOS 04:51: gerbang kembali (sudah 
     scene.add(kakiB);
     penabrak.push({ x:50.5, z:0.4, r:0.85 });
   })();
-  buatBangkuF2(50.5, 2.3, Math.PI);
-  buatBangkuF2(50.5, -1.5, 0);
+  buatBangkuF2(43, 15, Math.PI);
+  buatBangkuF2(41, -12, 0);
 
   /* --- lampion gantung: tiang + tali melintang & memanjang --- */
   var warnaLampion = [0xff5a5a, 0xffb84d, 0xffe066, 0x7be495, 0x6ec3ff, 0xff8fd6];
@@ -3042,15 +3357,15 @@ function buatTeksturJalan(){
 }
 (function(){
   /* jalanBoulevard DIHAPUS 2026-11-04 — diganti GLB jalan-raya-blender-v1 */
-  /* lampu jalan dua baris bergantian sisi tiap ±12 m (pola lampu yang ada) */
+  /* lampu jalan dua baris bergantian sisi tiap ±12 m (pola lampu yang ada; AUDIT 2026-11-09: rumus sisi kini indeks loop) */
   /* visual tiang+bola = GLB (lampu-jalan.glb, skala 2.27: pusat bola model
      1.099 m -> 2.5 m = tinggi bola kode); glow malam tetap sprite kode
      (lampuGlow) supaya perilaku malam tidak berubah; sejak tahap 2
      (2026-10-28) lampuF2 titik lain pun memakai GLB yang sama. */
   var grupLampuJalan = [];
-  var zl;
-  for (zl = -28; zl >= -88; zl -= 12){
-    var sisi = ((zl / 12) % 2 === 0) ? -1.2 : 8.2;
+  var zl, _il;
+  for (zl = -28, _il = 0; zl >= -88; zl -= 12, _il++){
+    var sisi = (_il % 2 === 0) ? -1.2 : 8.2;   /* AUDIT 2026-11-09 (A5/F2): rumus lama tak pernah benar — semua 6 lampu di x=8,2 */
     (function(){
       var y = tinggiTanah(sisi, zl);
       var g = new THREE.Group();
@@ -3103,10 +3418,10 @@ function buatTeksturJalan(){
     potTanaman(p[0], p[1]);
   });
   /* bangku menghadap boulevard */
-  buatBangkuF2(-1.4, -46, Math.PI / 2);
-  buatBangkuF2(-1.4, -74, Math.PI / 2);
-  buatBangkuF2(8.4, -60, -Math.PI / 2);
-  buatBangkuF2(8.4, -86, -Math.PI / 2);
+  buatBangkuF2(-18, -46, Math.PI / 2);
+  buatBangkuF2(-18, -74, Math.PI / 2);
+  buatBangkuF2(-18, -60, -Math.PI / 2);
+  buatBangkuF2(24, -86, -Math.PI / 2);
 })();
 
 /* ---------- lobus tanah City Walk (perbaikan batch 2) ----------
@@ -3117,9 +3432,13 @@ function buatTeksturJalan(){
    sisi pasir), jadi menyatu dengan pulau tanpa z-fighting terlihat
    (material atasnya sama dengan pulau). */
 (function(){
+  /* AUDIT 2026-11-09: lobus r 20->32 (deret toko z -80 butuh darat); bahan atas
+     di-clone + polygonOffset -1 supaya tidak z-fight dengan pulau utama (y=0 sama) */
+  var bahanRumputLobusCW = bahanRumput.clone();
+  bahanRumputLobusCW.polygonOffset = true; bahanRumputLobusCW.polygonOffsetFactor = -1; bahanRumputLobusCW.polygonOffsetUnits = -1;
   var lobusCityWalk = new THREE.Mesh(
-    new THREE.CylinderGeometry(20, 18, 2.4, 48),
-    [bahanSisiPulau, bahanRumput, bahanSisiPulau]
+    new THREE.CylinderGeometry(32, 28.8, 2.4, 48),
+    [bahanSisiPulau, bahanRumputLobusCW, bahanSisiPulau]
   );
   lobusCityWalk.position.set(3.5, -1.2, -58);
   lobusCityWalk.receiveShadow = true;
@@ -3309,7 +3628,7 @@ function teksturKacaLembut(){
   var matRkAtap    = new THREE.MeshLambertMaterial({ color:0xe8a49b });
   var matRkBand    = new THREE.MeshLambertMaterial({ color:0xd98f80 });
   var matRkTeal    = new THREE.MeshLambertMaterial({ color:0x1f5f5b });
-  var matRkKaca    = new THREE.MeshLambertMaterial({ map:teksturKacaLembut(), transparent:true, opacity:0.55, emissive:0x7a4d16, emissiveIntensity:0 });
+  var matRkKaca    = new THREE.MeshLambertMaterial({ map:teksturKacaLembut(), transparent:true, depthWrite:false, opacity:0.55, emissive:0x7a4d16, emissiveIntensity:0 });
   bahanJendela.push(matRkKaca);
   /* F7 render lembut: varian bertekstur gradasi + AO bakar — dipakai HANYA
      untuk kotak dinding & lereng atap toko ini (material datar tetap dipakai
@@ -3561,7 +3880,7 @@ var gedungGagal = {};
       var grup = new THREE.Group();
       grup.name = 'ROTI_KOPI_GLB';
       grup.add(model);
-      grup.position.set(-6.2, 0, -52);
+      grup.position.set(-8.4, 0, -58);
       grup.rotation.y = Math.PI / 2;   /* etalase + papan menghadap jalan, sama seperti toko lama */
       scene.add(grup);
       grupLama.visible = false;
@@ -3627,21 +3946,21 @@ function pasangTokoGLB(namaLama, file, px, pz, ry, skala, papan){
    (diukur dari render + raycast: teks lama di z ~0.36-0.44, muka tonjolan
    ~0.21-0.23; panel 0.32-0.50 di depan tonjolan, dekorasi cone/kamera tetap
    menonjol di depannya seperti di acuan). */
-pasangTokoGLB('TOKO_KOPI_SENJA', 'kopi-senja-toko-blender-v1.glb', -6.2, -44, 1.5708, 1.7,
+pasangTokoGLB('TOKO_KOPI_SENJA', 'kopi-senja-toko-blender-v1.glb', -8.4, -44, 1.5708, 1.7,
   null);   /* Blender TOKO: 4.2m tall -> ~7m, sign baked, no overlay */
-pasangTokoGLB('TOKO_BUKU_KERTAS', 'buku-kertas-toko-blender-v1.glb', -6.2, -60, 1.5708, 1.5,
+pasangTokoGLB('TOKO_BUKU_KERTAS', 'buku-kertas-toko-blender-v1.glb', -8.4, -70, 1.5708, 1.5,
   null);   /* Blender TOKO: sign baked, no overlay */
-pasangTokoGLB('TOKO_ES_KRIM', 'es-krim-toko-blender-v1.glb', 13.2, -44, -1.5708, 1.5,
+pasangTokoGLB('TOKO_ES_KRIM', 'es-krim-toko-blender-v1.glb', 15.2, -44, -1.5708, 1.5,
   null);   /* Blender TOKO: sign baked, no overlay */
-pasangTokoGLB('TOKO_STUDIO_FOTO', 'studio-foto-toko-blender-v1.glb', 13.2, -52, -1.5708, 1.5,
+pasangTokoGLB('TOKO_STUDIO_FOTO', 'studio-foto-toko-blender-v1.glb', 15.2, -57, -1.5708, 1.5,
   null);   /* Blender TOKO: sign baked, no overlay */
 /* Batch 2 (terverifikasi render): BUNGA tanpa overlay (papan asli bersih);
    TEH & REMPAH + MAINAN pakai panel bersih (papan asli garbled). */
-pasangTokoGLB('TOKO_BUNGA', 'bunga-toko-blender-v1.glb', -6.2, -68, 1.5708, 1.0,
+pasangTokoGLB('TOKO_BUNGA', 'bunga-toko-blender-v1.glb', -8.4, -80, 1.5708, 1.0,
   null);
-pasangTokoGLB('TOKO_TEH_REMPAH', 'teh-rempah-toko-blender-v1.glb', 13.2, -60, -1.5708, 1.4,
+pasangTokoGLB('TOKO_TEH_REMPAH', 'teh-rempah-toko-blender-v1.glb', 15.2, -68, -1.5708, 1.4,
   null);   /* Blender TOKO: ~4.9m tall -> ~7m, sign baked, no overlay */
-pasangTokoGLB('TOKO_MAINAN', 'mainan-toko-blender-v4.glb', 13.2, -68, -1.5708, 1.5,
+pasangTokoGLB('TOKO_MAINAN', 'mainan-toko-blender-v4.glb', 15.2, -80, -1.5708, 1.5,
   { teks:'MAINAN', aksen:'#c9504a', cx:0.015, cz:0.26, z:0.20, lebar:0.33, tinggi:0.18 });
 
 /* ---------- B) DISTRIK UTARA — plaza mini + gedung tinggi + tugu ---------- */
@@ -4079,8 +4398,8 @@ function buatTeksturPasir(){
     scene.add(g);
     penabrak.push({ x:px, z:pz, r:0.5 });
   }
-  palem(-3.5, 56.5, 2.6, 1.05);   /* mengapit pandangan dari pintu masuk */
-  palem(3.8, 58.5, 0.4, 0.95);
+  palem(-8, 56.5, 2.6, 1.05);   /* mengapit pandangan dari pintu masuk */
+  palem(9.5, 60, 0.4, 0.95);
   palem(-20, 50, 1.2, 1.1);       /* tepian rumput-pasir */
   palem(24, 52, 2.9, 1.0);
   palem(34, 66, -0.6, 1.08);
@@ -4115,7 +4434,7 @@ function buatTeksturPasir(){
      sepanjang X). Anak model diputar y=PI supaya papan menghadap -Z
      seperti kode; posisi anak z -0,3006 mengembalikan pusat model
      (Z -0,1392) ke titik grup.
-     Skala seragam 2,1593 (ikut tinggi, tanpa distorsi): tinggi model
+     Skala 1,0 di kode (setScalar(1.0); AUDIT 2026-11-09: klaim lama '2,1593' basi, angka turunan di bawah memakai skala lama): tinggi model
      0,9517 m -> 2,055 m (total kode: kanopi 2,02 + 0,035); tapak akhir
      X 1,413 × Z 1,664 m, setengah-diagonal 1,092 m — di dalam collider
      r 1,1 (alternatif ikut panjang Z 0,7705 -> badan kode 1,7 m memberi
@@ -4136,7 +4455,7 @@ function buatTeksturPasir(){
     g.rotation.y = 0.12;
     scene.add(g);
     grupEskrim = g;
-    penabrak.push({ x:6.5, z:55.5, r:1.1 });
+    penabrak.push({ x:6.5, z:55.5, r:1.31 }); /* TUGAS 4: r 1,1 -> 1,31 (setengah-diagonal OBB tapak) */
   })();
   (function pasangGerobakEskrimGLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
@@ -4237,7 +4556,7 @@ var sinarMercuMat2 = null;
       });
     } catch (e) { /* loader bermasalah: menara kosong, collider tetap */ }
   })();
-  penabrak.push({ x:MERCU.x, z:MERCU.z, r:1.9 });
+  penabrak.push({ x:MERCU.x, z:MERCU.z, r:2.31 }); /* TUGAS 4: r 1,9 -> 2,31 (setengah-diagonal tapak) */
 
   /* sinar berputar: dua kerucut cahaya berseberangan, menyala malam saja.
      Kerucut TERBUKA (openEnded) + peta alpha bergradasi: terang di dekat
@@ -4398,7 +4717,7 @@ function jalanStrip5(x1, z1, x2, z2, w){
   tex.repeat.set(Math.max(1, Math.round(len / 7)), 1);
   var geo = new THREE.PlaneGeometry(len, w || 3);
   geo.rotateX(-Math.PI / 2);
-  var m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: tex }));
+  var m = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({ map: tex, polygonOffset:true, polygonOffsetFactor:0, polygonOffsetUnits:0 }));
   m.rotation.y = Math.atan2(-dz, dx);
   m.position.set((x1 + x2) / 2, 0.02, (z1 + z2) / 2);
   m.receiveShadow = true;
@@ -4409,7 +4728,7 @@ function jalanRute5(titik, w){
     jalanStrip5(titik[i][0], titik[i][1], titik[i + 1][0], titik[i + 1][1], w);
 }
 var RUTE_BARAT = [[-12, 8], [-38, 16], [-56, 28], [-84, 32], [-112, 24], [-131, 17]];
-var RUTE_DANAU = [[-84, 32], [-108, 16], [-128, -2], [-146, -14], [-155.5, -17.5]];
+var RUTE_DANAU = [[-84, 32], [-108, 16], [-128, -2], [-146, -14], [-155.5, -17.5], [-159, -18]];   /* AUDIT 2026-11-09: perpanjang 3 m ke tepi danau GLB baru */
 var RUTE_HUTAN = [[64, -8], [95, -30], [130, -55], [155, -78], [168, -88]];
 var RUTE_GUNUNG = [[3.5, -124], [1, -150], [0, -165]];
 var RUTE_SEKOLAH = [[-131, 17], [-130, 40], [-133, 49], [-141, 58], [-150, 61.5], [-160, 60.5], [-176, 60]]; /* TAHAP 2: jalan dirapikan — belokan DALAM rute maks 27,1 derajat; junction RUTE_BARAT di (-131,17) 112,7 derajat; masuk gerbang lurus di tengah celah (B11) */
@@ -4418,6 +4737,9 @@ jalanRute5(RUTE_BARAT, 3.2);
 jalanRute5(RUTE_DANAU, 2.6);
 jalanRute5(RUTE_HUTAN, 3);
 jalanRute5(RUTE_GUNUNG, 3);
+jalanRute5([[84.1, -22.2], [75, -35]], 3);   /* AUDIT 2026-11-09: spur ke Rumah Modern */
+jalanRute5([[110.1, -40.8], [100, -55]], 3);   /* AUDIT 2026-11-09: spur ke Rumah Tradisional */
+jalanRute5([[114.9, -44.2], [125, -30]], 3);   /* AUDIT 2026-11-09: spur ke Rumah Cottage */
 function jarakSeg5(x, z, a, b){
   var abx = b[0] - a[0], abz = b[1] - a[1];
   var t = ((x - a[0]) * abx + (z - a[1]) * abz) / (abx * abx + abz * abz);
@@ -4432,17 +4754,9 @@ function jarakRute5(x, z, rute){
 
 /* ----- Danau Cermin + dermaga kayu ----- */
 (function danauCermin(){
-  var airDanau = createWater(THREE, { size: [44, 44], segments: [44, 44], y: -0.12 });
-  airDanau.mesh.position.set(-180, -0.12, -20);
-  airDanau.mesh.rotation.y = 0;
-  scene.add(airDanau.mesh);
-  daftarAirShader.push(airDanau);
-  var pasir = new THREE.Mesh(new THREE.RingGeometry(20.3, 25.2, 40),
-    new THREE.MeshLambertMaterial({ color:0xdcc48f }));
-  pasir.rotation.x = -Math.PI / 2;
-  pasir.position.set(-180, 0.012, -20);
-  pasir.receiveShadow = true;
-  scene.add(pasir);
+  /* AUDIT 2026-11-09 (F7): airDanau shader + cincin pasir DIHAPUS — air & pasir
+     digantikan danau GLB yang pindah ke (-180,-20); shader lama terkubur di
+     bawah Padang Barat (tak terlihat) + hemat 1 shader update/frame. */
   var papan = new THREE.InstancedMesh(new THREE.BoxGeometry(0.88, 0.1, 3.1), matKayu5, 18);
   var m4 = new THREE.Matrix4();
   for (var i = 0; i < 18; i++){
@@ -4519,7 +4833,7 @@ function pohonBiasa5(x, z, s, zona){
   jend.position.set(-1.4, 2.3, 3.56); g.add(jend);
   g.position.set(-152, 0, 6);
   scene.add(g);
-  penabrak.push({ x:-152, z:6, r:4.4 });
+  penabrak.push({ x:-152, z:6, r:5.0 }); /* TUGAS 4: r 4,4 -> 5,0 (setengah-diagonal tapak) */
   /* silo */
   var silo = new THREE.Group();
   var tabung = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 6.8, 14),
@@ -4635,16 +4949,18 @@ function pohonBiasa5(x, z, s, zona){
   var RUTE_SEMUA = RUTE_BARAT.concat(RUTE_DANAU, RUTE_SEKOLAH);
   var nb = 0, nk = 0, nyoba = 0;
   while ((nb + nk) < N && nyoba++ < 900){
-    var x = -246 + Math.random() * 166, z = -56 + Math.random() * 142;
+    var x = -246 + acakVeg() * 166, z = -56 + acakVeg() * 142;
     if (Math.hypot(x + 180, z + 20) < 28) continue;
     if (x > -170 && x < -128 && z > -9 && z < 35) continue;
     if (x >= -250 && x <= -170 && z >= 38 && z <= 88) continue; /* SEKOLAH */
     if (jarakRute5(x, z, RUTE_SEMUA) < 3.6) continue;
+    if (z >= -12 && z <= 0 && x >= -122 && x <= -86) continue;   /* AUDIT: jalan-raya barat E-W */
     if (Math.abs(z + 20) < 4 && x > -176 && x < -152) continue;
-    var s = 0.85 + Math.random() * 0.6;
-    var ry = Math.random() * 6.28;
+    var s = 0.85 + acakVeg() * 0.6;
+    var ry = acakVeg() * 6.28;
     var bulat = (nb + nk) % 3 !== 2;
-    warna.setHSL(0.29 + Math.random() * 0.05, 0.5, 0.3 + Math.random() * 0.1); /* undian lama dijaga — aliran acak hilir tetap sama */
+    warna.setHSL(0.29 + acakVeg() * 0.05, 0.5, 0.3 + acakVeg() * 0.1); /* undian lama dijaga — aliran acak hilir tetap sama */
+    if (diZonaLarangVeg(x, z)) continue;   /* R6: tapak nyata + jalan/sungai — cek SESUDAH semua undian (s, ry, warna x2) agar aliran kandidat yang ditolak sama dengan yang diterima (6 undian) */
     /* F14: tinggi lama bulat 4.10×s / 2.90; kerucut 4.20×s / 3.20 */
     if (bulat){ catatPohon(x, 0, z, ry, s * 1.416, 'padang', true); nb++; } /* #B3: tanpaTabrak — penabrak r=0,5 di bawah sudah mencakup padang */
     else { catatPinus(x, 0, z, ry, s * 1.314, 'padang'); nk++; }
@@ -4880,27 +5196,11 @@ function pohonBiasa5(x, z, s, zona){
   mancurSkPrim.scale.setScalar(0.73);
   mancurSk.add(mancurSkPrim);
 
-  (function pasangMancurSekolahGLB(){
-    if (typeof THREE.GLTFLoader !== 'function') return;
-    var sudah = false;
-    var batas = setTimeout(function(){ sudah = true; }, 180000);
-    try {
-      new THREE.GLTFLoader().load('air-mancur.glb', function(gltf){
-        if (sudah) return; sudah = true; clearTimeout(batas);
-        var model = gltf.scene;
-        model.scale.setScalar(SKALA_MANCUR);
-        model.traverse(function(o){ if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
-        mancurSk.add(model);
-        mancurSkPrim.visible = false;
-      }, undefined, function(){
-        if (sudah) return; sudah = true; clearTimeout(batas);
-      });
-    } catch (e) { /* gagal muat: lapangan tetap, collider tetap */ }
-  })();
+  /* AUDIT 2026-11-09 (A4/B3a/F1): loader air-mancur.glb Hunyuan pasangMancurSekolahGLB DIHAPUS — dimuat tapi tak terlihat; primitif tetap sebagai fallback */
   /* --- lapangan olahraga 18 x 12 + 2 ring --- */
   var lapOlSk = new THREE.Mesh(new THREE.PlaneGeometry(18, 12), new THREE.MeshLambertMaterial({ color:0x4a7c59 }));
   lapOlSk.rotation.x = -Math.PI / 2; lapOlSk.position.set(-225, 0.02, 76); lapOlSk.receiveShadow = true; scene.add(lapOlSk);
-  var matGarisSk = new THREE.MeshBasicMaterial({ color:0xffffff });
+  var matGarisSk = new THREE.MeshBasicMaterial({ color:0xffffff, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-4 });
   [[18, 0.15, -225, 70.1], [18, 0.15, -225, 81.9]].forEach(function(g){
     var m = new THREE.Mesh(new THREE.BoxGeometry(g[0], 0.02, g[1]), matGarisSk);
     m.position.set(g[2], 0.03, g[3]); scene.add(m);
@@ -4928,6 +5228,7 @@ function pohonBiasa5(x, z, s, zona){
      tiba, lalu disembunyikan. COLLIDER pagarTabrakSk di bawah TIDAK BERUBAH. */
   var grupPagarModul = [];   /* grup posisi menunggu template GLB */
   var modelPagarModul = null;
+  var _tiangPagarSudah = {};   /* AUDIT 2026-11-09 (D1): dedup tiang sudut (-250,38) */
   function pagarModulSk(x1, z1, x2, z2){
     var dx = x2 - x1, dz = z2 - z1;
     var len = Math.hypot(dx, dz);
@@ -4936,6 +5237,9 @@ function pohonBiasa5(x, z, s, zona){
     var ry = Math.atan2(-uz, ux);   /* sumbu +X modul -> arah (ux, uz) */
     for (var k = 0; k < n; k++){
       var px = x1 + ux * len * k / n, pz = z1 + uz * len * k / n;
+      var _kunciTiang = px.toFixed(2) + ',' + pz.toFixed(2);
+      if (_tiangPagarSudah[_kunciTiang]) continue;   /* tiang sudut sudah dipasang segmen sebelumnya */
+      _tiangPagarSudah[_kunciTiang] = true;
       var g = new THREE.Group();
       g.position.set(px, 0, pz);
       g.rotation.y = ry;
@@ -5081,7 +5385,7 @@ function pohonBiasa5(x, z, s, zona){
   var matSemak2 = new THREE.MeshLambertMaterial({ color:0x4c9448 });
   var matPaving2 = new THREE.MeshLambertMaterial({ color:0xd9d2bd });
   var matAspal2 = new THREE.MeshLambertMaterial({ color:0x5a5a5a });
-  var matGaris2 = new THREE.MeshBasicMaterial({ color:0xffffff });
+  var matGaris2 = new THREE.MeshBasicMaterial({ color:0xffffff, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-4 });
   function kotak2(w, h, d, mat, x, y, z){
     var m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
     m.position.set(x, y, z); m.castShadow = true; m.receiveShadow = true;
@@ -5308,9 +5612,9 @@ function pohonBiasa5(x, z, s, zona){
   pavingT2(-189.4, 62, -189.4, 66, 0.8);
   /* --- air mancur kedua (sedikit lebih besar) di taman barat --- */
   var mancur2 = new THREE.Group();
-  mancur2.position.set(-243, 0, 84);
+  mancur2.position.set(-238, 0, 84);
   scene.add(mancur2);
-  penabrak.push({ x:-243, z:84, r:2.5 });
+  penabrak.push({ x:-238, z:84, r:2.5 });
   /* RAPiH 2026-10-28 (B8): rakitan primitif tampil bila GLB gagal (pola plaza);
      skala 0.80 agar bak ~ collider; disembunyikan saat GLB sukses. */
   var mancur2Prim = new THREE.Group();
@@ -5330,23 +5634,7 @@ function pohonBiasa5(x, z, s, zona){
   mancur2Prim.scale.setScalar(0.80);
   mancur2.add(mancur2Prim);
 
-  (function pasangMancur2GLB(){
-    if (typeof THREE.GLTFLoader !== 'function') return;
-    var sudah = false;
-    var batas = setTimeout(function(){ sudah = true; }, 180000);
-    try {
-      new THREE.GLTFLoader().load('air-mancur.glb', function(gltf){
-        if (sudah) return; sudah = true; clearTimeout(batas);
-        var model = gltf.scene;
-        model.scale.setScalar(SKALA_MANCUR * 1.1);
-        model.traverse(function(o){ if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
-        mancur2.add(model);
-        mancur2Prim.visible = false;
-      }, undefined, function(){
-        if (sudah) return; sudah = true; clearTimeout(batas);
-      });
-    } catch (e) { /* gagal muat: taman tetap, collider tetap */ }
-  })();
+  /* AUDIT 2026-11-09 (A4/B3a/F1): loader air-mancur.glb Hunyuan pasangMancur2GLB DIHAPUS — dimuat tapi tak terlihat; primitif tetap sebagai fallback */
   /* --- pohon tanam tetap + bedeng bunga + bangku + lampu tambahan --- */
   function pohonT2(x, z){
     var tr = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.3, 1.6, 8), matKayu2);
@@ -5357,7 +5645,7 @@ function pohonBiasa5(x, z, s, zona){
     c2.position.set(x, 3.7, z); c2.castShadow = true; scene.add(c2);
     penabrak.push({ x:x, z:z, r:0.35 });
   }
-  pohonT2(-232, 52); pohonT2(-224, 52); pohonT2(-178, 64); pohonT2(-182, 70);
+  pohonT2(-232, 52); pohonT2(-224, 52); pohonT2(-178, 64); pohonT2(-189, 66);
   function bedengT2(cx, cz, w, d){
     var geo = new THREE.PlaneGeometry(w, d);
     geo.rotateX(-Math.PI / 2);
@@ -5392,7 +5680,7 @@ function pohonBiasa5(x, z, s, zona){
   }
   bangkuT2(-216, 53.5, 0);
   bangkuT2(-184, 53, 0);
-  bangkuT2(-226, 67, Math.PI / 2);
+  bangkuT2(-216, 67, Math.PI / 2);
   bangkuT2(-178, 55, 0);
   [[-218, 51], [-189, 52], [-200, 67], [-178, 68]].forEach(function(p){
     lampuF2(p[0], p[1]);
@@ -5426,8 +5714,9 @@ var apiList5 = [];
   var n = 0;
   function taruh(x, z, s, zona){
     var y0 = tinggiTanah(x, z);
-    var ry = Math.random() * 6.28;
-    warna.setHSL(0.33 + Math.random() * 0.03, 0.45, 0.16 + Math.random() * 0.07); /* undian lama dijaga — aliran acak hilir tetap sama */
+    var ry = acakVeg() * 6.28;
+    warna.setHSL(0.33 + acakVeg() * 0.03, 0.45, 0.16 + acakVeg() * 0.07); /* undian lama dijaga — aliran acak hilir tetap sama */
+    if (diZonaLarangVeg(x, z)) return;   /* R6: tapak nyata + jalan/sungai/perkemahan — cek SESUDAH semua undian taruh (ry + warna x2) agar aliran kandidat yang ditolak sama dengan yang diterima (6 undian) */
     /* F14: puncak pinus lama ±5.09×s / GLB 3.20 → faktor 1.594 */
     catatPinus(x, y0, z, ry, s * 1.594, zona);
     penabrak.push({ x:x, z:z, r:0.5 });
@@ -5435,19 +5724,24 @@ var apiList5 = [];
   }
   var nyoba = 0;
   while (n < 232 && nyoba++ < 6000){
-    var x = 84 + Math.random() * 158, z = -162 + Math.random() * 144;
+    var x = 84 + acakVeg() * 158, z = -162 + acakVeg() * 144;
     if (Math.hypot(x - 170, z + 90) < 15) continue;
     if (jarakRute5(x, z, RUTE_HUTAN) < 3.6) continue;
-    taruh(x, z, 0.8 + Math.random() * 0.7, 'hutan');
+    /* AUDIT 2026-11-09 (A18): kosongkan tapak Lapangan (190,-45) + 3 rumah (+2 m) */
+    if (x >= 146 && x <= 234 && z >= -75 && z <= -15) continue;
+    if (x >= 65.2 && x <= 84.8 && z >= -45.3 && z <= -24.7) continue;   /* Rumah Modern */
+    if (x >= 90.3 && x <= 109.7 && z >= -63.6 && z <= -46.4) continue;   /* Rumah Tradisional */
+    if (x >= 114.1 && x <= 135.9 && z >= -40.8 && z <= -19.2) continue;   /* Rumah Cottage */
+    taruh(x, z, 0.8 + acakVeg() * 0.7, 'hutan');
   }
   /* pinus jarang di teras bawah Gunung Awan (jalur landai pertama dijaga bersih) */
   nyoba = 0;
   var targetG = n + 22;
   while (n < targetG && nyoba++ < 900){
-    var d = 40 + Math.random() * 15, a = Math.random() * Math.PI * 2;
+    var d = 40 + acakVeg() * 15, a = acakVeg() * Math.PI * 2;
     if (Math.abs(bedaSudut(a, LANDAI_G[0])) < 0.7) continue;
     if (d < 49 && Math.abs(bedaSudut(a, LANDAI_G[1])) < 0.65) continue;
-    taruh(GUNUNG.x + Math.cos(a) * d, GUNUNG.z + Math.sin(a) * d, 0.8 + Math.random() * 0.5, 'gunung');
+    taruh(GUNUNG.x + Math.cos(a) * d, GUNUNG.z + Math.sin(a) * d, 0.8 + acakVeg() * 0.5, 'gunung');
   }
 })();
 
@@ -5523,7 +5817,7 @@ function buatBangkuLog5(x, z, ry){
      1.86 m < collider r 2, jadi collider kode menutupi visual penuh.
      Alas model tepat di y=0, tanpa offset, seperti tenda oranye. */
   (function pasangTendaHijauGLB(){
-    penabrak.push({ x:177, z:-86, r:2 });
+    penabrak.push({ x:177, z:-86, r:3.29 }); /* TUGAS 4: r 2 -> 3,29 (setengah-diagonal OBB tapak) */
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
@@ -5889,10 +6183,10 @@ var awanList = [];
   var tempat = [];
   var i;
   for (i=0; i<9; i++){
-    var a2 = Math.random() * Math.PI * 2, r2 = 120 + Math.random() * 160;
+    var a2 = acakVeg() * Math.PI * 2, r2 = 120 + acakVeg() * 160;
     tempat.push({
-      x: Math.cos(a2) * r2, y: 42 + Math.random() * 30, z: Math.sin(a2) * r2,
-      lebar: 34 + Math.random() * 30, kecepatan: 0.35 + Math.random() * 0.5
+      x: Math.cos(a2) * r2, y: 42 + acakVeg() * 30, z: Math.sin(a2) * r2,
+      lebar: 34 + acakVeg() * 30, kecepatan: 0.35 + acakVeg() * 0.5
     });
   }
   try {
@@ -6035,7 +6329,9 @@ function warnaDariNama(nama){
    dari kanal rotasi klip.) timeScale = lajuHalus / kecepatanKlip
    -> kaki menapak pas di kecepatan Lumina (jalan 1,5 m/dtk ->
    walk x1,98; lari 2,55 m/dtk -> run x1,50), termasuk joystick
-   setengah. */
+   setengah. Nilai di atas adalah CEWEK; COWOK memakai per-avatar
+   (av.kecKlipWalk / av.kecKlipRun: walk 1,26 / run 2,5065, terukur
+   2026-11-09 dari GLB v2 — lihat buatAvatarKarakter). */
 var KEC_KLIP_WALK = 0.759, KEC_KLIP_RUN = 1.705;
 /* Pose duduk-bangku model baru — ABSOLUT ruang-model, TERUKUR dari
    klip sit GLB (akhir f68) + laporan merge §2:
@@ -6084,17 +6380,10 @@ function campurPoseModel(av, pose, w){
     var qCur = quatRuangModel(tulang, akar);
     var qFinal = qCur.slerp(qTarget, w);
     var qOrtu = tulang.parent ? quatRuangModel(tulang.parent, akar) : new THREE.Quaternion();
-    /* .normalize() WAJIB (perbaikan 2026-11-08, pose diam v24): qOrtu di
-       sini adalah KONJUGAT, bukan invers sejati — untuk quaternion yang
-       tidak persis satuan, conjugate ≠ inverse dan panjangnya ikut
-       terbawa ke quaternion lokal. Tanpa normalisasi, galat float kecil
-       (~1e-6) teramplifikasi geometris menuruni rantai tulang dalam
-       (lengan→pergelangan→jari) dan antar frame sampai meledak (diukur
-       Node: ruas jari len 3,07 → 2,6e13 → NaN dalam 60 frame). Normalisasi
-       tidak mengubah rotasi yang diwakili (quaternion homogen) dan
-       no-op bila sudah satuan — jadi pose lengan/duduk/lompat yang lama
-       tidak berubah, tapi rantai jari kini stabil. */
-    tulang.quaternion.copy(qOrtu.invert().multiply(qFinal)).normalize();
+    /* .normalize() = perbaikan bug v24 (2026-11-09): invert() r128 adalah
+       conjugate, bukan inverse sejati — tanpa ini, error non-unit menumpuk
+       di rantai tulang dalam (jari) sampai NaN. Untuk quaternion unit: no-op. */
+    tulang.quaternion.copy(qOrtu.invert().multiply(qFinal).normalize());
   });
 }
 function cariKlip(klips, nama){
@@ -6109,7 +6398,8 @@ function cariKlip(klips, nama){
 function aturAksiMixer(av, mau, lajuHalus){
   if (!av.pakaiMixer || !av.mixer) return;
   if (mau){
-    mau.timeScale = Math.max(0.2, Math.min(3, lajuHalus / (mau === av.aksiLari ? KEC_KLIP_RUN : KEC_KLIP_WALK)));
+    var kecKlip = mau === av.aksiLari ? (av.kecKlipRun || KEC_KLIP_RUN) : (av.kecKlipWalk || KEC_KLIP_WALK);
+    mau.timeScale = Math.max(0.2, Math.min(3, lajuHalus / kecKlip));
     if (av.aksiAktif === mau) return;
     if (av.aksiAktif) av.aksiAktif.crossFadeTo(mau.reset(), 0.2, false);
     else { av.mixer.stopAllAction(); mau.reset().fadeIn(0.2).play(); }
@@ -6133,53 +6423,45 @@ function terapkanDudukMixer(av, dt){
     else campurPoseModel(av, POSE_NOL_MIXAMO, 1 - av._wDuduk);
   }
   if (av.pelvis && av._pelvisRestY !== undefined)
-    av.pelvis.position.y = av._pelvisRestY - TURUN_PINGGUL_MIXAMO * av._wDuduk;
+    av.pelvis.position.y = av._pelvisRestY - (av.turunPinggul || TURUN_PINGGUL_MIXAMO) * av._wDuduk;
 }
 
-/* Pose DIAM model baru — v24 (natural, ganti Set B 2026-11-08).
-   Set B DITOLAK pemilik ("kaku tuh tangan, gak natural" + "kayak kepiting
-   mau nyapit"): lengan lurus ramrod (siku tulang 2°), tangan nempel
-   rata di paha, jari lurus ke bawah, simetris sempurna. v24: siku
-   menekuk 9,4°/7,3°, tangan lemas dekat paha, jari RAPAT (celah arah
-   ruas1 3,4°/3,7°/5,3°) melengkung KE TELAPAK (ruas3 ke telapak
-   0,38–0,51, ke depan −0,02…−0,15 = ke belakang, BUKAN capit),
-   jempol menempel di sisi telunjuk. Kulit tangan GLB bergeser
-   ~0,22–0,30 m dari tulangnya — rotasi jari diferensial besar
-   MENYEBAR ujung jari (v22 gagal: ujung I-M 63 mm); v24 dioptimasi
-   numerik (coordinate descent) atas posisi ujung jari KULIT, rotasi
-   jari akhir KECIL (≤0,11 rad diferensial), orientasi tangan yang
-   mengerjakan sebagian besar pose. Nilai {x,z} di bawah ABSOLUT
-   (qR·qRestModel, bukan delta sendi) — 36 tulang, residu fit ≤1,93°.
-   Kulit lengan atas 24°/23° (condong ke belakang ~11° — lengan rileks
-   bersandar, bukan cacat); telapak (0,132, 0,680, 0,091); tangan vs
-   jeans min 1,7 mm (tidak menembus). Asimetri kiri/kanan nyata —
-   pakai nilai per sisi, jangan dirata-rata. DIPANGGIL PALING AKHIR
-   sesudah mixer.update + terapkanDudukMixer + poseLompat supaya tak
-   ditimpa penulis pose lain; targetnya ABSOLUT jadi dari pose awal
-   mana pun — bind 10° maupun live 30–45° — lengan ditarik ke target
-   yang sama. _wIdle diramp naik CEPAT dt*25 (~0,12 dtk) — sengaja
-   cepat: kalau lambat (dt*10), fadeOut mixer 0,15 dtk sempat menarik
-   lengan ke bind dulu sehingga telapak mengayun ke LUAR ~29 mm sebelum
-   kembali ke dalam (reversal, terukur Node); dengan dt*25 koreksi
-   mendominasi sejak awal dan telapak bergerak monoton ke dalam. Turun
-   CEPAT dt*40 supaya klip jalan/lari langsung mengambil alih lengan. */
+/* Pose DIAM model baru — lengan rapat ke badan (koreksi A-pose bind).
+   ALASAN (diukur Node + Blender 2026-11-08): tulang bind memang cuma
+   10°/16° dari vertikal, tapi KULIT lengan menggantung ~40° (offset
+   skinning membesar sepanjang lengan; telapak di ±0,35 m) — itulah yang
+   pemilik lihat sebagai "pose T" dan yang diukur live 30–45°. Putar tulang
+   ke vertikal saja (Set A) TIDAK cukup: kulit masih ~20–30° keluar.
+   Sudut di bawah (Set B, terverifikasi Blender depan+3/4+samping) memutar
+   tulang MELEWATI vertikal sampai KULIT-nya rapat: lengan atas kulit
+   ~12°, telapak (±0,130, 0,612, +0,106) menempel di depan paha, tangan
+   X[0,088–0,148] (permukaan jeans 0,144–0,149 — tidak menembus).
+   Asimetri kiri/kanan itu nyata (kulit kanan 40,82° vs kiri 40,07°) —
+   pakai nilai per sisi, jangan dirata-rata. Rx +0,26 pada lengan bawah
+   = ayun-mundur supaya telapak menempel (tanpa ini melayang ~5 cm).
+   DIPANGGIL PALING AKHIR sesudah mixer.update + terapkanDudukMixer +
+   poseLompat supaya tak ditimpa penulis pose lain; targetnya ABSOLUT
+   (Rz(phi)*qRestModel) jadi dari pose awal mana pun — bind 10° maupun
+   live 30–45° — lengan ditarik ke target yang sama. _wIdle diramp
+   naik CEPAT dt*25 (~0,12 dtk) — sengaja cepat: kalau lambat (dt*10),
+   fadeOut mixer 0,15 dtk sempat menarik lengan ke bind dulu sehingga
+   telapak mengayun ke LUAR ~29 mm sebelum kembali ke dalam (reversal,
+   terukur Node); dengan dt*25 koreksi mendominasi sejak awal dan telapak
+   bergerak monoton ke dalam. Turun CEPAT dt*40 supaya klip jalan/lari
+   langsung mengambil alih lengan. */
 var POSE_IDLE_MIXAMO = {
-  /* lengan + pergelangan (v24; kiri/kanan asimetris, jangan dirata-rata) */
-  tanganK: { x: 0.20, z: -0.676 }, tanganN: { x: 0.16, z: 0.687 },
-  sikuK: { x: 0.26, z: -0.743 }, sikuN: { x: 0.26, z: 0.743 },
-  telapakK: { x: 0.30, z: -0.355 }, telapakN: { x: 0.30, z: 0.355 },
-  /* jari kiri (kanan = x sama, z dinegasi) */
-  jariTelunjukK1: { x: 0.32756, z: -0.3508 }, jariTelunjukK2: { x: 0.32841, z: -0.3443 }, jariTelunjukK3: { x: 0.32888, z: -0.34068 },
-  jariTengahK1: { x: 0.27113, z: -0.37207 }, jariTengahK2: { x: 0.26822, z: -0.39843 }, jariTengahK3: { x: 0.26654, z: -0.41307 },
-  jariManisK1: { x: 0.28502, z: -0.36793 }, jariManisK2: { x: 0.28272, z: -0.38764 }, jariManisK3: { x: 0.28141, z: -0.3986 },
-  jariKelingkingK1: { x: 0.2431, z: -0.38455 }, jariKelingkingK2: { x: 0.23847, z: -0.43091 }, jariKelingkingK3: { x: 0.23575, z: -0.45668 },
-  jempolK1: { x: 0.3, z: -0.355 }, jempolK2: { x: 0.29461, z: -0.39868 }, jempolK3: { x: 0.27826, z: -0.51545 },
-  /* jari kanan */
-  jariTelunjukN1: { x: 0.32756, z: 0.3508 }, jariTelunjukN2: { x: 0.32841, z: 0.3443 }, jariTelunjukN3: { x: 0.32888, z: 0.34068 },
-  jariTengahN1: { x: 0.27113, z: 0.37207 }, jariTengahN2: { x: 0.26822, z: 0.39843 }, jariTengahN3: { x: 0.26654, z: 0.41307 },
-  jariManisN1: { x: 0.28502, z: 0.36793 }, jariManisN2: { x: 0.28272, z: 0.38764 }, jariManisN3: { x: 0.28141, z: 0.3986 },
-  jariKelingkingN1: { x: 0.2431, z: 0.38455 }, jariKelingkingN2: { x: 0.23847, z: 0.43091 }, jariKelingkingN3: { x: 0.23575, z: 0.45668 },
-  jempolN1: { x: 0.3, z: 0.355 }, jempolN2: { x: 0.29461, z: 0.39868 }, jempolN3: { x: 0.27826, z: 0.51545 }
+  tanganK: { z: -0.676076 }, tanganN: { z: 0.686641 },
+  sikuK: { x: 0.26, z: -0.743420 }, sikuN: { x: 0.26, z: 0.743419 }
+};
+/* Pose diam COWOK (Teenager, v7 — terukur + render-verifikasi 2026-11-09,
+   LAPORAN-POSE-DIAM-COWOK.md). Lengan atas kulit 6,4° (bukan 22–24°:
+   bahu cowok selebar paha + lengan panjang — 22° + telapak menempel
+   terbukti tak kompatibel, celah 84–131 mm), siku 8,0°, telapak di
+   depan paha (z +0,09) celah 1,1 mm, jari rapat bawaan mesh (tidak ada
+   tulang jari; tangan ikut ForeArm, tidak diputar terpisah). */
+var POSE_IDLE_COWOK_MIXAMO = {
+  tanganK: { x: -0.087, z: -0.553 }, tanganN: { x: -0.09, z: 0.586 },
+  sikuK: { x: -0.024, z: -0.769 }, sikuN: { x: -0.01, z: 0.745 }
 };
 function terapkanIdleMixer(av, dt, sedangLompat){
   if (!av.pakaiMixer || !av.mixer) return;
@@ -6187,7 +6469,7 @@ function terapkanIdleMixer(av, dt, sedangLompat){
   if (av._wIdle === undefined) av._wIdle = idle ? 1 : 0;
   var laju = idle ? dt * 25 : dt * 40;
   av._wIdle += ((idle ? 1 : 0) - av._wIdle) * Math.min(1, laju);
-  if (av._wIdle > 0.003) campurPoseModel(av, POSE_IDLE_MIXAMO, av._wIdle);
+  if (av._wIdle > 0.003) campurPoseModel(av, av.poseIdle || POSE_IDLE_MIXAMO, av._wIdle);
 }
 
 /* Cari node tulang model GLB berdasarkan NAMA ASLI file (mis.
@@ -6247,41 +6529,6 @@ function buatAvatarKarakter(kar, warnaHex, nama, tanpaLabel){
     av.betisN = cariNodeGLB(model, 'mixamorig:RightLeg');
     av.sikuK = cariNodeGLB(model, 'mixamorig:LeftForeArm');
     av.sikuN = cariNodeGLB(model, 'mixamorig:RightForeArm');
-    /* tangan + jari (pose diam v24): pergelangan + 15 ruas jari per sisi.
-       Tidak ada di model lama — cariNodeGLB mengembalikan null bila tak
-       ada; campurPoseModel melewati tulang yang undefined/tanpa qRestModel. */
-    av.telapakK = cariNodeGLB(model, 'mixamorig:LeftHand');
-    av.telapakN = cariNodeGLB(model, 'mixamorig:RightHand');
-    av.jariTelunjukK1 = cariNodeGLB(model, 'mixamorig:LeftHandIndex1');
-    av.jariTelunjukK2 = cariNodeGLB(model, 'mixamorig:LeftHandIndex2');
-    av.jariTelunjukK3 = cariNodeGLB(model, 'mixamorig:LeftHandIndex3');
-    av.jariTengahK1 = cariNodeGLB(model, 'mixamorig:LeftHandMiddle1');
-    av.jariTengahK2 = cariNodeGLB(model, 'mixamorig:LeftHandMiddle2');
-    av.jariTengahK3 = cariNodeGLB(model, 'mixamorig:LeftHandMiddle3');
-    av.jariManisK1 = cariNodeGLB(model, 'mixamorig:LeftHandRing1');
-    av.jariManisK2 = cariNodeGLB(model, 'mixamorig:LeftHandRing2');
-    av.jariManisK3 = cariNodeGLB(model, 'mixamorig:LeftHandRing3');
-    av.jariKelingkingK1 = cariNodeGLB(model, 'mixamorig:LeftHandPinky1');
-    av.jariKelingkingK2 = cariNodeGLB(model, 'mixamorig:LeftHandPinky2');
-    av.jariKelingkingK3 = cariNodeGLB(model, 'mixamorig:LeftHandPinky3');
-    av.jempolK1 = cariNodeGLB(model, 'mixamorig:LeftHandThumb1');
-    av.jempolK2 = cariNodeGLB(model, 'mixamorig:LeftHandThumb2');
-    av.jempolK3 = cariNodeGLB(model, 'mixamorig:LeftHandThumb3');
-    av.jariTelunjukN1 = cariNodeGLB(model, 'mixamorig:RightHandIndex1');
-    av.jariTelunjukN2 = cariNodeGLB(model, 'mixamorig:RightHandIndex2');
-    av.jariTelunjukN3 = cariNodeGLB(model, 'mixamorig:RightHandIndex3');
-    av.jariTengahN1 = cariNodeGLB(model, 'mixamorig:RightHandMiddle1');
-    av.jariTengahN2 = cariNodeGLB(model, 'mixamorig:RightHandMiddle2');
-    av.jariTengahN3 = cariNodeGLB(model, 'mixamorig:RightHandMiddle3');
-    av.jariManisN1 = cariNodeGLB(model, 'mixamorig:RightHandRing1');
-    av.jariManisN2 = cariNodeGLB(model, 'mixamorig:RightHandRing2');
-    av.jariManisN3 = cariNodeGLB(model, 'mixamorig:RightHandRing3');
-    av.jariKelingkingN1 = cariNodeGLB(model, 'mixamorig:RightHandPinky1');
-    av.jariKelingkingN2 = cariNodeGLB(model, 'mixamorig:RightHandPinky2');
-    av.jariKelingkingN3 = cariNodeGLB(model, 'mixamorig:RightHandPinky3');
-    av.jempolN1 = cariNodeGLB(model, 'mixamorig:RightHandThumb1');
-    av.jempolN2 = cariNodeGLB(model, 'mixamorig:RightHandThumb2');
-    av.jempolN3 = cariNodeGLB(model, 'mixamorig:RightHandThumb3');
   } else {
     av.kepala = model.getObjectByName('Kepala');
     av.torso = model.getObjectByName('Torso');     /* ayun torso anti-robot di animasiAvatar */
@@ -6311,18 +6558,23 @@ function buatAvatarKarakter(kar, warnaHex, nama, tanpaLabel){
        di +Z model; sumbu +Z Hips/Head juga +Z. Model menghadap +Z glTF
        dan Lumina ry=atan2(mx,mz) menghadapkan +Z grup ke arah gerak —
        TIDAK perlu rotation.y=PI. */
-    /* sol sepatu -0,014: naikkan model +0,014 supaya kaki tak tenggelam */
-    model.position.y = 0.014;
+    /* nilai per karakter (terukur dari GLB masing-masing):
+       cewek — klip walk 0,759 / run 1,705; turun pinggul duduk 0,321;
+       bidik kamera 1,62; pose diam POSE_IDLE_MIXAMO (Set B).
+       cowok — klip walk 1,26 / run 2,5065 (ukur 2026-11-09);
+       turun pinggul duduk 0,3516; bidik kamera 1,98 (puncak kepala
+       1,65 + 0,33, sama seperti cewek); pose diam v7. */
+    av.kecKlipWalk = (kar === 'cowok') ? 1.26 : KEC_KLIP_WALK;
+    av.kecKlipRun = (kar === 'cowok') ? 2.5065 : KEC_KLIP_RUN;
+    av.turunPinggul = (kar === 'cowok') ? 0.3516 : TURUN_PINGGUL_MIXAMO;
+    av.bidikY = (kar === 'cowok') ? 1.98 : 1.62;
+    av.poseIdle = (kar === 'cowok') ? POSE_IDLE_COWOK_MIXAMO : POSE_IDLE_MIXAMO;
+    /* sol sepatu: cewek -0,014 -> naikkan +0,014 supaya kaki tak
+       tenggelam; cowok sol 0,0001 -> tidak perlu naik. */
+    model.position.y = (kar === 'cowok') ? 0 : 0.014;
     /* simpan rest quaternion (lokal + ruang-model) tiap tulang pemetaan,
        sebelum nama diubah — dipakai adaptor campurPoseModel */
-    ['kepala', 'torso', 'pelvis', 'kakiK', 'kakiN', 'tanganK', 'tanganN', 'betisK', 'betisN', 'sikuK', 'sikuN',
-     'telapakK', 'telapakN',
-     'jariTelunjukK1', 'jariTelunjukK2', 'jariTelunjukK3', 'jariTengahK1', 'jariTengahK2', 'jariTengahK3',
-     'jariManisK1', 'jariManisK2', 'jariManisK3', 'jariKelingkingK1', 'jariKelingkingK2', 'jariKelingkingK3',
-     'jempolK1', 'jempolK2', 'jempolK3',
-     'jariTelunjukN1', 'jariTelunjukN2', 'jariTelunjukN3', 'jariTengahN1', 'jariTengahN2', 'jariTengahN3',
-     'jariManisN1', 'jariManisN2', 'jariManisN3', 'jariKelingkingN1', 'jariKelingkingN2', 'jariKelingkingN3',
-     'jempolN1', 'jempolN2', 'jempolN3'].forEach(function(kunci){
+    ['kepala', 'torso', 'pelvis', 'kakiK', 'kakiN', 'tanganK', 'tanganN', 'betisK', 'betisN', 'sikuK', 'sikuN'].forEach(function(kunci){
       var t = av[kunci];
       if (!t) return;
       t.userData.qRestLokal = t.quaternion.clone();
@@ -6384,19 +6636,23 @@ function buatAvatarKarakter(kar, warnaHex, nama, tanpaLabel){
      / 0,5193 (cowok), dan 0,5244 / 0,5150 di bangku puncak bukit; lipatan
      lutut menggeser titik terendah pantat sehingga turunDuduk menjadi
      cewek -0.130 / cowok -0.129. */
-  av.turunDuduk = (kar === 'cowok') ? -0.129 : (modelBaru ? -0.218 : -0.130);
+  av.turunDuduk = (kar === 'cowok') ? (modelBaru ? -0.3767 : -0.129) : (modelBaru ? -0.218 : -0.130);
   /* -0,218 (cewek model baru): TERUKUR metode Jilid 1–3, vertex dominan
      Pelvis 0,2780 m (laporan merge §2). Hanya benar bersama pose duduk
      model baru (paha -1,58 + pinggul turun 0,321, lihat
      terapkanDudukMixer) — putar paha saja tanpa turun pinggul =
-     pantat melayang ±27 cm. Fallback Hunyuan tetap -0,130. */
+     pantat melayang ±27 cm. Fallback Hunyuan tetap -0,130.
+     -0,3767 (cowok model baru): TERUKUR 2026-11-09 (LAPORAN-UKUR-COWOK.md,
+     metode Jilid): titik terendah pantat 0,4367 m; 0,46 - 0,3767 +
+     0,4367 = 0,5200 = permukaan bangku persis. */
   /* label nama & gelembung emote diturunkan mengikuti tinggi model 1,35 m
      (prosedural 2,08 m: label 2.38 / gelembung 3.02; dibedakan dari tinggi canvas teksturnya).
-     Model baru 1,29 m: label 1,60 / gelembung 2,24. */
+     Model baru 1,29 m: label 1,60 / gelembung 2,24. Cowok baru 1,65 m:
+     label 1,95 / gelembung 2,59 (kepala +0,30/+0,94, sama seperti cewek). */
   av.grup.traverse(function(o){
     if (o.isSprite && o.material && o.material.map && o.material.map.image){
-      if (o.material.map.image.height === 64) o.position.y = modelBaru ? 1.60 : 1.66;
-      else if (o.material.map.image.height === 112) o.position.y = modelBaru ? 2.24 : 2.30;
+      if (o.material.map.image.height === 64) o.position.y = modelBaru ? ((kar === 'cowok') ? 1.95 : 1.60) : 1.66;
+      else if (o.material.map.image.height === 112) o.position.y = modelBaru ? ((kar === 'cowok') ? 2.59 : 2.24) : 2.30;
     }
   });
   av.setDuduk = function(duduk){
@@ -6872,8 +7128,13 @@ function gantiAvatarRemotes(kar){
   muatKar('cewek', 'karakter-cewek-final-v1.glb?v=1', function(){
     muatKar('cewek', 'karakter-cewek.glb?v=4', function(){ modelKarakterGagal.cewek = true; });
   });
-  /* COWOK — TIDAK DIUBAH. */
-  muatKar('cowok', 'karakter-cowok.glb?v=4', function(){ modelKarakterGagal.cowok = true; });
+  /* COWOK — model final v1 dulu; bila gagal/timeout 180 dtk -> fallback
+     Hunyuan lama SEKALI; bila itu pun gagal -> barulah gagal (prosedural).
+     Gerbang muat tak diubah: ia menghitung modelKarakter.cowok ||
+     modelKarakterGagal.cowok (ter-set tepat sekali di ujung rantai). */
+  muatKar('cowok', 'karakter-cowok-final-v1.glb?v=1', function(){
+    muatKar('cowok', 'karakter-cowok.glb?v=4', function(){ modelKarakterGagal.cowok = true; });
+  });
 })();
 
 /* =========================================================
@@ -7288,15 +7549,7 @@ function perbaruiPemain(dt, detik){
     else if (langkahSah(nx, pemain.z)) pemain.x = nx;
     else if (langkahSah(pemain.x, nz)) pemain.z = nz;
     var pxAman = pemain.x, pzAman = pemain.z;
-    penabrak.forEach(function(t){
-      var dx = pemain.x - t.x, dz = pemain.z - t.z;
-      var d2 = dx*dx + dz*dz, rr = t.r + 0.55;
-      if (d2 < rr*rr && d2 > 0.0001){
-        var d = Math.sqrt(d2);
-        pemain.x = t.x + dx/d * rr;
-        pemain.z = t.z + dz/d * rr;
-      }
-    });
+    dorongPemainSemua(pemain);   /* TUGAS 4: lingkaran (kecuali tanpaPemain) + OBB, iterasi s.d. konvergen */
     /* jangan sampai dorongan penabrak melempar pemain keluar area jalan */
     if (!dalamArea(pemain.x, pemain.z)){ pemain.x = pxAman; pemain.z = pzAman; }
     var targetRy = Math.atan2(mx, mz);
@@ -7333,11 +7586,157 @@ function perbaruiPemain(dt, detik){
 var camPos = new THREE.Vector3(0, 6, 20);
 var camTarget = new THREE.Vector3();
 var camJarak = 8.4;
+var camJarakEfektif = 8.4;   /* TUGAS 3 (2026-11-10): jarak kamera efektif sesudah dolly-in
+   sadar-garis-pandang; dilembutkan (masuk cepat 8/detik, keluar lambat 2/detik).
+   Minimum 2,0 m — tidak menempel ke kepala pemain. */
 var modeFoto = false;
+/* TUGAS 4 (2026-11-10): dorong PEMAIN keluar dari tapak nyata (OBB
+   ZONA_LARANG_PEMAIN) + margin 1,5 m dari muka dinding. Beda dengan
+   dorongKeluarTapak (kamera): tanpa cek maxY (pemain selalu di tanah),
+   tanpa pilihan sisi sadar-pemain (sisi penetrasi terkecil sudah benar
+   untuk mendorong pemain KELUAR), margin 1,5 m (bukan 0,3 m — target
+   pemain tidak menempel dinding; 1,0 m menyisakan 1/180 LOS terhalang di (b),
+   1,5 m membersihkannya). v = objek {x, z} (biasanya pemain).
+   Mengembalikan true bila ada dorongan. */
+function dorongPemainKeluarTapak(v){
+  var terdorong = false;
+  for (var i = 0; i < ZONA_LARANG_PEMAIN.length; i++){
+    var o = ZONA_LARANG_PEMAIN[i];
+    var dx = v.x - o[0], dz = v.z - o[1];
+    var c = Math.cos(o[4]), s = Math.sin(o[4]);
+    var lx = dx * c - dz * s, lz = dx * s + dz * c;
+    var hx = o[2] + 1.5, hz = o[3] + 1.5;
+    if (Math.abs(lx) <= hx && Math.abs(lz) <= hz){
+      if (hx - Math.abs(lx) < hz - Math.abs(lz)) lx = (lx >= 0 ? 1 : -1) * hx;
+      else lz = (lz >= 0 ? 1 : -1) * hz;
+      v.x = o[0] + lx * c + lz * s;
+      v.z = o[1] - lx * s + lz * c;
+      terdorong = true;
+    }
+  }
+  return terdorong;
+}
+/* TUGAS 4 (2026-11-10): dorong pemain keluar dari SEMUA penabrak — lingkaran
+   (kecuali yang bertanda tanpaPemain) + OBB ZONA_LARANG_PEMAIN. Dipanggil
+   perbaruiPemain sesudah langkah. Iterasi maks 3 pass (lingkaran → OBB)
+   sampai konvergen; kedua dorongan sama-sama mengarah keluar gedung jadi
+   tidak berosilasi. v = objek {x, z} (biasanya pemain). */
+function dorongPemainSemua(v){
+  var pass, ada;
+  for (pass = 0; pass < 3; pass++){
+    ada = false;
+    penabrak.forEach(function(t){
+      if (t.tanpaPemain) return;
+      var dx = v.x - t.x, dz = v.z - t.z;
+      var d2 = dx*dx + dz*dz, rr = t.r + 0.55;
+      if (d2 < rr*rr){
+        /* G04 (2026-11-09): pemain TEPAT di pusat lingkaran (d2~0) dulu TIDAK didorong sama sekali
+           (guard d2>0.0001 menghindari bagi-nol) — pemain terjebak di pusat selamanya. Kini
+           didorong ke titik batas arah +x (deterministik). Hanya berpengaruh bila pemain
+           berada <1 cm dari pusat lingkaran (mustahil sambil jalan; hanya teleport/spawn). */
+        if (d2 <= 0.0001){ v.x = t.x + rr; v.z = t.z; }
+        else { var d = Math.sqrt(d2); v.x = t.x + dx/d * rr; v.z = t.z + dz/d * rr; }
+        ada = true;
+      }
+    });
+    if (dorongPemainKeluarTapak(v)) ada = true;
+    if (!ada) break;
+  }
+}
+/* R6-KAMERA (2026-11-09): dorong satu titik (Vector3) keluar dari tapak
+   nyata (OBB ZONA_LARANG_KAMERA, pusat visual dari bbox.json) bila titik itu
+   berada di dalam tapak DAN di bawah atap bangunan tsb (v.y < maxY).
+   KAMERA-MARKA (2026-11-10): tabel dialihkan dari ZONA_LARANG_VEG ke
+   ZONA_LARANG_KAMERA (salinan verbatim 23 baris, nilai sama persis);
+   logika dorong TIDAK diubah, dan ZONA_LARANG_VEG tidak disentuh
+   (replay R6). Keluar lewat sisi OBB terdekat (sumbu lokal), margin
+   untuk camTarget dan camera.position — S1 (lingkaran kollider) buta di
+   sudut bangunan persegi yang diputar (G09: setengah-diagonal 9,48 m vs
+   lingkaran r 5,35) dan buta total untuk G04 yang kollidermu tidak
+   menyentuh bangunan visualnya. Mengembalikan true bila ada dorongan. */
+function dorongKeluarTapak(v, px, pz){
+  var terdorong = false;
+  var sadarPemain = (typeof px === 'number' && typeof pz === 'number');
+  for (var i = 0; i < ZONA_LARANG_KAMERA.length; i++){
+    var o = ZONA_LARANG_KAMERA[i];
+    if (v.y >= o[5]) continue;   /* di atas atap: bebas, jangan didorong */
+    var dx = v.x - o[0], dz = v.z - o[1];
+    var c = Math.cos(o[4]), s = Math.sin(o[4]);
+    var lx = dx * c - dz * s, lz = dx * s + dz * c;
+    if (Math.abs(lx) <= o[2] + 0.3 && Math.abs(lz) <= o[3] + 0.3){
+      if (sadarPemain){
+        /* TUGAS 3 (2026-11-10) M1: pilih sisi yang menghadap pemain — dari 4
+           kandidat keluar, ambil yang titiknya paling dekat ke pemain (bukan
+           sisi terdekat dari titik kamera). Tanpa pemain (orbit layar masuk)
+           perilaku lama dipakai: sisi penetrasi terkecil. */
+        var hx = o[2] + 0.3, hz = o[3] + 0.3;
+        var kand = [[hx, lz], [-hx, lz], [lx, hz], [lx, -hz]];
+        var pil = 0, jrakMin = Infinity, k;
+        for (k = 0; k < 4; k++){
+          var wx = o[0] + kand[k][0] * c + kand[k][1] * s;
+          var wz = o[1] - kand[k][0] * s + kand[k][1] * c;
+          var dd = (wx - px) * (wx - px) + (wz - pz) * (wz - pz);
+          if (dd < jrakMin){ jrakMin = dd; pil = k; }
+        }
+        lx = kand[pil][0]; lz = kand[pil][1];
+      } else {
+        if (o[2] + 0.3 - Math.abs(lx) < o[3] + 0.3 - Math.abs(lz)) lx = (lx >= 0 ? 1 : -1) * (o[2] + 0.3);
+        else lz = (lz >= 0 ? 1 : -1) * (o[3] + 0.3);
+      }
+      v.x = o[0] + lx * c + lz * s;
+      v.z = o[1] - lx * s + lz * c;
+      terdorong = true;
+    }
+  }
+  return terdorong;
+}
+/* TUGAS 3 (2026-11-10) M2: dolly-in sadar-garis-pandang — raycast dari mata
+   pemain ke target kamera terhadap OBB ZONA_LARANG_KAMERA; kembalikan jarak
+   bersih maksimum (meter) sepanjang ray; bila tidak ada penghalang, kembalikan
+   jarak penuh. OBB yang memuat mata pemain DILEWATI: dorong sadar-pemain sudah
+   menaruh kamera di sisi pemain, jadi OBB itu false positive (pemain di strip
+   margin di luar dinding; ray-nya tidak memotong dinding). Tinggi atap
+   diperhitungkan: ray yang lewat DI ATAS atap tidak terhalang. */
+function jarakDollyBersih(px, py, pz, tx, ty, tz){
+  var dx = tx - px, dy = ty - py, dz = tz - pz;
+  var d = Math.sqrt(dx * dx + dy * dy + dz * dz);
+  if (d < 1e-6) return 0;
+  var ux = dx / d, uy = dy / d, uz = dz / d;
+  var bersih = d;
+  for (var i = 0; i < ZONA_LARANG_KAMERA.length; i++){
+    var o = ZONA_LARANG_KAMERA[i];
+    var ox = px - o[0], oz = pz - o[1];
+    var c = Math.cos(o[4]), s = Math.sin(o[4]);
+    var lx0 = ox * c - oz * s, lz0 = ox * s + oz * c;
+    var lxD = ux * c - uz * s, lzD = ux * s + uz * c;
+    var hx = o[2], hz = o[3], maxY = o[5];
+    var t0 = 0, t1 = d, ok = true;
+    var ps = [[-lxD, lx0 + hx], [lxD, hx - lx0], [-lzD, lz0 + hz], [lzD, hz - lz0]];
+    for (var k = 0; k < 4; k++){
+      var p = ps[k][0], q = ps[k][1];
+      if (Math.abs(p) < 1e-12){ if (q < 0){ ok = false; break; } }
+      else {
+        var tt = q / p;
+        if (p < 0){ if (tt > t1){ ok = false; break; } if (tt > t0) t0 = tt; }
+        else { if (tt < t0){ ok = false; break; } if (tt < t1) t1 = tt; }
+      }
+    }
+    if (!ok || t0 > t1) continue;
+    if (t0 <= 0) continue;   /* mata di dalam OBB: dilewati */
+    if (t0 >= bersih) continue;
+    var tA = t0, tB = t1;
+    if (uy > 1e-12){ tB = Math.min(tB, (maxY - py) / uy); }
+    else if (uy < -1e-12){ tA = Math.max(tA, (maxY - py) / uy); }
+    else if (py >= maxY){ continue; }
+    if (tA < tB && tA < bersih) bersih = tA;
+  }
+  return bersih;
+}
 function perbaruiKamera(dt, detik){
   if (!sudahMasuk){
     var a = detik * 0.05;
     camTarget.set(Math.sin(a) * 17, 6.2, Math.cos(a) * 17);
+    dorongKeluarTapak(camTarget);   /* JEMBATAN/G04 (2026-11-09): orbit layar masuk r 17 m menembus badan visual G04 — dorong target keluar tapak OBB (fungsi + tabel sudah ada dari ronde R6-kamera). Bila orbit terlihat melompat-lompat di playtest, baris ini di-revert. */
     camera.position.lerp(camTarget, 1 - Math.exp(-dt * 2));
     camera.lookAt(0, 1.6, 0);
     return;
@@ -7369,8 +7768,51 @@ function perbaruiKamera(dt, detik){
       }
     }
   }
+  /* R6-KAMERA: keep-out tapak nyata untuk TARGET — S1 di atas tidak
+     menutupi sudut bangunan persegi yang diputar; jarak/tinggi/sudut
+     default TIDAK diubah, dorongan hanya bila target memang di dalam
+     tapak di bawah atap. 2x panggil (cerminan 2 pass S1) untuk tapak
+     yang bersebelahan. */
+  dorongKeluarTapak(camTarget, px, pz);
+  dorongKeluarTapak(camTarget, px, pz);
+  /* TUGAS 3 (2026-11-10): dolly-in sadar-garis-pandang — bila ray mata pemain
+     -> camTarget terhalang OBB, pendekkan jarak efektif sampai garis bersih
+     (M2: sudut bangunan memotong garis pandang padahal kamera sudah di luar
+     OBB). Dilembutkan: masuk cepat (8/detik) supaya dinding langsung hilang
+     dari pandangan, keluar lambat (2/detik) supaya tidak melompat saat pemain
+     menjauh dari dinding. Minimum 2,0 m. Orbit layar masuk TIDAK disentuh. */
+  var bidikY3 = py + ((pemain.av && pemain.av.bidikY) || ((pemain.av && pemain.av.modelBaru) ? 1.62 : 1.7));
+  var ex3 = camTarget.x - px, ey3 = camTarget.y - bidikY3, ez3 = camTarget.z - pz;
+  var d03 = Math.sqrt(ex3 * ex3 + ey3 * ey3 + ez3 * ez3);
+  if (d03 > 1e-6){
+    var dBersih3 = jarakDollyBersih(px, bidikY3, pz, camTarget.x, camTarget.y, camTarget.z);
+    /* Margin 0,3 m hanya bila ADA penghalang (dBersih < d0); bila garis bersih,
+       jangan pendekkan apa pun (bug awal: kamera selalu masuk 0,3 m). */
+    var dTujuan3 = (dBersih3 < d03) ? Math.min(d03, dBersih3 - 0.3) : d03;
+    if (dTujuan3 < 2.0) dTujuan3 = 2.0;
+    if (dTujuan3 > d03) dTujuan3 = d03;
+    if (camJarakEfektif > camJarak) camJarakEfektif = camJarak;
+    var lajuDolly3 = (dTujuan3 < camJarakEfektif) ? 8 : 2;
+    camJarakEfektif += (dTujuan3 - camJarakEfektif) * (1 - Math.exp(-dt * lajuDolly3));
+    if (camJarakEfektif < 2.0) camJarakEfektif = 2.0;
+    if (camJarakEfektif > camJarak) camJarakEfektif = camJarak;
+    var skala3 = camJarakEfektif / d03;
+    if (skala3 < 1){
+      camTarget.x = px + ex3 * skala3;
+      camTarget.y = bidikY3 + ey3 * skala3;
+      camTarget.z = pz + ez3 * skala3;
+      var tanahCam3 = tinggiTanah(camTarget.x, camTarget.z);
+      if (camTarget.y < tanahCam3 + 0.7) camTarget.y = tanahCam3 + 0.7;
+    }
+  }
   camera.position.lerp(camTarget, 1 - Math.exp(-dt * 6));
-  camera.lookAt(px, py + ((pemain.av && pemain.av.modelBaru) ? 1.62 : 1.7), pz);   /* model cewek baru 1,29 m: bidik 1,62 (dari 1,7); cowok/Hunyuan tetap 1,7 */
+  /* R6-KAMERA: jepit JUGA posisi hasil lerp — segmen lerp dari posisi lama
+     ke target baru bisa memotong sudut bangunan walau kedua ujungnya di
+     luar tapak (pengakuan S1 sendiri di komentarnya). Dorongan ini
+     hanya mengubah posisi render, bukan target; y tidak diubah sehingga
+     lantai tanah +0,7 tetap berlaku. */
+  dorongKeluarTapak(camera.position, px, pz);
+  camera.lookAt(px, py + ((pemain.av && pemain.av.bidikY) || ((pemain.av && pemain.av.modelBaru) ? 1.62 : 1.7)), pz);   /* bidik per karakter: cewek baru 1,62; cowok baru 1,98; lama/prosedural 1,7 */
 }
 
 /* =========================================================
@@ -8025,7 +8467,7 @@ function bekuMatriksStatis(){
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(80, 0, -80);
+      model.position.set(190, 0, -45);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8046,7 +8488,7 @@ function bekuMatriksStatis(){
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(120, 0, -60);
+      model.position.set(-60, 0, 200);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8075,9 +8517,9 @@ function pasangRumahWarga(namaFile, px, pz, ry){
     });
   } catch (e) {}
 }
-pasangRumahWarga('rumah-modern-v1.glb', 150, 20, 0.5);
-pasangRumahWarga('rumah-tradisional-v1.glb', 165, 35, -0.3);
-pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
+pasangRumahWarga('rumah-modern-v1.glb', 75, -35, 0.5);
+pasangRumahWarga('rumah-tradisional-v1.glb', 100, -55, -0.3);
+pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
 
 /* --- food court: Blender v1 (2026-11-03, vonis pemilik "oke food court pasang ke lumina").
    4 stand makanan + meja kursi + payung. Dibangun di server 2. */
@@ -8092,7 +8534,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(60, 0, 100);
+      model.position.set(65, 0, 200);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8119,7 +8561,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
           daftarAirShader.push(wm);
         }
       });
-      model.position.set(-40, 0, 120);
+      model.position.set(30, 0, 155);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8146,7 +8588,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
           daftarAirShader.push(wm);
         }
       });
-      model.position.set(-120, 0, -40);
+      model.position.set(-180, 0.03, -20);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8159,16 +8601,22 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
    lampu kristal. Enterable, pintu bukaan beneran. Dibangun di server 1.
    Collider: dinding + celah pintu, area panggung diblokir. */
 (function(){
-  var cx = 0, cz = 180, hw = 12, hd = 18;
+  /* TUGAS 4 (2026-11-10): rantai dipindah dari posisi PRA-AUDIT (0,180) ke posisi GLB
+     audit (30,203.2) — rantai lama memblokir tanah kosong di (0,180) sementara gedung
+     asli (30,204) tanpa collider (pemain bisa jalan menembus dinding konser).
+     Pintu GLB ada di sisi UTARA (z 185.95–188.18, menghadap jalan), panggung di sisi
+     SELATAN (z 213.94–221.50) — jadi celah pintu di dinding UTARA, panggung diblokir
+     di ujung SELATAN (KEBALIKAN dari pola lama). */
+  var cx = 30, cz = 203.2, hw = 12.85, hd = 19.65;
   var px, pz;
-  /* dinding belakang (z = cz-hd) penuh */
-  for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz-hd, r:0.6 }); }
-  /* dinding depan (z = cz+hd): CELAH PINTU x cx-2..cx+2 — pemain bisa masuk */
-  for (px = cx-hw; px <= cx+hw; px++){ if (px >= cx-2 && px <= cx+2) continue; penabrak.push({ x:px, z:cz+hd, r:0.6 }); }
+  /* dinding selatan (z = cz+hd) penuh */
+  for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz+hd, r:0.6 }); }
+  /* dinding utara (z = cz-hd): CELAH PINTU x 26.76..33.24 (pintu GLB, lebar 6,48 m) */
+  for (px = cx-hw; px <= cx+hw; px++){ if (px >= 26.76 && px <= 33.24) continue; penabrak.push({ x:px, z:cz-hd, r:0.6 }); }
   /* dinding samping (x = cx±hw) */
   for (pz = cz-hd; pz <= cz+hd; pz++){ penabrak.push({ x:cx-hw, z:pz, r:0.6 }); penabrak.push({ x:cx+hw, z:pz, r:0.6 }); }
-  /* panggung: blokir area panggung biar pemain tidak naik ke atasnya */
-  for (px = cx-6; px <= cx+6; px++){ for (pz = cz-hd+2; pz <= cz-hd+8; pz++){ penabrak.push({ x:px, z:pz, r:0.5 }); } }
+  /* panggung: blokir area panggung GLB (x 21.90–38.10, z 213.94–221.50) biar pemain tidak naik ke atasnya */
+  for (px = 21.9; px <= 38.1; px++){ for (pz = 213.94; pz <= 221.5; pz++){ penabrak.push({ x:px, z:pz, r:0.5 }); } }
 })();
 (function pasangGedungKonserGLB(){
   if (typeof THREE.GLTFLoader !== 'function') return;
@@ -8181,7 +8629,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(0, 0, 180);
+      model.position.set(30, 0, 204);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8193,7 +8641,9 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
    Half-pipe + quarter pipe + ramp + rail + funbox. Area terbuka, collider:
    pagar sekeliling + celah pintu masuk. Dibangun di server 1. */
 (function(){
-  var cx = -60, cz = 180, hw = 12, hd = 9;
+  /* TUGAS 4 (2026-11-10): pagar dipindah dari posisi PRA-AUDIT (-60,180) ke posisi GLB
+     audit (-60,155) — pagar lama memblokir tanah kosong, skatepark asli tanpa pagar. */
+  var cx = -60, cz = 155, hw = 12, hd = 9;
   var px, pz;
   /* pagar belakang (z = cz-hd) penuh */
   for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz-hd, r:0.6 }); }
@@ -8213,7 +8663,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(-60, 0, 180);
+      model.position.set(-60, 0, 155);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
@@ -8225,7 +8675,9 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
    Spot foto: 4 bedeng bunga + gapura + air mancur mini + setapak batu.
    Area terbuka, collider: pagar sekeliling + celah pintu masuk. Dibangun di server 2. */
 (function(){
-  var cx = 60, cz = 180, hw = 10, hd = 8;
+  /* TUGAS 4 (2026-11-10): pagar dipindah dari posisi PRA-AUDIT (60,180) ke posisi GLB
+     audit (65,155) — pagar lama memblokir tanah kosong, taman asli tanpa pagar. */
+  var cx = 65, cz = 155, hw = 10, hd = 8;
   var px, pz;
   /* pagar belakang (z = cz-hd) penuh */
   for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz-hd, r:0.6 }); }
@@ -8245,7 +8697,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 140, 45, 0.8);
       model.traverse(function(o){
         if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
       });
-      model.position.set(60, 0, 180);
+      model.position.set(65, 0, 155);
       scene.add(model);
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
