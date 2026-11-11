@@ -15,10 +15,10 @@ grep index.html). Jangan pernah ngomong dari ingatan.
 - gedung-aula-v1d.glb — aula v1d (ENTERABLE + interior; pintu ganda mahoni TERMODEL di GLB, bukan pintu kode)
 - gedung-gym-v4.glb — gym v4 (sudah ADA interiornya — jangan usulkan bikin interior lagi)
 - gedung-lab-v6.glb — lab v6
-- gedung-kantin-v2.glb — kantin v2
+- gedung-kantin-v3.glb — kantin v3 (AUDIT 2026-11-11: = v2 + UV planar untuk atap terakota/plester/batu/meja yang di v2 tanpa UV; geometri sama; v2 tetap di disk)
 - gedung-g01-blender-v3.glb — G01 v3 (enterable)
 - gedung-g02-blender-v3.glb — G02 v3 (enterable, bakery interior) ✓
-- gedung-g04-blender-v2.glb — G04 v2 "Emerald Glow" (enterable, jewelry interior + shop sign) ✓
+- gedung-g04-blender-v3.glb — G04 v3 "Emerald Glow" (AUDIT 2026-11-11: v2 TERBALIK di game — cangkang tercermin Y, atap menancap tanah; v3 = semua transform di-bake ke frame benar, alas y 0, + bingkai etalase tembaga & kaca tembus pandang; loader y 0, bukan 14,9). Interior perhiasan ada, pintu model tertutup → tidak dimasuki (sama seperti sebelumnya). v2 tetap di disk.
 - gedung-g05-blender-v2.glb — G05 v2 "Rose Boutique" (enterable, clothing interior) ✓
 - gedung-g07-blender-v2.glb — G07 v2 "Café Coral" (enterable, café interior) ✓
 - gedung-g06-blender-v2.glb — G06 v2 "Lavender Bloom" (enterable, flower shop interior) ✓
@@ -91,3 +91,11 @@ grep -c "<nama-file>" ~/workspace/lumina/index.html  # live? (>0 = live)
 - ⚠️ LUBANG PINGGANG cewek (torso z 0,80–0,94 kosong, tertutup crop top) — JANGAN lepas/ganti crop top, JANGAN tambah ganti baju.
 - Catatan playtest: kaki menggantung ±17 cm di atas lantai saat duduk di bangku (anatomi betis+paha < bangku 0,52 m) — dibiarkan apa adanya, keputusan pemilik.
 - `karakter-cewek9.glb` + `klip-cewek-*.glb` tetap TIDAK terpakai (0 referensi).
+
+## Audit kota 2026-11-11 (PR audit-kota-20261111)
+Laporan lengkap: audit/plan/LAPORAN-AUDIT-KOTA-20261111.md (temuan → perbaikan → file, per area).
+Ringkas: G04 v3; jembatan darat selatan (daratan selatan kini bisa dicapai); collider geometri
+otomatis untuk G01, aula, konser, taman bermain, kolam, skate park, taman bunga, food court;
+OBB pemain = tapak nyata (tembok tak terlihat utara z<130: 488 → 202 m2); kamera ikut masuk G01;
+pagar padang bertiang; dek dermaga tidak lagi menjalar ke padang; air sungai di bawah daratan;
+muka koplanar (z-fighting) diangkat 3–4 mm di 11 GLB; vegetasi seed 20261040 byte-identik.
