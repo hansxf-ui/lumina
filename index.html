@@ -650,6 +650,13 @@ var scene = new THREE.Scene();
     if (typeof THREE === 'undefined' || !THREE.GLTFLoader) return;
     var asli = THREE.GLTFLoader.prototype.load;
     var antrean = [], jalan = 0, MAKS = 3;
+    /* PERF R5 (2026-11-11): kabari pass gabung GLB statis tiap kali antrean kosong */
+    function kabarKosong(){
+      if (jalan === 0 && !antrean.length && typeof window.__antreMuatKosong === 'function'){
+        try { window.__antreMuatKosong(); } catch (eK) {}
+      }
+    }
+    window.__antreMuatSibuk = function(){ return jalan > 0 || antrean.length > 0; };
     function pompa(){
       while (jalan < MAKS && antrean.length){
         var t = antrean.shift(); jalan++;
@@ -658,8 +665,8 @@ var scene = new THREE.Scene();
           var args = [t[1], t[2], t[3], t[4]];
           /* FIX audit 2026-10-25 #4: pompa() HARUS jalan walau callback throw,
              kalau tidak antrean macet permanen. Urutan jalan-- dipertahankan. */
-          args[1] = function(r){ jalan--; try { if (ok) ok(r); } finally { pompa(); } };
-          args[3] = function(e){ jalan--; try { if (er) er(e); } finally { pompa(); } };
+          args[1] = function(r){ jalan--; try { if (ok) ok(r); } finally { pompa(); kabarKosong(); } };
+          args[3] = function(e){ jalan--; try { if (er) er(e); } finally { pompa(); kabarKosong(); } };
           try { asli.apply(t[0], args); } catch (eLoad) { jalan--; pompa(); throw eLoad; }
         })(t);
       }
@@ -676,13 +683,17 @@ var scene = new THREE.Scene();
    tidak menghalangi tombol. */
 var _dbgRes = document.createElement('div');
 _dbgRes.id = 'dbgRes';
-_dbgRes.style.cssText = 'position:fixed;left:8px;top:46%;z-index:9999;pointer-events:none;background:rgba(0,0,0,0.55);color:#fff;font:11px monospace;padding:4px 6px;border-radius:6px;';
+/* 2026-11-11: dulu left:8px top:46% — tepat di garis cakrawala kiri, menutupi
+   papan petunjuk (papanArah5) di layar masuk. Kini pita tipis di tepi atas
+   tengah (area langit; kartu masuk, bilah atas kiri/kanan, minimap, joystick,
+   tombol aksi & bar emote tidak memakai pojok ini). */
+_dbgRes.style.cssText = 'position:fixed;left:50%;top:env(safe-area-inset-top);transform:translateX(-50%);z-index:9999;pointer-events:none;background:rgba(0,0,0,0.45);color:#fff;font:10px/1.2 monospace;padding:1px 6px;border-radius:0 0 5px 5px;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis;';
 _dbgRes.textContent = 'DIAG ...';
 document.body.appendChild(_dbgRes);
 setInterval(function(){
   var pr = Math.min(window.devicePixelRatio || 1, PR_TANGGA[prIdx]);
   var ri = renderer.info.render;
-  _dbgRes.textContent = 'DIAG PR ' + pr.toFixed(2) + ' (tangga ' + (prIdx+1) + '/5) • ' + prEma.toFixed(1) + ' ms • ~' + Math.round(1000/Math.max(prEma,1)) + ' fps • ' + ri.calls + ' call • ' + (ri.triangles/1000).toFixed(0) + 'k tri';
+  _dbgRes.textContent = 'DIAG ~' + Math.round(1000/Math.max(prEma,1)) + 'fps ' + prEma.toFixed(1) + 'ms · ' + ri.calls + ' call · ' + (ri.triangles/1000).toFixed(0) + 'k tri · PR' + pr.toFixed(2) + ' ' + (prIdx+1) + '/5';
 }, 500);
 scene.background = new THREE.Color(0x0a0e24);
 scene.fog = new THREE.Fog(0x0a0e24, 110, 520);   /* Fase 5: kabut dilebarkan untuk skala benua (dari puncak, kota + laut tetap terlihat) */
@@ -989,12 +1000,145 @@ function buatTeksturPlaza(){
   t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
   return t;
 }
+/* PERBAIKAN 2026-11-11 (paving plaza blur dekat kamera): dulu satu kanvas
+   1024 px untuk SELURUH lingkaran 28 m (±36 px/m) — dari kamera 6 m di atas
+   plaza, ubin terdekat butuh ±100+ px/m, jadi teksturnya diperbesar & blur.
+   Kini dua lapis:
+   1) dasar: tekstur ubin batu berulang 1024 px per 4 m (256 px/m, 7×
+      ulang) — slab 2 m (grid sama persis dengan pola lama, garis di
+      koordinat genap) berisi paver 0,5 m dengan nat, bevel & butir batu;
+   2) inlay: cincin konsentris + garis radial yang dulu dilukis di kanvas
+      kini geometri sendiri (warna sama, tetap tajam di jarak berapa pun)
+      dengan tekstur bata kecil searah lingkaran.
+   Total tetap 2 draw call. buatTeksturPlaza() lama dipakai plaza mini utara. */
+function buatTeksturUbinPlaza(){
+  var S = 1024, cv = document.createElement('canvas');
+  cv.width = cv.height = S;
+  var x = cv.getContext('2d');
+  var rng = 90211;
+  function acak(){ rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; }
+  var P = S / 8;   /* paver 0,5 m = 128 px; 8 × 8 paver per 4 m */
+  x.fillStyle = '#857055'; x.fillRect(0, 0, S, S);   /* warna nat */
+  var i, j;
+  for (i = 0; i < 8; i++){
+    for (j = 0; j < 8; j++){
+      var v = (acak() - 0.5) * 18;
+      var r = Math.round(201 + v), g = Math.round(181 + v * 0.9), b = Math.round(149 + v * 0.8);
+      /* nat tipis antar paver 4 px, nat slab tiap 2 m (4 paver) lebih tebal */
+      var kiri = (i % 4 === 0) ? 5 : 2, atas = (j % 4 === 0) ? 5 : 2;
+      var kanan = (i % 4 === 3) ? 5 : 2, bawah = (j % 4 === 3) ? 5 : 2;
+      var x0 = i * P + kiri, y0 = j * P + atas, w = P - kiri - kanan, h = P - atas - bawah;
+      x.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+      x.fillRect(x0, y0, w, h);
+      /* bevel: tepi atas-kiri terang, bawah-kanan gelap */
+      x.fillStyle = 'rgba(255,248,230,0.35)'; x.fillRect(x0, y0, w, 3); x.fillRect(x0, y0, 3, h);
+      x.fillStyle = 'rgba(60,45,30,0.30)'; x.fillRect(x0, y0 + h - 3, w, 3); x.fillRect(x0 + w - 3, y0, 3, h);
+      /* awan warna halus di permukaan batu */
+      for (var k = 0; k < 6; k++){
+        var cx = x0 + acak() * w, cy = y0 + acak() * h, rr = 10 + acak() * 30;
+        var gr = x.createRadialGradient(cx, cy, 0, cx, cy, rr);
+        var tone = acak() < 0.5 ? '255,245,225' : '120,95,70';
+        gr.addColorStop(0, 'rgba(' + tone + ',0.10)'); gr.addColorStop(1, 'rgba(' + tone + ',0)');
+        x.fillStyle = gr;
+        x.save(); x.beginPath(); x.rect(x0, y0, w, h); x.clip(); x.fillRect(cx - rr, cy - rr, rr * 2, rr * 2); x.restore();
+      }
+    }
+  }
+  /* butir batu: bintik terang/gelap 1-2 px merata (acak seragam → menyambung saat diulang) */
+  for (i = 0; i < 26000; i++){
+    var gelap = acak() < 0.55;
+    x.fillStyle = gelap ? 'rgba(70,55,38,' + (0.10 + acak() * 0.22).toFixed(2) + ')' : 'rgba(255,250,235,' + (0.10 + acak() * 0.25).toFixed(2) + ')';
+    var s = acak() < 0.8 ? 1 : 2;
+    x.fillRect(Math.floor(acak() * S), Math.floor(acak() * S), s, s);
+  }
+  var t = new THREE.CanvasTexture(cv);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(7, 7);   /* CircleGeometry r 14: UV 0..1 = 28 m → 7 × 4 m */
+  t.encoding = THREE.sRGBEncoding;
+  t.anisotropy = Math.min(16, renderer.capabilities.getMaxAnisotropy());
+  return t;
+}
+function buatTeksturBataInlay(){
+  var cv = document.createElement('canvas'); cv.width = 256; cv.height = 64;
+  var x = cv.getContext('2d');
+  x.fillStyle = 'rgb(150,140,128)'; x.fillRect(0, 0, 256, 64);   /* nat (dikali warna cincin) */
+  var rng = 4471;
+  function acak(){ rng = (rng * 1103515245 + 12345) & 0x7fffffff; return rng / 0x7fffffff; }
+  /* 2 baris bata, 4 bata per baris, sambungan berselang */
+  for (var row = 0; row < 2; row++){
+    for (var c = -1; c < 5; c++){
+      var bx = c * 64 + (row ? 32 : 0) + 3, by = row * 32 + 3;
+      var v = 215 + Math.round((acak() - 0.5) * 50);
+      x.fillStyle = 'rgb(' + v + ',' + v + ',' + v + ')';
+      x.fillRect(bx, by, 58, 26);
+      x.fillStyle = 'rgba(255,255,255,0.25)'; x.fillRect(bx, by, 58, 3);
+      x.fillStyle = 'rgba(0,0,0,0.18)'; x.fillRect(bx, by + 23, 58, 3);
+    }
+  }
+  var t = new THREE.CanvasTexture(cv);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = Math.min(16, renderer.capabilities.getMaxAnisotropy());
+  return t;   /* linear: pengali abu-abu atas warna-vertex cincin */
+}
 var plaza = new THREE.Mesh(
-  new THREE.CircleGeometry(14, 44),
-  new THREE.MeshLambertMaterial({ map: buatTeksturPlaza(), polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2 })
+  new THREE.CircleGeometry(14, 96),
+  new THREE.MeshLambertMaterial({ map: buatTeksturUbinPlaza(), polygonOffset:true, polygonOffsetFactor:-2, polygonOffsetUnits:-2 })
 );
 plaza.rotation.x = -Math.PI/2; plaza.position.y = 0.03; plaza.receiveShadow = true;
 scene.add(plaza);
+/* inlay cincin + garis radial (pola & warna sama dengan kanvas lama) */
+(function(){
+  var pos = [], col = [], uv = [], idx = [];
+  var cincin = [
+    { r:4.35, w:0.34, c:0xa05238 },
+    { r:6.9,  w:0.20, c:0x8f7154 },
+    { r:9.4,  w:0.26, c:0xa05238 },
+    { r:11.9, w:0.20, c:0x8f7154 },
+    { r:13.55, w:0.30, c:0xa05238 }
+  ];
+  var warna = new THREE.Color();
+  function tambahVtx(px, pz, u, v){ pos.push(px, 0, pz); col.push(warna.r, warna.g, warna.b); uv.push(u, v); return pos.length / 3 - 1; }
+  cincin.forEach(function(g){
+    warna.setHex(g.c).convertSRGBToLinear().multiplyScalar(1.15);   /* kompensasi pengali tekstur bata (rata-rata ±0,85) */
+    var SEG = Math.max(96, Math.round(g.r * 24)), rin = g.r - g.w / 2, rout = g.r + g.w / 2;
+    var keliling = Math.PI * 2 * g.r, ulang = Math.round(keliling / 0.9);   /* 1 ulang tekstur = 4 bata × 0,225 m */
+    var awal = pos.length / 3;
+    for (var s = 0; s <= SEG; s++){
+      var a = s / SEG * Math.PI * 2, u = s / SEG * ulang;
+      tambahVtx(Math.cos(a) * rin, Math.sin(a) * rin, u, 0);
+      tambahVtx(Math.cos(a) * rout, Math.sin(a) * rout, u, 1);
+    }
+    for (var s2 = 0; s2 < SEG; s2++){
+      var a0 = awal + s2 * 2;
+      idx.push(a0, a0 + 2, a0 + 1, a0 + 1, a0 + 2, a0 + 3);
+    }
+  });
+  /* 12 garis radial nat (dulu rgba(94,78,58,0.35) di atas ubin) */
+  warna.setHex(0x8d7a60).convertSRGBToLinear();
+  for (var i = 0; i < 12; i++){
+    var a = i * Math.PI / 6, ca = Math.cos(a), sa = Math.sin(a), lx = -sa * 0.03, lz = ca * 0.03;
+    var r0 = 4.55, r1 = 13.4;
+    var b0 = pos.length / 3;
+    tambahVtx(ca * r0 + lx, sa * r0 + lz, 0, 0.5); tambahVtx(ca * r0 - lx, sa * r0 - lz, 0, 0.5);
+    tambahVtx(ca * r1 + lx, sa * r1 + lz, 0, 0.5); tambahVtx(ca * r1 - lx, sa * r1 - lz, 0, 0.5);
+    idx.push(b0, b0 + 2, b0 + 1, b0 + 1, b0 + 2, b0 + 3);
+  }
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  geo.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2));
+  var nor = new Float32Array(pos.length); for (var n = 1; n < nor.length; n += 3) nor[n] = 1;
+  geo.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+  geo.setIndex(idx);
+  /* winding dicek: segitiga menghadap +y */
+  var inlay = new THREE.Mesh(geo, new THREE.MeshLambertMaterial({
+    map: buatTeksturBataInlay(), vertexColors: true,
+    polygonOffset:true, polygonOffsetFactor:-2.5, polygonOffsetUnits:-2.5
+  }));
+  inlay.position.y = 0.033; inlay.receiveShadow = true;
+  inlay.name = 'PLAZA_INLAY';
+  scene.add(inlay);
+})();
 
 var jalan = new THREE.Mesh(
   new THREE.RingGeometry(14, 20.5, 44),
@@ -1464,41 +1608,259 @@ function matBlobBayangan(){
   _matBlobBayangan = new THREE.MeshBasicMaterial({ map: teksturBlobBayangan(), transparent: true, depthWrite: false });
   return _matBlobBayangan;
 }
-/* PERF (diagnosis FPS 2026-11-09): geometri batang instanced terlalu padat —
-   pinus 4.026 tri & pohon 1.732 tri per instance, ~350 instance = ~1,2 jt tri
-   (~60% scene plaza). Ganti dengan lathe 8-segi dari profil radius aslinya:
-   siluet sama (profil = radius maks asli per pita tinggi), material tanpa
-   tekstur jadi UV lathe tak berpengaruh. Bola pembatas zona tetap dihitung
-   dari geometri ASLI (di bawah), jadi culling/disiplin jarak tak berubah. */
-function sederhanakanBatang(geo){
-  var pos = geo.attributes.position;
-  if (!pos || pos.count < 400) return geo;   /* sudah ringan: jangan sentuh */
-  var ymin = Infinity, ymax = -Infinity, i, y;
-  for (i = 0; i < pos.count; i++){ y = pos.getY(i); if (y < ymin) ymin = y; if (y > ymax) ymax = y; }
-  if (!(ymax > ymin)) return geo;
-  var N = 10, profil = [], b, r, rmax = 0;
-  for (b = 0; b < N; b++){
-    var ya = ymin + (ymax - ymin) * b / (N - 1), yb = ymin + (ymax - ymin) * (b + 1) / (N - 1);
-    r = 0;
-    for (i = 0; i < pos.count; i++){
-      y = pos.getY(i);
-      if (y >= ya && y <= yb){ var rr = Math.hypot(pos.getX(i), pos.getZ(i)); if (rr > r) r = rr; }
-    }
-    if (r > rmax) rmax = r;
-    profil.push(new THREE.Vector2(Math.max(r, 0.01), ya));
-  }
-  if (!rmax) return geo;
-  var lathe = new THREE.LatheGeometry(profil, 8);
-  lathe.computeBoundingSphere();
-  return lathe;
+/* PERBAIKAN 2026-11-11 — CEMARA COKLAT / POHON "JAMUR":
+   Akar: wujudkanInstansiGLB lama hanya mengambil MESH PERTAMA dari GLB.
+   pinus-blender-v1.glb punya 2 mesh (pinus_wood + pinus_needles) dan
+   pohon-blender-v1.glb 1 mesh dengan 3 primitif (Bark, Leaf, LeafDark),
+   jadi yang ter-instance cuma KAYU-nya. Lathe radius-maks (PERF 11-09)
+   dari batang+dahan lalu membentuk kerucut coklat (cemara) dan payung
+   coklat (pohon). Daunnya tidak pernah digambar — bukan tekstur yang
+   gagal muat (kedua GLB memang tanpa tekstur, warna dari material).
+   Kini SEMUA bagian GLB dirakit jadi SATU geometri berwarna-vertex per
+   jenis, sehingga tetap 1 draw call per zona:
+   - batang: lathe 10-segi dari profil batang nyata (meruncing, tanpa
+     dahan — dahan tertutup tajuk), ±140 tri;
+   - pohon: daun Leaf + LeafDark GLB dipakai APA ADANYA (960 tri);
+   - cemara: jarum GLB 67 rb tri/pohon mustahil di-instance ±290 kali,
+     jadi tajuk dibangun dari SELUBUNG jarum GLB itu sendiri (radius per
+     ketinggian diukur dari mesh pinus_needles): 6 tingkat dahan
+     bergerigi yang merunduk, sisi bawah gelap, gradasi warna dalam→
+     ujung dari warna material pinus_needle + tekstur detail jarum
+     (kanvas, serat searah dahan; pada batang terbaca sebagai serat
+     kulit kayu). ±720 tri/pohon.
+   Bola pembatas zona & blob bayangan tetap seperti sebelumnya. */
+var _rngTajuk = 7121;   /* aliran acak SENDIRI — acakAset/acakVeg tidak disentuh (penempatan tetap deterministik) */
+function acakTajuk(){
+  _rngTajuk |= 0; _rngTajuk = _rngTajuk + 0x6D2B79F5 | 0;
+  var t = Math.imul(_rngTajuk ^ _rngTajuk >>> 15, 1 | _rngTajuk);
+  t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+  return ((t ^ t >>> 14) >>> 0) / 4294967296;
 }
-function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob){
-  var geo = null, mat = null;
-  gltf.scene.traverse(function(o){ if (o.isMesh && !geo){ geo = o.geometry; mat = o.material; } });
-  if (!geo || !daftar.length) return;
+var _texDetailJarum = null;
+function teksturDetailJarum(){
+  if (_texDetailJarum) return _texDetailJarum;
+  var S = 256, cv = document.createElement('canvas'); cv.width = cv.height = S;
+  var x = cv.getContext('2d');
+  x.fillStyle = 'rgb(196,196,196)'; x.fillRect(0, 0, S, S);
+  /* goresan pendek searah v (jarum di tajuk / serat di batang), digambar
+     berulang di offset ±S supaya tekstur menyambung mulus saat diulang */
+  for (var i = 0; i < 1400; i++){
+    var px = acakTajuk() * S, py = acakTajuk() * S;
+    var pj = 6 + acakTajuk() * 18, mir = (acakTajuk() - 0.5) * 5;
+    var g = Math.round(110 + acakTajuk() * 145);
+    x.strokeStyle = 'rgba(' + g + ',' + g + ',' + g + ',' + (0.35 + acakTajuk() * 0.45).toFixed(2) + ')';
+    x.lineWidth = 0.8 + acakTajuk() * 1.4;
+    for (var ox = -S; ox <= S; ox += S){
+      for (var oy = -S; oy <= S; oy += S){
+        x.beginPath(); x.moveTo(px + ox, py + oy); x.lineTo(px + ox + mir, py + oy + pj); x.stroke();
+      }
+    }
+  }
+  var t = new THREE.CanvasTexture(cv);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+  _texDetailJarum = t;
+  return t;
+}
+/* rakit potongan {pos,nor,col,uv,idx} jadi satu BufferGeometry ber-index */
+function rakitPotongan(list){
+  var nv = 0, ni = 0;
+  list.forEach(function(p){ nv += p.pos.length / 3; ni += p.idx.length; });
+  var pos = new Float32Array(nv * 3), nor = new Float32Array(nv * 3), col = new Float32Array(nv * 3), uv = new Float32Array(nv * 2);
+  var idx = nv > 65535 ? new Uint32Array(ni) : new Uint16Array(ni);
+  var ov = 0, oi = 0;
+  list.forEach(function(p){
+    var n = p.pos.length / 3, i;
+    pos.set(p.pos, ov * 3); nor.set(p.nor, ov * 3); col.set(p.col, ov * 3);
+    if (p.uv) uv.set(p.uv, ov * 2);
+    for (i = 0; i < p.idx.length; i++) idx[oi + i] = p.idx[i] + ov;
+    ov += n; oi += p.idx.length;
+  });
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('normal', new THREE.BufferAttribute(nor, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  geo.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  geo.setIndex(new THREE.BufferAttribute(idx, 1));
   geo.computeBoundingSphere();
+  return geo;
+}
+/* potongan dari mesh GLB (transform dunia GLB di-bake, warna = material) */
+function potonganDariMesh(o, warna){
+  var g = o.geometry.clone();
+  o.updateMatrixWorld(true);
+  g.applyMatrix4(o.matrixWorld);
+  if (!g.attributes.normal) g.computeVertexNormals();
+  var n = g.attributes.position.count, i;
+  var col = new Float32Array(n * 3);
+  for (i = 0; i < n; i++){ col[i*3] = warna.r; col[i*3+1] = warna.g; col[i*3+2] = warna.b; }
+  var idx = g.index ? Array.prototype.slice.call(g.index.array) : (function(){ var a = []; for (var k = 0; k < n; k++) a.push(k); return a; })();
+  return { pos: g.attributes.position.array, nor: g.attributes.normal.array, col: col,
+           uv: g.attributes.uv ? g.attributes.uv.array : null, idx: idx };
+}
+/* LOD jauh pohon: sederhanakan daun GLB dengan pengelompokan verteks
+   per sel grid (vertex clustering) — bola daun tetap bola, segitiga turun ±4x */
+function sederhanakanPotongan(pt, grid){
+  var n = pt.pos.length / 3, peta = new Map(), wakil = [], jumlah = [], warna = [], baru = new Int32Array(n), i;
+  for (i = 0; i < n; i++){
+    var x = pt.pos[i*3], y = pt.pos[i*3+1], z = pt.pos[i*3+2];
+    var k = Math.floor(x / grid) + ',' + Math.floor(y / grid) + ',' + Math.floor(z / grid);
+    var w = peta.get(k);
+    if (w === undefined){ w = wakil.length / 3; peta.set(k, w); wakil.push(0, 0, 0); jumlah.push(0); warna.push(pt.col[i*3], pt.col[i*3+1], pt.col[i*3+2]); }
+    wakil[w*3] += x; wakil[w*3+1] += y; wakil[w*3+2] += z; jumlah[w]++;
+    baru[i] = w;
+  }
+  for (i = 0; i < jumlah.length; i++){ wakil[i*3] /= jumlah[i]; wakil[i*3+1] /= jumlah[i]; wakil[i*3+2] /= jumlah[i]; }
+  var idx = [];
+  for (i = 0; i < pt.idx.length; i += 3){
+    var a = baru[pt.idx[i]], b = baru[pt.idx[i+1]], c = baru[pt.idx[i+2]];
+    if (a !== b && b !== c && a !== c) idx.push(a, b, c);
+  }
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(wakil, 3));
+  g.setIndex(idx); g.computeVertexNormals();
+  return { pos: g.attributes.position.array, nor: g.attributes.normal.array, col: new Float32Array(warna), uv: null, idx: idx };
+}
+/* batang lathe meruncing: profil [[radius, y], ...] */
+function potonganBatang(profil, warna, seg){
+  var pts = profil.map(function(p){ return new THREE.Vector2(p[0], p[1]); });
+  var g = new THREE.LatheGeometry(pts, seg);
+  var n = g.attributes.position.count, col = new Float32Array(n * 3), uv = g.attributes.uv.array, i;
+  for (i = 0; i < n; i++){
+    var gelap = 0.82 + 0.18 * Math.min(1, g.attributes.position.getY(i) / 1.2);
+    col[i*3] = warna.r * gelap; col[i*3+1] = warna.g * gelap; col[i*3+2] = warna.b * gelap;
+  }
+  var uvBaru = new Float32Array(uv.length);
+  for (i = 0; i < n; i++){ uvBaru[i*2] = uv[i*2] * 2; uvBaru[i*2+1] = g.attributes.position.getY(i) * 1.5; }
+  return { pos: g.attributes.position.array, nor: g.attributes.normal.array, col: col, uv: uvBaru,
+           idx: Array.prototype.slice.call(g.index.array) };
+}
+/* selubung radius tajuk per ketinggian dari mesh jarum GLB */
+function selubungJarum(geo){
+  var pos = geo.attributes.position, N = 12, ymin = Infinity, ymax = -Infinity, i, y;
+  for (i = 0; i < pos.count; i++){ y = pos.getY(i); if (y < ymin) ymin = y; if (y > ymax) ymax = y; }
+  var rmax = []; for (i = 0; i < N; i++) rmax.push(0);
+  for (i = 0; i < pos.count; i++){
+    var b = Math.min(N - 1, Math.floor((pos.getY(i) - ymin) / (ymax - ymin) * N));
+    var r = Math.hypot(pos.getX(i), pos.getZ(i));
+    if (r > rmax[b]) rmax[b] = r;
+  }
+  return { ymin: ymin, ymax: ymax, r: function(yq){
+    var f = (yq - ymin) / (ymax - ymin) * N - 0.5;
+    var a = Math.max(0, Math.min(N - 1, Math.floor(f))), c = Math.min(N - 1, a + 1), t = Math.max(0, Math.min(1, f - a));
+    return rmax[a] * (1 - t) + rmax[c] * t;
+  } };
+}
+/* tajuk cemara bertingkat dari selubung jarum GLB */
+function potonganTajukCemara(sel, warna, jauh){
+  var TINGKAT = jauh ? 4 : 6, S = jauh ? 7 : 12, i, k, s;   /* jauh: LOD ±300 tri */
+  var y0 = sel.ymin + 0.05, y1 = sel.ymax;
+  var langkah = (y1 - y0 - 0.45) / TINGKAT;
+  var pos = [], nor = [], col = [], uv = [], idx = [];
+  function vtx(x, y, z, kecerahan, u, v){
+    pos.push(x, y, z); nor.push(0, 0, 0);
+    var j = 0.92 + acakTajuk() * 0.16;
+    col.push(warna.r * kecerahan * j * 1.28, warna.g * kecerahan * j * 1.25, warna.b * kecerahan * j * 1.2);
+    uv.push(u, v);
+    return pos.length / 3 - 1;
+  }
+  for (k = 0; k < TINGKAT; k++){
+    var yRim = y0 + k * langkah;
+    var tinggiT = langkah * 1.9;
+    var yPuncak = Math.min(y1 + 0.02, yRim + tinggiT);
+    var R = sel.r(yRim + langkah * 0.2) * (1.04 - 0.02 * k);
+    var putar = acakTajuk() * Math.PI * 2;
+    var cerahT = 0.92 + 0.05 * k;   /* tingkat atas sedikit lebih terang (lebih banyak cahaya) */
+    var dalam = [], tengah = [], rim = [], bawah = [];
+    for (s = 0; s < S; s++){
+      var a = putar + s / S * Math.PI * 2;
+      dalam.push(vtx(Math.cos(a) * R * 0.10, yPuncak, Math.sin(a) * R * 0.10, 0.42 * cerahT, s / S * 6, 0));
+      tengah.push(vtx(Math.cos(a) * R * 0.60, yRim + tinggiT * 0.40, Math.sin(a) * R * 0.60, 0.78 * cerahT, s / S * 6, 1.4));
+    }
+    for (s = 0; s < S * 2; s++){
+      var ar = putar + s / (S * 2) * Math.PI * 2;
+      var ujung = (s % 2 === 0);
+      var rr = R * (ujung ? (0.98 + acakTajuk() * 0.10) : (0.70 + acakTajuk() * 0.06));
+      var yr = yRim + (ujung ? -0.05 - acakTajuk() * 0.06 : 0.05);
+      rim.push(vtx(Math.cos(ar) * rr, yr, Math.sin(ar) * rr, (ujung ? 1.18 : 0.92) * cerahT, s / (S * 2) * 6, 2.6));
+    }
+    for (s = 0; s < S; s++){
+      var ab = putar + (s + 0.5) / S * Math.PI * 2;
+      bawah.push(vtx(Math.cos(ab) * R * 0.22, yRim + tinggiT * 0.16, Math.sin(ab) * R * 0.22, 0.30, s / S * 6, 1.0));
+    }
+    for (s = 0; s < S; s++){
+      var s1 = (s + 1) % S;
+      /* permukaan atas: dalam -> tengah (CCW dilihat dari luar/atas) */
+      idx.push(dalam[s], dalam[s1], tengah[s]);
+      idx.push(dalam[s1], tengah[s1], tengah[s]);
+      /* tengah -> rim bergerigi (2 titik rim per segmen) */
+      var r0 = rim[s * 2], r1 = rim[s * 2 + 1], r2 = rim[(s * 2 + 2) % (S * 2)];
+      idx.push(tengah[s], r1, r0);
+      idx.push(tengah[s], tengah[s1], r1);
+      idx.push(tengah[s1], r2, r1);
+      /* sisi bawah gelap: rim -> cincin bawah (menghadap ke bawah) */
+      var b0 = bawah[(s + S - 1) % S], b1 = bawah[s];
+      idx.push(r0, r1, b0);
+      idx.push(r1, b1, b0);
+      idx.push(r1, r2, b1);
+    }
+  }
+  var g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setIndex(idx);
+  g.computeVertexNormals();
+  return { pos: g.attributes.position.array, nor: g.attributes.normal.array, col: new Float32Array(col),
+           uv: new Float32Array(uv), idx: idx };
+}
+/* rakit geometri + material instancing per jenis vegetasi GLB */
+function rakitVegetasiGLB(gltf, jenis, jauh, matPakai){
+  var bagian = [];
+  gltf.scene.updateMatrixWorld(true);
+  gltf.scene.traverse(function(o){ if (o.isMesh) bagian.push(o); });
+  if (!bagian.length) return null;
+  var potongan = [], warnaKayu = null, punyaDaun = false;
+  bagian.forEach(function(o){
+    var m = Array.isArray(o.material) ? o.material[0] : o.material;
+    /* nama MATERIAL dulu (pohon: 3 primitif bernama mesh sama 'TrunkMesh') */
+    var nm = (m && m.name) ? m.name : (o.name || '');
+    var kayu = /bark|wood|trunk|kayu|batang/i.test(nm);
+    var warna = (m && m.color) ? m.color : new THREE.Color(0x3a6b2a);
+    if (kayu){ warnaKayu = warna; return; }   /* kayu GLB (batang+dahan) diganti lathe meruncing */
+    punyaDaun = true;
+    if (jenis === 'pinus'){
+      potongan.push(potonganTajukCemara(selubungJarum(o.geometry), warna, jauh));
+    } else {
+      var pd = potonganDariMesh(o, warna);
+      potongan.push(jauh ? sederhanakanPotongan(pd, 0.38) : pd);
+    }
+  });
+  if (!punyaDaun) return null;   /* tanpa daun: jangan pasang (lebih baik kosong daripada kerucut coklat) */
+  warnaKayu = warnaKayu || new THREE.Color(0.25, 0.16, 0.10);
+  if (jenis === 'pinus'){
+    /* batang pinus_wood terukur: r 0,16 di pangkal, meruncing ke pucuk y 3,0 */
+    potongan.push(potonganBatang([[0.001, -0.02], [0.19, -0.02], [0.16, 0.25], [0.13, 0.9], [0.095, 1.6], [0.06, 2.3], [0.03, 2.85], [0.004, 3.05]], warnaKayu.clone().multiplyScalar(1.25), jauh ? 6 : 10));
+  } else {
+    /* batang Bark terukur: r 0,20 di pangkal, 0,10 di y 1,1 lalu masuk tajuk */
+    potongan.push(potonganBatang([[0.001, -0.02], [0.23, -0.02], [0.19, 0.18], [0.15, 0.6], [0.115, 1.05], [0.10, 1.5], [0.07, 2.0], [0.002, 2.1]], warnaKayu, jauh ? 6 : 10));
+  }
+  var geo = rakitPotongan(potongan);
+  var mat = matPakai;
+  if (!mat){
+    mat = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.92, metalness: 0 });
+    if (jenis === 'pinus') mat.map = teksturDetailJarum();
+    mat.name = 'vegetasi_' + jenis;
+  }
+  return { geo: geo, mat: mat };
+}
+function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob, jenis){
+  if (!daftar.length) return;
+  var rakit = rakitVegetasiGLB(gltf, jenis, false, null);
+  if (!rakit) return;
+  var geo = rakit.geo, mat = rakit.mat;
+  /* LOD jauh (material sama → tetap 1 call/zona): dipakai zona yang tepinya
+     jauh dari pemain/kamera — lihat cekLODVegetasi */
+  var geoJauhDasar = rakitVegetasiGLB(gltf, jenis, true, mat).geo;
   var pusatGeo = geo.boundingSphere.center, rGeo = geo.boundingSphere.radius;
-  geo = sederhanakanBatang(geo);   /* PERF: batang 4.026/1.732 tri -> lathe ~144 tri */
   var perZona = {};
   daftar.forEach(function(p){ var z = p.zona || 'kota'; (perZona[z] = perZona[z] || []).push(p); });
   var d = new THREE.Object3D();
@@ -1517,6 +1879,10 @@ function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob){
     var bola = new THREE.Sphere(c, r);
     var geoZ = geo.clone();
     geoZ.boundingSphere = bola.clone();   /* r128: culling membaca bola geometri */
+    var geoJ = geoJauhDasar.clone();
+    geoJ.boundingSphere = bola.clone();
+    var rDatar = 0;
+    sub.forEach(function(p){ rDatar = Math.max(rDatar, Math.hypot(p.x - c.x, p.z - c.z)); });
     var im = new THREE.InstancedMesh(geoZ, mat, sub.length);
     sub.forEach(function(p, i){
       d.position.set(p.x, p.y, p.z);
@@ -1547,17 +1913,39 @@ function wujudkanInstansiGLB(gltf, daftar, tebalZ, rBlob){
     blobZ.renderOrder = 1;
     blobZ.frustumCulled = false;
     scene.add(blobZ);
-    REGISTRI_VEG.push({ mesh: im, blob: blobZ, cx: c.x, cz: c.z });
+    REGISTRI_VEG.push({ mesh: im, blob: blobZ, cx: c.x, cz: c.z, rDatar: rDatar, geoDekat: geoZ, geoJauh: geoJ });
+    cekLODVegetasi();
   });
 }
 (function muatPohonPinusGLB(){
   if (typeof THREE.GLTFLoader !== 'function') return;
   var loader = new THREE.GLTFLoader();
   try {
-    loader.load('pohon-blender-v1.glb', function(g){ wujudkanInstansiGLB(g, DAFTAR_POHON, 1.0, 1.30); }, undefined, function(){});
-    loader.load('pinus-blender-v1.glb', function(g){ wujudkanInstansiGLB(g, DAFTAR_PINUS, 1, 1.00); }, undefined, function(){});
+    loader.load('pohon-blender-v1.glb', function(g){ wujudkanInstansiGLB(g, DAFTAR_POHON, 1.0, 1.30, 'pohon'); }, undefined, function(){});
+    loader.load('pinus-blender-v1.glb', function(g){ wujudkanInstansiGLB(g, DAFTAR_PINUS, 1, 1.00, 'pinus'); }, undefined, function(){});
   } catch (e) { /* GLB tak tersedia: kota tetap jalan tanpa pohon GLB */ }
 })();
+
+/* LOD vegetasi (2026-11-11): zona yang TEPINYA > 45 m dari titik acuan
+   (pemain; sebelum masuk = kamera orbit layar masuk) memakai geometri jauh
+   (cemara ±300 tri, pohon daun disederhanakan), kembali detail bila <= 35 m
+   (histeresis, tak berkedip). Hanya geometri yang ditukar — posisi,
+   jumlah, visibilitas & zona tidak berubah. */
+function cekLODVegetasi(){
+  if (typeof camera === 'undefined') return;
+  var px, pz;
+  if (sudahMasuk && typeof pemain !== 'undefined' && pemain && pemain.av){ px = pemain.av.grup.position.x; pz = pemain.av.grup.position.z; }
+  else { px = camera.position.x; pz = camera.position.z; }
+  for (var i = 0; i < REGISTRI_VEG.length; i++){
+    var z = REGISTRI_VEG[i];
+    if (!z.geoJauh) continue;
+    var tepi = Math.hypot(z.cx - px, z.cz - pz) - z.rDatar;
+    var pakaiJauh = (z.mesh.geometry === z.geoJauh) ? (tepi > 35) : (tepi > 45);
+    var target = pakaiJauh ? z.geoJauh : z.geoDekat;
+    if (z.mesh.geometry !== target) z.mesh.geometry = target;
+  }
+}
+setInterval(cekLODVegetasi, 500);
 
 /* ===== F18: DISIPLIN JARAK VEGETASI =====
    Zona yang pusatnya > ±220 m dari pemain disembunyikan (mesh + blob),
@@ -2166,10 +2554,24 @@ var lampuGlow = [];
   }
 })();
 
-/* ---------- petak bunga warna-warni ---------- */
+/* ---------- petak bunga warna-warni ----------
+   PERBAIKAN 2026-11-11 ("bunga seperti batu warna-warni"): dulu tiap bunga
+   = SphereGeometry(0.12, 6, 5) polos berwarna (bola 6-segi = kerikil).
+   Kini tiap bunga dimodelkan: tangkai + 2 daun, kelopak melengkung
+   (dua jenis: bunga mangkuk 5 kelopak lebar & aster 8 kelopak ramping),
+   putik kubah; dasar petak ditanami rumpun daun dan dibingkai batu tepi.
+   Posisi, ukuran & warna petak sama seperti sebelumnya. Semua instanced:
+   5 draw call untuk ±400 bunga (±20 rb tri). */
 (function(){
-  var matBed = new THREE.MeshLambertMaterial({ color:0x5d4630 });
-  var geoBed = new THREE.CircleGeometry(1, 18);
+  /* polygonOffset: plaza (-2) memakai offset yang membesar di sudut pandang
+     landai sehingga dulu MENUTUPI tanah petak (y +2,5 cm) — tanah tak pernah
+     terlihat. Kini tanah petak menang (-4). */
+  /* warna kode di r128 dibaca linear lalu diterangi hemi+matahari ±1,4x:
+     0x5d4630 tampil krem pucat. Tanah gembur gelap butuh nilai rendah. */
+  var matBed = new THREE.MeshLambertMaterial({ color:0x22160d, polygonOffset:true, polygonOffsetFactor:-4, polygonOffsetUnits:-4 });
+  var geoBed = new THREE.CircleGeometry(1, 24);
+  var matTepiBed = new THREE.MeshLambertMaterial({ color:0x77695a });
+  var geoTepiBed = new THREE.TorusGeometry(1, 0.055, 5, 28);
   var beds = [];
   var i, a;
   /* petak di pinggir plaza */
@@ -2191,34 +2593,135 @@ var lampuGlow = [];
     bed.scale.setScalar(b.r);
     bed.receiveShadow = true;
     scene.add(bed);
+    /* bingkai batu tepi petak (torus pipih; digabung gabungMeshStatis) */
+    var tepi = new THREE.Mesh(geoTepiBed, matTepiBed);
+    tepi.rotation.x = -Math.PI/2;
+    tepi.position.set(b.x, 0.07, b.z);
+    tepi.scale.set(b.r + 0.03, b.r + 0.03, 1.3);
+    tepi.receiveShadow = true;
+    scene.add(tepi);
   });
-  /* semua bunga dalam satu InstancedMesh */
-  var perBed = 11;
-  var inst = new THREE.InstancedMesh(
-    new THREE.SphereGeometry(0.12, 6, 5),
-    new THREE.MeshLambertMaterial({ color:0xffffff }),
-    beds.length * perBed
-  );
-  var warnaBunga = [0xe2543e, 0xf276b3, 0xffd23e, 0xffffff, 0xb565a7, 0xf2a03d];
-  var m4 = new THREE.Matrix4(), q0 = new THREE.Quaternion();
-  var pv = new THREE.Vector3(), sv = new THREE.Vector3();
-  var idx = 0, j, ang, rad, s;
+
+  /* ---- pembangun geometri (ruang lokal, alas y=0, satuan meter) ---- */
+  function Geo(){ this.p = []; this.c = []; this.i = []; }
+  Geo.prototype.v = function(x, y, z, warna){ this.p.push(x, y, z); this.c.push(warna[0], warna[1], warna[2]); return this.p.length / 3 - 1; };
+  Geo.prototype.t = function(a, b, c){ this.i.push(a, b, c); };
+  Geo.prototype.jadi = function(){
+    var g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(this.p, 3));
+    g.setAttribute('color', new THREE.Float32BufferAttribute(this.c, 3));
+    g.setIndex(this.i);
+    g.computeVertexNormals();
+    /* r128: culling InstancedMesh memakai bola geometri dasar — bola
+       seluas plaza supaya bunga tidak hilang saat pusat plaza di luar layar */
+    g.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0.3, 0), 14);
+    return g;
+  };
+  var KELOPAK_DASAR = [0.62, 0.62, 0.62], KELOPAK_UJUNG = [1, 1, 1];
+  /* kelopak melengkung: pangkal, dua sisi, ujung, tulang tengah terangkat */
+  function kelopak(G, sudut, panjang, lebar, angkat, cekung, yPusat){
+    var ca = Math.cos(sudut), sa = Math.sin(sudut), px = -sa, pz = ca;
+    function titik(t, s, naik){
+      var r = 0.012 + t * panjang;
+      return [ca * r + px * s, yPusat + t * angkat + naik, sa * r + pz * s];
+    }
+    var tengah = titik(0.5, 0, cekung), ki = titik(0.45, lebar, 0), ka = titik(0.45, -lebar, 0);
+    var pangkal = titik(0, 0, 0), ujung = titik(1, 0, cekung * 0.4);
+    var iP = G.v(pangkal[0], pangkal[1], pangkal[2], KELOPAK_DASAR);
+    var iKi = G.v(ki[0], ki[1], ki[2], [0.9, 0.9, 0.9]);
+    var iKa = G.v(ka[0], ka[1], ka[2], [0.9, 0.9, 0.9]);
+    var iT = G.v(tengah[0], tengah[1], tengah[2], [0.95, 0.95, 0.95]);
+    var iU = G.v(ujung[0], ujung[1], ujung[2], KELOPAK_UJUNG);
+    G.t(iP, iT, iKi); G.t(iP, iKa, iT); G.t(iKi, iT, iU); G.t(iT, iKa, iU);
+  }
+  var TINGGI_BUNGA = 0.30;
+  /* jenis A: bunga mangkuk 5 kelopak lebar menengadah */
+  var gA = new Geo();
+  for (i = 0; i < 5; i++) kelopak(gA, i / 5 * Math.PI * 2, 0.095, 0.042, 0.06, -0.014, TINGGI_BUNGA);
+  for (i = 0; i < 5; i++) kelopak(gA, (i + 0.5) / 5 * Math.PI * 2, 0.075, 0.034, 0.08, -0.012, TINGGI_BUNGA + 0.006);
+  /* jenis B: aster 8 kelopak ramping, terbuka hampir datar */
+  var gB = new Geo();
+  for (i = 0; i < 8; i++) kelopak(gB, i / 8 * Math.PI * 2, 0.09, 0.018, 0.015, 0.008, TINGGI_BUNGA);
+  /* putik kubah kecil (6 segi + puncak) */
+  var gP = new Geo();
+  (function(){
+    var puncak = gP.v(0, TINGGI_BUNGA + 0.035, 0, [1, 0.85, 0.35]), cincin = [];
+    for (var s = 0; s < 6; s++){ var a2 = s / 6 * Math.PI * 2; cincin.push(gP.v(Math.cos(a2) * 0.026, TINGGI_BUNGA + 0.012, Math.sin(a2) * 0.026, [0.75, 0.48, 0.12])); }
+    for (var s2 = 0; s2 < 6; s2++) gP.t(puncak, cincin[(s2 + 1) % 6], cincin[s2]);
+  })();
+  /* tangkai (prisma 3 sisi) + 2 daun lanset */
+  var hijauTua = [0.10, 0.26, 0.07], hijau = [0.20, 0.45, 0.13], hijauMuda = [0.36, 0.62, 0.22];
+  var gD = new Geo();
+  (function(){
+    var bawah = [], atas = [];
+    for (var s = 0; s < 3; s++){
+      var a3 = s / 3 * Math.PI * 2;
+      bawah.push(gD.v(Math.cos(a3) * 0.008, 0, Math.sin(a3) * 0.008, hijauTua));
+      atas.push(gD.v(Math.cos(a3) * 0.005 + 0.004, TINGGI_BUNGA, Math.sin(a3) * 0.005, hijau));
+    }
+    for (var s3 = 0; s3 < 3; s3++){ var n3 = (s3 + 1) % 3; gD.t(bawah[s3], atas[s3], bawah[n3]); gD.t(bawah[n3], atas[s3], atas[n3]); }
+    [[0.4, 0.07, 0.11], [2.6, 0.13, 0.09]].forEach(function(d){
+      var sd = d[0], y0 = d[1], pj = d[2], cx = Math.cos(sd), sz = Math.sin(sd), qx = -sz, qz = cx;
+      var p0 = gD.v(0, y0, 0, hijauTua);
+      var p1 = gD.v(cx * pj * 0.5 + qx * 0.022, y0 + 0.035, sz * pj * 0.5 + qz * 0.022, hijau);
+      var p2 = gD.v(cx * pj * 0.5 - qx * 0.022, y0 + 0.035, sz * pj * 0.5 - qz * 0.022, hijau);
+      var p3 = gD.v(cx * pj, y0 + 0.02, sz * pj, hijauMuda);
+      gD.t(p0, p1, p2); gD.t(p1, p3, p2);
+    });
+  })();
+  /* rumpun daun penutup tanah: 7 helai melengkung */
+  var gR = new Geo();
+  (function(){
+    for (var h = 0; h < 7; h++){
+      var sh = h / 7 * Math.PI * 2 + (h % 2) * 0.3, pj = 0.13 + (h % 3) * 0.03;
+      var cx = Math.cos(sh), sz = Math.sin(sh), qx = -sz * 0.03, qz = cx * 0.03;
+      var b0 = gR.v(qx * 0.4, 0.0, qz * 0.4, hijauTua), b1 = gR.v(-qx * 0.4, 0.0, -qz * 0.4, hijauTua);
+      var m0 = gR.v(cx * pj * 0.5 + qx, 0.09, sz * pj * 0.5 + qz, hijau), m1 = gR.v(cx * pj * 0.5 - qx, 0.09, sz * pj * 0.5 - qz, hijau);
+      var u0 = gR.v(cx * pj, 0.05, sz * pj, hijauMuda);
+      gR.t(b0, m0, b1); gR.t(b1, m0, m1); gR.t(m0, u0, m1);
+    }
+  })();
+  var matKelopak = new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide });
+  var matHijau = new THREE.MeshLambertMaterial({ vertexColors:true, side:THREE.DoubleSide });
+  var matPutik = new THREE.MeshLambertMaterial({ vertexColors:true });
+  /* jumlah bunga ~ luas petak (dulu 11 per petak) */
+  var daftarBunga = [], daftarRumpun = [];
   beds.forEach(function(b){
-    for (j=0; j<perBed; j++){
-      ang = Math.random() * Math.PI * 2;
-      rad = Math.sqrt(Math.random()) * b.r * 0.82;
-      s = 0.8 + Math.random() * 0.7;
-      pv.set(b.x + Math.cos(ang)*rad, 0.13 + Math.random()*0.1, b.z + Math.sin(ang)*rad);
-      sv.set(s, s, s);
-      m4.compose(pv, q0, sv);
-      inst.setMatrixAt(idx, m4);
-      inst.setColorAt(idx, new THREE.Color(warnaBunga[idx % warnaBunga.length]));
-      idx++;
+    var nB = b.r > 0.9 ? 38 : 14, nR = b.r > 0.9 ? 22 : 9, j;
+    for (j = 0; j < nR; j++){
+      var ar = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * b.r * 0.88;
+      daftarRumpun.push({ x:b.x + Math.cos(ar) * rr, z:b.z + Math.sin(ar) * rr, ry:Math.random() * 6.3, s:0.8 + Math.random() * 0.6 });
+    }
+    for (j = 0; j < nB; j++){
+      var ang = Math.random() * Math.PI * 2, rad = Math.sqrt(Math.random()) * b.r * 0.80;
+      daftarBunga.push({ x:b.x + Math.cos(ang) * rad, z:b.z + Math.sin(ang) * rad, ry:Math.random() * 6.3,
+                         s:1.0 + Math.random() * 0.6, miring:(Math.random() - 0.5) * 0.35, jenis:(Math.random() < 0.55 ? 0 : 1) });
     }
   });
-  inst.instanceMatrix.needsUpdate = true;
-  if (inst.instanceColor) inst.instanceColor.needsUpdate = true;
-  scene.add(inst);
+  var warnaBunga = [0xe2543e, 0xf276b3, 0xffd23e, 0xffffff, 0xb565a7, 0xf2a03d];
+  var m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), eu = new THREE.Euler(), pv = new THREE.Vector3(), sv = new THREE.Vector3();
+  var cWarna = new THREE.Color();
+  function instans(geo, mat, list, pakaiWarna, saring){
+    var sub = list.filter(saring || function(){ return true; });
+    var im = new THREE.InstancedMesh(geo, mat, sub.length);
+    sub.forEach(function(f, k){
+      eu.set(f.miring || 0, f.ry, (f.miring || 0) * 0.6); q.setFromEuler(eu);
+      pv.set(f.x, 0.06, f.z); sv.set(f.s, f.s, f.s);
+      m4.compose(pv, q, sv); im.setMatrixAt(k, m4);
+      if (pakaiWarna){ cWarna.setHex(warnaBunga[f.w % warnaBunga.length]); im.setColorAt(k, cWarna); }
+    });
+    im.instanceMatrix.needsUpdate = true;
+    if (im.instanceColor) im.instanceColor.needsUpdate = true;
+    im.receiveShadow = true; im.castShadow = false;
+    scene.add(im);
+    return im;
+  }
+  daftarBunga.forEach(function(f, k){ f.w = k; });
+  instans(gR.jadi(), matHijau, daftarRumpun, false);
+  instans(gD.jadi(), matHijau, daftarBunga, false);
+  instans(gA.jadi(), matKelopak, daftarBunga, true, function(f){ return f.jenis === 0; });
+  instans(gB.jadi(), matKelopak, daftarBunga, true, function(f){ return f.jenis === 1; });
+  instans(gP.jadi(), matPutik, daftarBunga, false);
 })();
 
 /* ---------- pohon bingkai dekat menara (masuk pandangan dari titik lahir) ---------- */
@@ -3866,7 +4369,9 @@ var gedungGagal = {};
   var sudah = false;
   var batas = setTimeout(function(){ sudah = true; gedungGagal['ROTI_KOPI_GLB'] = true; /* FIX audit 2026-10-25 #6: timeout = gagal */ }, 180000);
   try {
-    new THREE.GLTFLoader().load('roti-kopi-toko-blender-v1.glb', function(gltf){
+    /* v2 (2026-11-11): UV dinding bata & kayu diproyeksi ulang — v1 memakai UV
+       kubus default (bata raksasa tegak + kayu melar/luntur di sisi gedung) */
+    new THREE.GLTFLoader().load('roti-kopi-toko-blender-v2.glb', function(gltf){
       if (sudah) return; sudah = true; clearTimeout(batas);
       var model = gltf.scene;
       model.scale.setScalar(SKALA);
@@ -3948,8 +4453,8 @@ function pasangTokoGLB(namaLama, file, px, pz, ry, skala, papan){
    menonjol di depannya seperti di acuan). */
 pasangTokoGLB('TOKO_KOPI_SENJA', 'kopi-senja-toko-blender-v1.glb', -8.4, -44, 1.5708, 1.7,
   null);   /* Blender TOKO: 4.2m tall -> ~7m, sign baked, no overlay */
-pasangTokoGLB('TOKO_BUKU_KERTAS', 'buku-kertas-toko-blender-v1.glb', -8.4, -70, 1.5708, 1.5,
-  null);   /* Blender TOKO: sign baked, no overlay */
+pasangTokoGLB('TOKO_BUKU_KERTAS', 'buku-kertas-toko-blender-v2.glb', -8.4, -70, 1.5708, 1.5,
+  null);   /* Blender TOKO: sign baked, no overlay. v2 (2026-11-11): atap mansard diperbaiki — 8 panel ujung yang terputar acak (atap hitam bergerigi + lubang ke interior) diganti tutup ujung pentagonal, atap dormer X jadi atap pelana, UV dinding diproyeksi ulang */
 pasangTokoGLB('TOKO_ES_KRIM', 'es-krim-toko-blender-v1.glb', 15.2, -44, -1.5708, 1.5,
   null);   /* Blender TOKO: sign baked, no overlay */
 pasangTokoGLB('TOKO_STUDIO_FOTO', 'studio-foto-toko-blender-v1.glb', 15.2, -57, -1.5708, 1.5,
@@ -6219,7 +6724,15 @@ var awanList = [];
         var bb = new THREE.Box3().setFromObject(m);
         var c = bb.getCenter(new THREE.Vector3());
         m.position.set(-c.x, -c.y, -c.z);
-        g.position.set(t.x, t.y, t.z);
+        /* PERBAIKAN 2026-11-11 (awan menembus puncak menara jam): pusat awan
+           y 42-72 dengan tinggi awan 21-40 m membuat dasar awan bisa turun ke
+           ±22 m — di bawah puncak menara jam (23,75 m) — dan awan yang
+           melayang +x lewat tepat di atas menara (-25,-46). Dasar awan kini
+           dijaga >= DASAR_AWAN_MIN (jauh di atas bangunan tertinggi kota);
+           posisi x/z, ukuran & kecepatan tetap. */
+        var DASAR_AWAN_MIN = 58;
+        var yAwan = Math.max(t.y, DASAR_AWAN_MIN + (c.y - bb.min.y));
+        g.position.set(t.x, yAwan, t.z);
         g.userData.kecepatan = t.kecepatan;
         g.userData.mats = mats;
         scene.add(g);
@@ -8336,6 +8849,7 @@ function gabungMeshStatis(){
     out.setIndex(idx);
     var mesh = new THREE.Mesh(out, gg.mat);
     mesh.castShadow = gg.cast; mesh.receiveShadow = gg.recv;
+    mesh.userData.hasilGabung = true;   /* R5: jangan digabung ulang oleh gabungGLBStatis */
     scene.add(mesh);
     gg.list.forEach(function(o){ if (o.parent) o.parent.remove(o); });
     gabungTotal++;
@@ -8376,6 +8890,288 @@ function bekuMatriksStatis(){
   scene.traverse(function(o){ if (!setJangan[o.uuid]){ o.matrixAutoUpdate = false; beku++; } });
   if (window.console) console.log('[PERF] beku matriks: ' + beku + ' objek statis');
 }
+
+/* ===== PERF R5 (2026-11-11): GABUNG MESH GLB STATIS =====
+   Layar masuk 1.018-1.200 draw call: gabungMeshStatis (R2) hanya
+   menyentuh primitif kode yang ada SAAT PARSE — semua GLB (gedung,
+   toko, ±60 klon bangku 17 mesh, ±40 klon lampu 18 mesh, kios, menara,
+   sekolah, dst.) masih 1 call per mesh per material.
+   Pass ini jalan SETELAH antrean muat GLB kosong (kait di pembungkus
+   antrean), lalu menggabung mesh statis per SEL dunia 48 m (uji A/B
+   orbit layar masuk: 96 m = 270-350 call tapi +230-290 rb tri gambar-lebih;
+   48 m = 290-400 call, +140-190 rb tri → dipilih 48 m):
+   - per OBJEK material yang sama (klon berbagi material → semua bangku/
+     lampu/kios satu sel jadi 1 call per material);
+   - material polos (MeshStandard GLB / MeshLambert kode, tanpa tekstur &
+     tanpa emissive) dilipat ke warna-vertex: satu material per (jenis,
+     sisi, kekasaran dibulatkan 0,05, logam 0,1) per sel — warna asli tiap
+     bagian disalin persis ke atribut warna. Material yang diubah kode
+     tiap frame (bahanJendela, lampion, kios hangat) tidak dilipat.
+   Transform dunia di-bake (sel kecil → frustum culling tetap efektif).
+   TIDAK disentuh: avatar (skinned/klip, pemain & remote/bot), perahu
+   (bergoyang), awan (melayang), sinar mercu (berputar), InstancedMesh
+   (pohon/bunga/blob), material shader air, material transparan /
+   polygonOffset / emissive (jendela & lampu malam lewat bahanJendela
+   tetap hidup karena material tidak diganti), mesh tak terlihat
+   (toko/menara kode yang disembunyikan pola swap), renderOrder ≠ 0.
+   Gameplay tidak terpengaruh: tabrakan = data penabrak, duduk = data
+   bangkuList, kamera = OBB/penabrak — tak satu pun membaca mesh.
+   Dikerjakan bertahap (anggaran ±8 ms per irisan) supaya tidak patah
+   frame; ?nogabung=1 mematikan pass ini (uji A/B). */
+var SEL_GABUNG_GLB = (function(){ var v = parseFloat(new URLSearchParams(location.search).get('selgabung')); return v > 8 ? v : 48; })();   /* ?selgabung=NN untuk uji A/B ukuran sel */
+var _statGabungGLB = { pass:0, meshAsal:0, meshHasil:0, ms:0 };
+function _bulat(v, k){ return Math.round(v / k) * k; }
+/* material yang diubah tiap frame oleh kode (warna/emissive) — tak boleh dilipat */
+function _materialDinamis(){
+  var s = new Set();
+  if (typeof bahanJendela !== 'undefined') bahanJendela.forEach(function(m){ s.add(m); });
+  if (typeof lampionBolaMat !== 'undefined') lampionBolaMat.forEach(function(e){ if (e && e.mat) s.add(e.mat); });
+  if (typeof kiosHangatMat !== 'undefined') kiosHangatMat.forEach(function(e){ if (e && e.mat) s.add(e.mat); });
+  return s;
+}
+var _setMatDinamis = null;
+/* 'S' = MeshStandard GLB polos, 'L' = MeshLambert kode polos, null = jangan dilipat */
+function _materialPolos(m){
+  if (!m || m.isMeshPhysicalMaterial) return null;
+  var jenis = m.isMeshStandardMaterial ? 'S' : (m.isMeshLambertMaterial ? 'L' : null);
+  if (!jenis) return null;
+  if (m.map || m.normalMap || m.roughnessMap || m.metalnessMap || m.emissiveMap || m.aoMap || m.lightMap ||
+      m.alphaMap || m.bumpMap || m.envMap || m.displacementMap || m.specularMap) return null;
+  if (m.transparent || m.alphaTest > 0 || m.polygonOffset || !m.depthWrite || !m.depthTest || m.wireframe) return null;
+  if (m.emissive && (m.emissive.r + m.emissive.g + m.emissive.b) > 1e-4) return null;
+  if (_setMatDinamis && _setMatDinamis.has(m)) return null;
+  if (m.userData && m.userData.janganGabung) return null;
+  return jenis;
+}
+function _materialBolehGabung(m){
+  if (!m || m.isShaderMaterial || m.isRawShaderMaterial || m.isSpriteMaterial || m.isPointsMaterial || m.isLineBasicMaterial) return false;
+  if (m.transparent) return false;               /* urutan gambar transparan harus tetap per objek */
+  if (m.vertexTangents) return false;            /* atribut tangent tidak ikut digabung */
+  if (m.userData && m.userData.janganGabung) return false;
+  return true;
+}
+var _matWarnaGabung = {};
+function _materialWarnaUntuk(m, jenis){
+  var k = jenis === 'S'
+    ? 'S' + m.side + '|' + _bulat(m.roughness, 0.05).toFixed(2) + '|' + _bulat(m.metalness, 0.1).toFixed(1) + '|' + (m.fog ? 1 : 0) + '|' + (m.flatShading ? 1 : 0)
+    : 'L' + m.side + '|' + (m.fog ? 1 : 0);
+  if (!_matWarnaGabung[k]){
+    _matWarnaGabung[k] = jenis === 'S'
+      ? new THREE.MeshStandardMaterial({ vertexColors: true, side: m.side, roughness: _bulat(m.roughness, 0.05), metalness: _bulat(m.metalness, 0.1), fog: m.fog, flatShading: m.flatShading })
+      : new THREE.MeshLambertMaterial({ vertexColors: true, side: m.side, fog: m.fog });
+    _matWarnaGabung[k].name = 'gabung_warna_' + k;
+  }
+  return { kunci: 'W' + k, mat: _matWarnaGabung[k] };
+}
+function _akarDilarangGabung(){
+  var s = new Set();
+  function tandai(o){ if (o) s.add(o); }
+  if (typeof pemain !== 'undefined' && pemain && pemain.av) tandai(pemain.av.grup);
+  if (typeof remotes !== 'undefined') remotes.forEach(function(r){ if (r && r.av) tandai(r.av.grup); });
+  if (typeof perahuList !== 'undefined') perahuList.forEach(function(b){ tandai(b.g); });
+  if (typeof awanList !== 'undefined') awanList.forEach(tandai);
+  if (typeof sinarMercu !== 'undefined') tandai(sinarMercu);
+  if (typeof mancur !== 'undefined') tandai(mancur);
+  return s;
+}
+function _kandidatGabung(o, larang){
+  if (!o.isMesh || o.isSkinnedMesh || o.isInstancedMesh) return false;
+  if (o.userData.hasilGabung || o.renderOrder !== 0 || !o.frustumCulled) return false;
+  if (o.onBeforeRender !== THREE.Object3D.prototype.onBeforeRender) return false;
+  var g = o.geometry;
+  if (!g || !g.isBufferGeometry || !g.attributes.position) return false;
+  if (g.morphAttributes && Object.keys(g.morphAttributes).length) return false;
+  if (g.drawRange.start !== 0 || g.drawRange.count !== Infinity) return false;
+  var p = o;
+  while (p){
+    /* catatan: bendera janganGabung R2 (bangku: "swap GLB masih jalan") TIDAK
+       berlaku di sini — pass ini jalan sesudah antrean muat kosong, swap kursi
+       sudah selesai. Perahu & sinar mercu tetap dilarang lewat `larang`. */
+    if (!p.visible || larang.has(p) || (p.userData && p.userData.janganGabungGLB)) return false;
+    if (p.parent === null && p !== scene) return false;   /* tidak di dalam scene */
+    p = p.parent;
+  }
+  var mats = Array.isArray(o.material) ? o.material : [o.material];
+  for (var i = 0; i < mats.length; i++) if (!_materialBolehGabung(mats[i])) return false;
+  if (Array.isArray(o.material) && !g.groups.length) return false;
+  return true;
+}
+/* rencana: kelompokkan kandidat per SEL (satu mesh selalu satu sel = pusat
+   bbox dunianya), supaya tiap sel bisa diproses ATOMIK (semua potongan
+   material sebuah mesh jadi dalam irisan yang sama, lalu aslinya dilepas). */
+function rencanaSelGabungGLB(){
+  scene.updateMatrixWorld(true);
+  var larang = _akarDilarangGabung(), perSel = {}, bb = new THREE.Box3(), pusat = new THREE.Vector3();
+  scene.traverse(function(o){
+    if (!_kandidatGabung(o, larang)) return;
+    var g = o.geometry;
+    if (!g.boundingBox) g.computeBoundingBox();
+    bb.copy(g.boundingBox).applyMatrix4(o.matrixWorld); bb.getCenter(pusat);
+    var sel = Math.floor(pusat.x / SEL_GABUNG_GLB) + ',' + Math.floor(pusat.z / SEL_GABUNG_GLB);
+    (perSel[sel] = perSel[sel] || []).push(o);
+  });
+  return perSel;
+}
+function grupSelGabung(daftar){
+  var grup = {};
+  daftar.forEach(function(o){
+    var g = o.geometry;
+    var bayang = (o.castShadow ? 1 : 0) + '' + (o.receiveShadow ? 1 : 0);
+    var potong = Array.isArray(o.material)
+      ? g.groups.map(function(gr){ return { mat:o.material[gr.materialIndex], start:gr.start, count:gr.count }; })
+      : [{ mat:o.material, start:0, count:Infinity }];
+    potong.forEach(function(pt){
+      if (!pt.mat) return;
+      var m = pt.mat, kunci, matHasil, jenisLipat = _materialPolos(m), lipat = !!jenisLipat;
+      if (lipat){ var w = _materialWarnaUntuk(m, jenisLipat); kunci = w.kunci; matHasil = w.mat; }
+      else {
+        var sig = (g.attributes.normal ? 'n' : '') + (g.attributes.uv ? 'u' : '') + (g.attributes.uv2 ? 'U' : '') +
+                  (m.vertexColors && g.attributes.color ? 'c' + g.attributes.color.itemSize : '');
+        kunci = 'M' + m.uuid + '|' + sig; matHasil = m;
+      }
+      kunci += '|' + bayang;
+      (grup[kunci] = grup[kunci] || { mat:matHasil, lipat:lipat, cast:o.castShadow, recv:o.receiveShadow, isi:[] })
+        .isi.push({ o:o, mat:m, start:pt.start, count:pt.count });
+    });
+  });
+  /* grup 1 potongan dari mesh 1-material tak memberi untung: mesh itu dibiarkan
+     apa adanya. Mesh multi-material SELALU dibangun ulang utuh (semua potongan). */
+  var kerja = [], tetap = new Set();
+  Object.keys(grup).forEach(function(k){
+    var gg = grup[k];
+    if (gg.isi.length < 2 && !Array.isArray(gg.isi[0].o.material)){ tetap.add(gg.isi[0].o); return; }
+    kerja.push(gg);
+  });
+  return { kerja:kerja, tetap:tetap };
+}
+var _nm3 = new THREE.Matrix3(), _v3a = new THREE.Vector3(), _cA = new THREE.Color();
+function bangunGrupGabung(gg){
+  var nv = 0, ni = 0, k;
+  var butuhUV = !gg.lipat && !!(gg.mat.map || gg.mat.normalMap || gg.mat.roughnessMap || gg.mat.metalnessMap || gg.mat.emissiveMap || gg.mat.aoMap || gg.mat.alphaMap || gg.mat.bumpMap || gg.mat.lightMap);
+  var butuhUV2 = !gg.lipat && !!(gg.mat.aoMap || gg.mat.lightMap);
+  var pakaiWarna = gg.lipat || (gg.mat.vertexColors && gg.isi.every(function(e){ return !!e.o.geometry.attributes.color; }));
+  var siap = gg.isi.map(function(e){
+    var g = e.o.geometry, pos = g.attributes.position;
+    var ix = g.index ? g.index.array : null;
+    var akhir = Math.min(e.count === Infinity ? (ix ? ix.length : pos.count) : e.start + e.count, ix ? ix.length : pos.count);
+    var peta = new Map(), urut = [], tri = [];
+    for (k = e.start; k < akhir; k++){
+      var v = ix ? ix[k] : k, b = peta.get(v);
+      if (b === undefined){ b = urut.length; peta.set(v, b); urut.push(v); }
+      tri.push(b);
+    }
+    nv += urut.length; ni += tri.length;
+    return { e:e, urut:urut, tri:tri };
+  });
+  var P = new Float32Array(nv * 3), N = new Float32Array(nv * 3);
+  var U = butuhUV ? new Float32Array(nv * 2) : null, U2 = butuhUV2 ? new Float32Array(nv * 2) : null;
+  var cItem = gg.lipat ? 3 : (pakaiWarna ? gg.isi[0].o.geometry.attributes.color.itemSize : 0);
+  var C = pakaiWarna ? new Float32Array(nv * cItem) : null;
+  var I = nv > 65535 ? new Uint32Array(ni) : new Uint16Array(ni);
+  var ov = 0, oi = 0;
+  siap.forEach(function(s){
+    var o = s.e.o, g = o.geometry, mw = o.matrixWorld;
+    var pos = g.attributes.position, nor = g.attributes.normal, uv = g.attributes.uv, uv2 = g.attributes.uv2, col = g.attributes.color;
+    _nm3.getNormalMatrix(mw);
+    var balik = mw.determinant() < 0;
+    var warnaMat = s.e.mat.color || _cA.setRGB(1, 1, 1);
+    var skalaCol = col && col.normalized ? (col.array instanceof Uint8Array ? 1 / 255 : (col.array instanceof Uint16Array ? 1 / 65535 : 1)) : 1;
+    for (var j = 0; j < s.urut.length; j++){
+      var v = s.urut[j], d = ov + j;
+      _v3a.fromBufferAttribute(pos, v).applyMatrix4(mw);
+      P[d*3] = _v3a.x; P[d*3+1] = _v3a.y; P[d*3+2] = _v3a.z;
+      if (nor){ _v3a.fromBufferAttribute(nor, v).applyMatrix3(_nm3).normalize(); N[d*3] = _v3a.x; N[d*3+1] = _v3a.y; N[d*3+2] = _v3a.z; }
+      if (U){ if (uv){ U[d*2] = uv.getX(v); U[d*2+1] = uv.getY(v); } }
+      if (U2){ var su = uv2 || uv; if (su){ U2[d*2] = su.getX(v); U2[d*2+1] = su.getY(v); } }
+      if (C){
+        if (gg.lipat){
+          var cr = 1, cg = 1, cb = 1;
+          if (s.e.mat.vertexColors && col){ cr = col.getX(v) * skalaCol; cg = col.getY(v) * skalaCol; cb = col.getZ(v) * skalaCol; }
+          C[d*3] = cr * warnaMat.r; C[d*3+1] = cg * warnaMat.g; C[d*3+2] = cb * warnaMat.b;
+        } else {
+          for (var q = 0; q < cItem; q++) C[d*cItem+q] = col.array[v * col.itemSize + q] * skalaCol;
+        }
+      }
+    }
+    for (var t = 0; t < s.tri.length; t += 3){
+      if (balik){ I[oi+t] = s.tri[t] + ov; I[oi+t+1] = s.tri[t+2] + ov; I[oi+t+2] = s.tri[t+1] + ov; }
+      else { I[oi+t] = s.tri[t] + ov; I[oi+t+1] = s.tri[t+1] + ov; I[oi+t+2] = s.tri[t+2] + ov; }
+    }
+    ov += s.urut.length; oi += s.tri.length;
+  });
+  var out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(P, 3));
+  var adaNormal = gg.isi.every(function(e){ return !!e.o.geometry.attributes.normal; });
+  if (adaNormal) out.setAttribute('normal', new THREE.BufferAttribute(N, 3));
+  if (U) out.setAttribute('uv', new THREE.BufferAttribute(U, 2));
+  if (U2) out.setAttribute('uv2', new THREE.BufferAttribute(U2, 2));
+  if (C) out.setAttribute('color', new THREE.BufferAttribute(C, cItem));
+  out.setIndex(new THREE.BufferAttribute(I, 1));
+  if (!adaNormal) out.computeVertexNormals();
+  out.computeBoundingSphere(); out.computeBoundingBox();
+  var mesh = new THREE.Mesh(out, gg.mat);
+  mesh.castShadow = gg.cast; mesh.receiveShadow = gg.recv;
+  mesh.userData.hasilGabung = true;
+  mesh.name = 'GABUNG_GLB';
+  mesh.matrixAutoUpdate = false; mesh.updateMatrix();
+  return mesh;
+}
+var _gabungGLBJalan = false;
+function gabungGLBStatis(selesai){
+  if (_gabungGLBJalan) return;
+  if (/[?&]nogabung=1/.test(location.search)) return;
+  _gabungGLBJalan = true;
+  var t0 = performance.now();
+  _setMatDinamis = _materialDinamis();
+  var perSel = rencanaSelGabungGLB(), antreSel = Object.keys(perSel);
+  var asal = 0, hasil = 0, dibuang = [];
+  function irisan(){
+    var mulai = performance.now();
+    while (antreSel.length && performance.now() - mulai < 8){
+      var kunciSel = antreSel.shift();
+      try {
+        /* validasi ulang tepat sebelum diproses (objek bisa berubah sejak rencana) */
+        var larang = _akarDilarangGabung();
+        var daftar = perSel[kunciSel].filter(function(o){ return _kandidatGabung(o, larang); });
+        var rg = grupSelGabung(daftar);
+        if (!rg.kerja.length) continue;
+        var baru = rg.kerja.map(bangunGrupGabung);   /* bangun semua dulu — gagal di tengah = sel tak tersentuh */
+        baru.forEach(function(m){ scene.add(m); });
+        hasil += baru.length;
+        daftar.forEach(function(o){
+          if (rg.tetap.has(o)) return;
+          if (o.parent) o.parent.remove(o);
+          dibuang.push(o.geometry); asal++;
+        });
+      } catch (err) {
+        if (window.console) console.warn('[PERF] gabung GLB sel ' + kunciSel + ' dilewati:', err);
+      }
+    }
+    if (antreSel.length){ setTimeout(irisan, 0); return; }
+    /* geometri asal yang tak lagi dipakai mesh mana pun di scene: lepas dari GPU
+       (template klon di luar scene tetap aman — three.js mengunggah ulang bila dipakai lagi) */
+    var dipakai = new Set();
+    scene.traverse(function(o){ if (o.geometry) dipakai.add(o.geometry); });
+    dibuang.forEach(function(g){ if (!dipakai.has(g)) g.dispose(); });
+    var ms = Math.round(performance.now() - t0);
+    _statGabungGLB.pass++; _statGabungGLB.meshAsal += asal; _statGabungGLB.meshHasil += hasil; _statGabungGLB.ms += ms;
+    if (window.console) console.log('[PERF] gabung GLB: ' + asal + ' mesh -> ' + hasil + ' mesh gabungan (' + ms + ' ms, bertahap per sel ' + SEL_GABUNG_GLB + ' m)');
+    _gabungGLBJalan = false;
+    if (selesai) selesai();
+  }
+  irisan();
+}
+/* dipanggil pembungkus antrean muat GLB tiap kali antrean kosong; jeda 1,5 dtk
+   supaya muatan beruntun (karakter, toko) terkumpul dulu */
+var _timerGabungGLB = null;
+window.__antreMuatKosong = function(){
+  if (_timerGabungGLB) clearTimeout(_timerGabungGLB);
+  _timerGabungGLB = setTimeout(function(){
+    _timerGabungGLB = null;
+    if (window.__antreMuatSibuk && window.__antreMuatSibuk()) return;   /* ada muatan baru: tunggu kosong berikutnya */
+    gabungGLBStatis();
+  }, 1500);
+};
 
 /* ---------- LOADING SCREEN + AUTO-LANDSCAPE (24 Okt, perintah pemilik) ----------
    Masalah: pemain masuk lalu melihat gedung/karakter lama bertukar ke GLB

@@ -33,8 +33,12 @@ gedung-g03-blender-v2.glb — G03 (DIPARKIR — tetap v2, belum enterable)
 
 ## Toko (semua Blender, live)
 - bunga-toko-blender-v1.glb (Toko Bunga v1), mainan-toko-blender-v4.glb (Toko Mainan v4),
-  kopi-senja-toko-blender-v1.glb, roti-kopi-toko-blender-v1.glb, es-krim-toko-blender-v1.glb,
-  teh-rempah-toko-blender-v1.glb, studio-foto-toko-blender-v1.glb, buku-kertas-toko-blender-v1.glb
+  kopi-senja-toko-blender-v1.glb, roti-kopi-toko-blender-v2.glb, es-krim-toko-blender-v1.glb,
+  teh-rempah-toko-blender-v1.glb, studio-foto-toko-blender-v1.glb, buku-kertas-toko-blender-v2.glb
+  (v2 2026-11-11, PR perbaikan visual: buku-kertas = atap mansard diperbaiki [8 panel ujung terputar
+  acak → tutup ujung pentagonal, atap dormer "X" → pelana, UV dinding diproyeksi ulang];
+  roti-kopi = UV bata & kayu diproyeksi ulang [v1: bata raksasa tegak + kayu melar].
+  File v1 tetap ada di repo, tidak dipakai index.html.)
 - kios-biru/merah/oranye-blender-v1.glb
 
 ## Menara & landmark (semua Blender, live)
@@ -60,6 +64,13 @@ gedung-g03-blender-v2.glb — G03 (DIPARKIR — tetap v2, belum enterable)
 - CATATAN: v2 GLB danau/kolam (material Principled aproksimasi, 5 Nov 18:28) DITOLAK pemilik — "masih pake air kayak tempelan" — diganti pendekatan shader-runtime ini.
 - **BUG 5 Nov 18:40:** layar hitam total (0 call, 0k tri) — `terapkanLangit()` manggil `laut.material.color.copy()` padahal material laut sekarang ShaderMaterial (tanpa `.color`) → TypeError matiin render. Fix: guard `laut.material && laut.material.color`. Deploy 18:45.
 - (kosong — pagar tiang sudah live 3 Nov)
+
+## Perbaikan visual 2026-11-11 (PR, BELUM deploy — menunggu verifikasi pemilik)
+- Pohon/cemara: semua bagian GLB (batang + daun/jarum) kini di-instance (dulu hanya mesh pertama = kayu → kerucut coklat). Cemara: tajuk bertingkat dari selubung jarum GLB + LOD jauh.
+- Awan: dasar awan dijaga >= 58 m (tak lagi menembus menara jam 23,75 m).
+- Draw call: pass gabung mesh GLB statis per sel 48 m sesudah antrean muat kosong (layar masuk ±1.000-1.200 → ±250-420 call). Uji A/B: `?nogabung=1`, `?selgabung=NN`.
+- Overlay DIAG pindah ke tepi atas tengah (dulu kiri 46% menutupi papan petunjuk).
+- Plaza: paving 256 px/m berulang + inlay cincin geometri; bunga dimodelkan (tangkai, daun, kelopak, putik) + tanah petak terlihat.
 
 ## Cara cek cepat
 ls ~/workspace/lumina/*.glb | grep -i <nama>   # file ada?
