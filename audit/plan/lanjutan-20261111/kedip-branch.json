@@ -1,0 +1,2498 @@
+{
+"views": [
+{
+"n": "01-plaza-g04",
+"px": 47
+},
+{
+"n": "02-plaza-g03",
+"px": 56
+},
+{
+"n": "03-plaza-g01",
+"px": 38
+},
+{
+"n": "04-plaza-g06g10",
+"px": 7
+},
+{
+"n": "05-plaza-g09",
+"px": 57
+},
+{
+"n": "06-plaza-g02g05",
+"px": 75
+},
+{
+"n": "07-pasar",
+"px": 70
+},
+{
+"n": "08-sungai-jembatan",
+"px": 133
+},
+{
+"n": "09-citywalk",
+"px": 152
+},
+{
+"n": "10-citywalk-barat",
+"px": 20
+},
+{
+"n": "11-utara",
+"px": 93
+},
+{
+"n": "12-menara-jam",
+"px": 6
+},
+{
+"n": "13-pantai",
+"px": 71
+},
+{
+"n": "14-mercu",
+"px": 41
+},
+{
+"n": "15-bukit",
+"px": 34
+},
+{
+"n": "16-dermaga",
+"px": 56
+},
+{
+"n": "17-padang",
+"px": 104
+},
+{
+"n": "18-danau",
+"px": 31
+},
+{
+"n": "19-sekolah",
+"px": 23
+},
+{
+"n": "20-sekolah2",
+"px": 16
+},
+{
+"n": "21-hutan-rumah",
+"px": 10
+},
+{
+"n": "22-lapangan",
+"px": 33
+},
+{
+"n": "23-kemah",
+"px": 11
+},
+{
+"n": "24-selatan-skate",
+"px": 22
+},
+{
+"n": "25-selatan-kolam",
+"px": 55
+},
+{
+"n": "26-selatan-konser",
+"px": 144
+},
+{
+"n": "27-selatan-food",
+"px": 33
+},
+{
+"n": "28-taman-bermain",
+"px": 17
+},
+{
+"n": "29-gunung",
+"px": 2
+},
+{
+"n": "30-pulau",
+"px": 16
+},
+{
+"n": "in-g01",
+"px": 3
+},
+{
+"n": "in-aula",
+"px": 674
+},
+{
+"n": "in-gym",
+"px": 124
+},
+{
+"n": "in-lab",
+"px": 0
+},
+{
+"n": "in-kantin",
+"px": 312
+},
+{
+"n": "in-perpus",
+"px": 33
+},
+{
+"n": "in-lobi",
+"px": 0
+},
+{
+"n": "in-konser",
+"px": 206
+},
+{
+"n": "in-g04",
+"px": 36
+},
+{
+"n": "tanah-plaza",
+"px": 117
+},
+{
+"n": "tanah-cw",
+"px": 153
+},
+{
+"n": "tanah-sekolah",
+"px": 7
+}
+],
+"pasangan": [
+{
+"k": "Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f || Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f @y1.17",
+"px": 216,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-174.2,
+1.17,
+79.64
+],
+"d": 0.0058,
+"dist": 8.3
+},
+{
+"k": "Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f || Merged_PlesterGelap<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: PlesterGelap#ffffff @y1.16",
+"px": 168,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-174.31,
+1.16,
+79.66
+],
+"d": 0.0072,
+"dist": 8.3
+},
+{
+"k": "Mesh/Group :: MeshLambertMaterial#2f3a44 || PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 @y1.01",
+"px": 129,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-199.58,
+1.01,
+87.96
+],
+"d": 0.0168,
+"dist": 16.8
+},
+{
+"k": "Mesh :: MeshLambertMaterial#53a83b || Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff @y0.00",
+"px": 86,
+"nv": 7,
+"views": [
+"05-plaza-g09",
+"06-plaza-g02g05",
+"09-citywalk",
+"13-pantai",
+"25-selatan-kolam",
+"26-selatan-konser",
+"tanah-cw"
+],
+"p": [
+9.02,
+0,
+-25.86
+],
+"d": 0,
+"dist": 12.4
+},
+{
+"k": "Dapur_Top<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: MejaTop#ffffff || Dapur_Top<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: MejaTop#ffffff @y0.77",
+"px": 75,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-204.72,
+0.77,
+76.14
+],
+"d": 0.0025,
+"dist": 4.2
+},
+{
+"k": "LantaiMarmer<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: MarmerTerang#ffffff || Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f @y0.01",
+"px": 64,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-172.82,
+0.01,
+78.22
+],
+"d": 0,
+"dist": 8.3
+},
+{
+"k": "Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f || Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f @y0.01",
+"px": 64,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-172.84,
+0.01,
+78.33
+],
+"d": 0.0195,
+"dist": 8.4
+},
+{
+"k": "Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff || Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff @y0.05",
+"px": 63,
+"nv": 4,
+"views": [
+"05-plaza-g09",
+"09-citywalk",
+"26-selatan-konser",
+"tanah-cw"
+],
+"p": [
+9,
+0.05,
+-27.54
+],
+"d": 0.0142,
+"dist": 14
+},
+{
+"k": "(tunggal) GK_Balcony_mesh<gedung-konser-blender-v1>/GK_Balcony<gedung-konser-blender-v1> :: mahogany#4c2311",
+"px": 62,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+38.73,
+4.62,
+199.85
+]
+},
+{
+"k": "(tunggal) Mesh :: MeshLambertMaterial#ffffff",
+"px": 58,
+"nv": 13,
+"views": [
+"01-plaza-g04",
+"03-plaza-g01",
+"13-pantai",
+"14-mercu",
+"16-dermaga",
+"17-padang",
+"22-lapangan",
+"23-kemah",
+"29-gunung",
+"30-pulau",
+"in-gym",
+"tanah-plaza",
+"tanah-cw"
+],
+"p": [
+-0.41,
+0.58,
+12
+]
+},
+{
+"k": "LantaiMarmer<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: MarmerTerang#ffffff || Mesh :: MeshLambertMaterial#ffffff @y0.00",
+"px": 56,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-172.84,
+0,
+78.14
+],
+"d": 0.013,
+"dist": 8.3
+},
+{
+"k": "Mesh :: MeshLambertMaterial#53a83b || Mesh :: MeshLambertMaterial#53a83b @y0.00",
+"px": 54,
+"nv": 5,
+"views": [
+"05-plaza-g09",
+"07-pasar",
+"08-sungai-jembatan",
+"tanah-plaza",
+"tanah-cw"
+],
+"p": [
+9.01,
+0,
+-26.63
+],
+"d": 0,
+"dist": 13.1
+},
+{
+"k": "Merged_GarisPutih<gedung-gym-v4>/Scene<gedung-gym-v4> :: GarisPutih#f2f2ed || Merged_GarisPutih<gedung-gym-v4>/Scene<gedung-gym-v4> :: GarisPutih#f2f2ed @y0.04",
+"px": 52,
+"nv": 1,
+"views": [
+"in-gym"
+],
+"p": [
+-191.36,
+0.04,
+81.03
+],
+"d": 0.0166,
+"dist": 7.6
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e @y0.45",
+"px": 51,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-204.66,
+0.45,
+77.3
+],
+"d": 0.0091,
+"dist": 5.3
+},
+{
+"k": "(tunggal) Merged_GarisPutih<gedung-gym-v4>/Scene<gedung-gym-v4> :: GarisPutih#f2f2ed",
+"px": 50,
+"nv": 1,
+"views": [
+"in-gym"
+],
+"p": [
+-191.38,
+0.04,
+81.02
+]
+},
+{
+"k": "sungai_bushes<sungai-blender-v4>/Scene<sungai-blender-v4> :: MatLeaf#3f8c3f || sungai_bushes<sungai-blender-v4>/Scene<sungai-blender-v4> :: MatLeaf#3f8c3f @y0.38",
+"px": 47,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+38.27,
+0.38,
+-1.01
+],
+"d": 0,
+"dist": 8
+},
+{
+"k": "Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f || Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f @y0.03",
+"px": 40,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-172.77,
+0.03,
+78.16
+],
+"d": 0.0134,
+"dist": 8.3
+},
+{
+"k": "(tunggal) Mesh :: ShaderMaterial",
+"px": 38,
+"nv": 17,
+"views": [
+"01-plaza-g04",
+"02-plaza-g03",
+"03-plaza-g01",
+"08-sungai-jembatan",
+"13-pantai",
+"14-mercu",
+"15-bukit",
+"16-dermaga",
+"17-padang",
+"18-danau",
+"21-hutan-rumah",
+"22-lapangan",
+"23-kemah",
+"24-selatan-skate",
+"25-selatan-kolam",
+"27-selatan-food",
+"30-pulau"
+],
+"p": [
+-61.95,
+-0.45,
+258.77
+]
+},
+{
+"k": "Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff || Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff @y0.04",
+"px": 33,
+"nv": 7,
+"views": [
+"02-plaza-g03",
+"05-plaza-g09",
+"06-plaza-g02g05",
+"13-pantai",
+"25-selatan-kolam",
+"26-selatan-konser",
+"tanah-cw"
+],
+"p": [
+-90.5,
+0.04,
+5.03
+],
+"d": 0,
+"dist": 82.6
+},
+{
+"k": "(tunggal) GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad",
+"px": 30,
+"nv": 3,
+"views": [
+"06-plaza-g02g05",
+"26-selatan-konser",
+"in-konser"
+],
+"p": [
+24.78,
+8.59,
+186
+]
+},
+{
+"k": "(tunggal) Mesh/TOKO_STUDIO_FOTO :: MeshLambertMaterial#ffffff",
+"px": 24,
+"nv": 3,
+"views": [
+"09-citywalk",
+"tanah-plaza",
+"tanah-cw"
+],
+"p": [
+10.45,
+1.13,
+-53.3
+]
+},
+{
+"k": "LantaiMarmer<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: MarmerTerang#ffffff || Merged_LogamGelap<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: LogamGelap#191616 @y0.00",
+"px": 24,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-174.88,
+0,
+76.16
+],
+"d": 0.0075,
+"dist": 5.8
+},
+{
+"k": "Merged_KayuPanggung<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: KayuPanggung#ffffff || Merged_KayuPanggung<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: KayuPanggung#ffffff @y0.39",
+"px": 24,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-173.04,
+0.39,
+78.15
+],
+"d": 0.005,
+"dist": 8
+},
+{
+"k": "(tunggal) Mesh :: MeshLambertMaterial#53a83b",
+"px": 22,
+"nv": 10,
+"views": [
+"01-plaza-g04",
+"02-plaza-g03",
+"11-utara",
+"13-pantai",
+"14-mercu",
+"15-bukit",
+"21-hutan-rumah",
+"24-selatan-skate",
+"25-selatan-kolam",
+"28-taman-bermain"
+],
+"p": [
+-5.61,
+0,
+33.6
+]
+},
+{
+"k": "(langit)",
+"px": 22,
+"nv": 14,
+"views": [
+"02-plaza-g03",
+"03-plaza-g01",
+"04-plaza-g06g10",
+"05-plaza-g09",
+"08-sungai-jembatan",
+"09-citywalk",
+"11-utara",
+"13-pantai",
+"15-bukit",
+"16-dermaga",
+"17-padang",
+"21-hutan-rumah",
+"22-lapangan",
+"tanah-plaza"
+],
+"p": null
+},
+{
+"k": "Cube014_2<gedung-g04-blender-v5>/Int_Cases<gedung-g04-blender-v5> :: Tembaga#8c471e || Cube014_2<gedung-g04-blender-v5>/Int_Cases<gedung-g04-blender-v5> :: Tembaga#8c471e @y1.38",
+"px": 19,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"in-g04"
+],
+"p": [
+-7.12,
+1.38,
+24.17
+],
+"d": 0.0119,
+"dist": 21.3
+},
+{
+"k": "Lantai<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Marmer#ffffff || Mesh :: MeshLambertMaterial#ffffff @y0.00",
+"px": 19,
+"nv": 2,
+"views": [
+"20-sekolah2",
+"in-kantin"
+],
+"p": [
+-205.69,
+0,
+74.35
+],
+"d": 0,
+"dist": 14.5
+},
+{
+"k": "Badan<gedung-g04-blender-v5>/Scene<gedung-g04-blender-v5> :: Emerald#021e0f || Cube009_1<gedung-g04-blender-v5>/Int_Shell<gedung-g04-blender-v5> :: Krem#edddc1 @y1.01",
+"px": 19,
+"nv": 1,
+"views": [
+"in-g04"
+],
+"p": [
+-12.55,
+1.01,
+23.49
+],
+"d": 0.0138,
+"dist": 4.4
+},
+{
+"k": "(tunggal) water<danau-blender-v1>/Scene<danau-blender-v1> :: ShaderMaterial",
+"px": 17,
+"nv": 2,
+"views": [
+"17-padang",
+"18-danau"
+],
+"p": [
+-180.33,
+0.15,
+-17.8
+]
+},
+{
+"k": "Merged_Beludru<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Beludru#ffffff || Merged_MarmerGelap<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: MarmerGelap#282628 @y0.02",
+"px": 16,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-183.66,
+0.02,
+79.12
+],
+"d": 0.0057,
+"dist": 9.3
+},
+{
+"k": "Mesh :: MeshLambertMaterial#53a83b || toko_stone<roti-kopi-toko-blender-v2>/Scene<roti-kopi-toko-blender-v2> :: mat_stone#726d66 @y0.00",
+"px": 14,
+"nv": 2,
+"views": [
+"10-citywalk-barat",
+"tanah-cw"
+],
+"p": [
+-3.72,
+0,
+-60.1
+],
+"d": 0.0013,
+"dist": 7.6
+},
+{
+"k": "PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 || PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 @y1.01",
+"px": 14,
+"nv": 2,
+"views": [
+"17-padang",
+"in-kantin"
+],
+"p": [
+-133.93,
+1.01,
+4.74
+],
+"d": 0.0202,
+"dist": 44.4
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Wainscot_mesh_1<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: gold#ffb747 @y2.29",
+"px": 14,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+18.51,
+2.29,
+202.49
+],
+"d": 0.0171,
+"dist": 17.1
+},
+{
+"k": "Cube<foodcourt-blender-v1>/Scene<foodcourt-blender-v1> :: Paving#99938c || Mesh :: MeshLambertMaterial#53a83b @y0.00",
+"px": 13,
+"nv": 3,
+"views": [
+"15-bukit",
+"25-selatan-kolam",
+"27-selatan-food"
+],
+"p": [
+70.02,
+0,
+195.33
+],
+"d": 0,
+"dist": 176.3
+},
+{
+"k": "Merged_PlesterGelap<gedung-gym-v4>/Scene<gedung-gym-v4> :: PlesterGelap#ffffff || Mesh :: MeshLambertMaterial#ffffff @y0.00",
+"px": 13,
+"nv": 1,
+"views": [
+"in-gym"
+],
+"p": [
+-189.52,
+0,
+81.11
+],
+"d": 0.0032,
+"dist": 9
+},
+{
+"k": "(tunggal) Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff",
+"px": 12,
+"nv": 6,
+"views": [
+"01-plaza-g04",
+"03-plaza-g01",
+"06-plaza-g02g05",
+"13-pantai",
+"14-mercu",
+"16-dermaga"
+],
+"p": [
+-9.61,
+0.09,
+183
+]
+},
+{
+"k": "(tunggal) Cube007<foodcourt-blender-v1>/Scene<foodcourt-blender-v1> :: WoodDark#5b381e",
+"px": 12,
+"nv": 3,
+"views": [
+"15-bukit",
+"25-selatan-kolam",
+"27-selatan-food"
+],
+"p": [
+73.94,
+0.27,
+203.75
+]
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Wainscot_mesh<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: mahogany#4c2311 @y2.27",
+"px": 10,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+2.27,
+204.02
+],
+"d": 0,
+"dist": 18.2
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || Etal_KacaD<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Kaca#b7ccd6 @y1.75",
+"px": 9,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-203.96,
+1.75,
+80.02
+],
+"d": 0.0066,
+"dist": 7.7
+},
+{
+"k": "(tunggal) Mesh :: MeshLambertMaterial#9a6b42",
+"px": 8,
+"nv": 5,
+"views": [
+"03-plaza-g01",
+"14-mercu",
+"16-dermaga",
+"18-danau",
+"30-pulau"
+],
+"p": [
+-59.48,
+0.44,
+2.17
+]
+},
+{
+"k": "Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f || Merged_Emas<gedung-aula-v1e>/Scene<gedung-aula-v1e> :: Emas#d89e3f @y3.55",
+"px": 8,
+"nv": 1,
+"views": [
+"in-aula"
+],
+"p": [
+-175.38,
+3.55,
+79.64
+],
+"d": 0.0147,
+"dist": 7.6
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Wainscot_mesh<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: mahogany#4c2311 @y2.29",
+"px": 8,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+18.5,
+2.29,
+210.75
+],
+"d": 0,
+"dist": 23.8
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Windows_mesh<gedung-konser-blender-v1>/GK_Windows<gedung-konser-blender-v1> :: glass_glow#f2f7ff @y5.44",
+"px": 8,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+5.44,
+208.79
+],
+"d": 0,
+"dist": 22.1
+},
+{
+"k": "(tunggal) Blk_B1<gedung-g02-blender-v3>/Scene<gedung-g02-blender-v3> :: Bata#ffffff",
+"px": 7,
+"nv": 1,
+"views": [
+"06-plaza-g02g05"
+],
+"p": [
+14.01,
+4.68,
+15.8
+]
+},
+{
+"k": "Awning<gedung-g05-blender-v2>/Scene<gedung-g05-blender-v2> :: DindingRose#ffffff || Bal_0_base<gedung-g05-blender-v2>/Scene<gedung-g05-blender-v2> :: Emas#935207 @y12.39",
+"px": 7,
+"nv": 1,
+"views": [
+"06-plaza-g02g05"
+],
+"p": [
+12.2,
+12.39,
+29.54
+],
+"d": 0.0078,
+"dist": 25.4
+},
+{
+"k": "Mesh :: MeshLambertMaterial#53a83b || Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff @y0.00",
+"px": 7,
+"nv": 3,
+"views": [
+"03-plaza-g01",
+"09-citywalk",
+"14-mercu"
+],
+"p": [
+-27.07,
+0,
+-2.64
+],
+"d": 0,
+"dist": 15.5
+},
+{
+"k": "(tunggal) Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff",
+"px": 6,
+"nv": 1,
+"views": [
+"17-padang"
+],
+"p": [
+-196.53,
+7.48,
+69.84
+]
+},
+{
+"k": "(tunggal) GK_Shell_mesh_1<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_dark#6b665e",
+"px": 6,
+"nv": 2,
+"views": [
+"26-selatan-konser",
+"in-konser"
+],
+"p": [
+17.98,
+11.4,
+200.95
+]
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || Lantai<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Marmer#ffffff @y0.30",
+"px": 6,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-204.23,
+0.3,
+75.79
+],
+"d": 0.0062,
+"dist": 4.5
+},
+{
+"k": "GK_Wainscot_mesh<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: mahogany#4c2311 || GK_Wainscot_mesh_1<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: gold#ffb747 @y2.30",
+"px": 6,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.39,
+2.3,
+203.16
+],
+"d": 0.0154,
+"dist": 17.5
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Windows_mesh<gedung-konser-blender-v1>/GK_Windows<gedung-konser-blender-v1> :: glass_glow#f2f7ff @y6.45",
+"px": 6,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+6.45,
+208.71
+],
+"d": 0,
+"dist": 22.1
+},
+{
+"k": "Cylinder008<lapangan-olahraga-blender-v1>/Lap_Fence<lapangan-olahraga-blender-v1> :: MetalDark#23262d || Cylinder008<lapangan-olahraga-blender-v1>/Lap_Fence<lapangan-olahraga-blender-v1> :: MetalDark#23262d @y1.10",
+"px": 5,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+156.18,
+1.1,
+-18.47
+],
+"d": 0,
+"dist": 122.9
+},
+{
+"k": "(tunggal) toko_glass<kopi-senja-toko-blender-v1>/Scene<kopi-senja-toko-blender-v1> :: m_glass#192328",
+"px": 5,
+"nv": 1,
+"views": [
+"12-menara-jam"
+],
+"p": [
+-12.65,
+3.98,
+-39.97
+]
+},
+{
+"k": "Lap_Base<lapangan-olahraga-blender-v1>/Scene<lapangan-olahraga-blender-v1> :: Concrete#84848e || Mesh :: MeshLambertMaterial#ffffff @y0.00",
+"px": 5,
+"nv": 2,
+"views": [
+"08-sungai-jembatan",
+"22-lapangan"
+],
+"p": [
+165.16,
+0,
+-59.23
+],
+"d": 0,
+"dist": 141.6
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.54",
+"px": 5,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.54,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "(tunggal) Mesh/TOKO_BUKU_KERTAS :: MeshLambertMaterial#ffffff",
+"px": 5,
+"nv": 3,
+"views": [
+"09-citywalk",
+"tanah-plaza",
+"tanah-cw"
+],
+"p": [
+-2.14,
+2.52,
+-56.35
+]
+},
+{
+"k": "Lap_Lines<lapangan-olahraga-blender-v1>/Scene<lapangan-olahraga-blender-v1> :: LineWhite#f4f4f4 || Lap_Lines<lapangan-olahraga-blender-v1>/Scene<lapangan-olahraga-blender-v1> :: LineWhite#f4f4f4 @y0.12",
+"px": 5,
+"nv": 2,
+"views": [
+"08-sungai-jembatan",
+"22-lapangan"
+],
+"p": [
+157.6,
+0.12,
+-58.02
+],
+"d": 0.1131,
+"dist": 134.2
+},
+{
+"k": "Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff || Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff @y0.03",
+"px": 4,
+"nv": 2,
+"views": [
+"05-plaza-g09",
+"26-selatan-konser"
+],
+"p": [
+9,
+0.03,
+-26.85
+],
+"d": 0,
+"dist": 13.4
+},
+{
+"k": "(tunggal) GK_Roof<gedung-konser-blender-v1>/Scene<gedung-konser-blender-v1> :: stone_dark#6b665e",
+"px": 4,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"26-selatan-konser"
+],
+"p": [
+17.7,
+12.02,
+207.79
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.88",
+"px": 4,
+"nv": 3,
+"views": [
+"05-plaza-g09",
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.48,
+2.88,
+-55.5
+],
+"d": 0,
+"dist": 41.7
+},
+{
+"k": "Cube_4<jembatan-sungai-blender-v1>/JembatanSungai<jembatan-sungai-blender-v1> :: BetonTepi#9e937f || Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff @y0.05",
+"px": 4,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+42.45,
+0.05,
+6.01
+],
+"d": 0.0116,
+"dist": 15.5
+},
+{
+"k": "(tunggal) sungai_bank_left<sungai-blender-v4>/Scene<sungai-blender-v4> :: MatDirt#72593f",
+"px": 4,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+63.02,
+0.05,
+28.12
+]
+},
+{
+"k": "buku_cream<buku-kertas-toko-blender-v2>/Scene<buku-kertas-toko-blender-v2> :: m_cream#ffffff || buku_cream<buku-kertas-toko-blender-v2>/Scene<buku-kertas-toko-blender-v2> :: m_cream#ffffff @y1.07",
+"px": 4,
+"nv": 1,
+"views": [
+"10-citywalk-barat"
+],
+"p": [
+-9.15,
+1.07,
+-65.29
+],
+"d": 0.0158,
+"dist": 12.7
+},
+{
+"k": "(tunggal) Mesh/MENARA_U5 :: MeshLambertMaterial#ffffff",
+"px": 4,
+"nv": 3,
+"views": [
+"09-citywalk",
+"11-utara",
+"tanah-cw"
+],
+"p": [
+-14.02,
+14.16,
+-88.39
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.05",
+"px": 4,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.05,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.31",
+"px": 4,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.31,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.43",
+"px": 4,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.43,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.77",
+"px": 4,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.77,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "Mesh :: MeshLambertMaterial#ffffff || Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff @y0.00",
+"px": 4,
+"nv": 1,
+"views": [
+"16-dermaga"
+],
+"p": [
+-91.14,
+0,
+10.64
+],
+"d": 0,
+"dist": 43.4
+},
+{
+"k": "(tunggal) PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921",
+"px": 4,
+"nv": 2,
+"views": [
+"16-dermaga",
+"17-padang"
+],
+"p": [
+-133.89,
+0.05,
+21.61
+]
+},
+{
+"k": "Ground<skatepark-blender-v1>/Scene<skatepark-blender-v1> :: Concrete#999993 || Mesh :: MeshLambertMaterial#53a83b @y0.00",
+"px": 4,
+"nv": 2,
+"views": [
+"14-mercu",
+"24-selatan-skate"
+],
+"p": [
+-49.55,
+0,
+161.63
+],
+"d": 0,
+"dist": 104.7
+},
+{
+"k": "Merged_Emas<gedung-gym-v4>/Scene<gedung-gym-v4> :: Emas#d89e3f || Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff @y8.10",
+"px": 4,
+"nv": 2,
+"views": [
+"17-padang",
+"30-pulau"
+],
+"p": [
+-193.84,
+8.1,
+69.84
+],
+"d": 0.009,
+"dist": 125.2
+},
+{
+"k": "(tunggal) Amb_atas_-10<gedung-utama-sekolah-v4>/Scene<gedung-utama-sekolah-v4> :: Marmer#ffffff",
+"px": 4,
+"nv": 2,
+"views": [
+"19-sekolah",
+"tanah-sekolah"
+],
+"p": [
+-203.93,
+5.14,
+40.3
+]
+},
+{
+"k": "GK_Floor_mesh<gedung-konser-blender-v1>/GK_Floor<gedung-konser-blender-v1> :: marble_floor#ede8dd || GK_Floor_mesh_1<gedung-konser-blender-v1>/GK_Floor<gedung-konser-blender-v1> :: gold#ffb747 @y0.07",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+36.57,
+0.07,
+199.95
+],
+"d": 0.016,
+"dist": 12.6
+},
+{
+"k": "GK_Shell_mesh_1<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_dark#6b665e || GK_Wainscot_mesh<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: mahogany#4c2311 @y0.10",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.45,
+0.1,
+209.7
+],
+"d": 0.0089,
+"dist": 23.1
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Wainscot_mesh_1<gedung-konser-blender-v1>/GK_Wainscot<gedung-konser-blender-v1> :: gold#ffb747 @y2.40",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+2.4,
+203.18
+],
+"d": 0.0153,
+"dist": 17.6
+},
+{
+"k": "GK_Balcony_mesh<gedung-konser-blender-v1>/GK_Balcony<gedung-konser-blender-v1> :: mahogany#4c2311 || GK_Balcony_mesh<gedung-konser-blender-v1>/GK_Balcony<gedung-konser-blender-v1> :: mahogany#4c2311 @y4.64",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+38.75,
+4.64,
+203.87
+],
+"d": 0.0094,
+"dist": 16.4
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Windows_mesh<gedung-konser-blender-v1>/GK_Windows<gedung-konser-blender-v1> :: glass_glow#f2f7ff @y5.57",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+5.57,
+208.69
+],
+"d": 0,
+"dist": 22
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Windows_mesh<gedung-konser-blender-v1>/GK_Windows<gedung-konser-blender-v1> :: glass_glow#f2f7ff @y6.47",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+6.47,
+208.59
+],
+"d": 0,
+"dist": 22
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Windows_mesh<gedung-konser-blender-v1>/GK_Windows<gedung-konser-blender-v1> :: glass_glow#f2f7ff @y6.66",
+"px": 4,
+"nv": 1,
+"views": [
+"in-konser"
+],
+"p": [
+41.5,
+6.66,
+208.67
+],
+"d": 0,
+"dist": 22.1
+},
+{
+"k": "Merged_Plester<gedung-lab-v6>/Scene<gedung-lab-v6> :: Plester#ffffff || Merged_Plester<gedung-lab-v6>/Scene<gedung-lab-v6> :: Plester#ffffff @y3.43",
+"px": 3,
+"nv": 1,
+"views": [
+"01-plaza-g04"
+],
+"p": [
+-237.88,
+3.43,
+79.09
+],
+"d": 0.2617,
+"dist": 251.1
+},
+{
+"k": "BalkSlab<gedung-g02-blender-v3>/Scene<gedung-g02-blender-v3> :: Krem#e2c9a0 || Blk_B1<gedung-g02-blender-v3>/Scene<gedung-g02-blender-v3> :: Bata#ffffff @y9.38",
+"px": 3,
+"nv": 1,
+"views": [
+"06-plaza-g02g05"
+],
+"p": [
+9.93,
+9.38,
+18.86
+],
+"d": 0.01,
+"dist": 14.7
+},
+{
+"k": "Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff || Sidewalks<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Sidewalk#ffffff @y0.01",
+"px": 3,
+"nv": 3,
+"views": [
+"01-plaza-g04",
+"03-plaza-g01",
+"tanah-plaza"
+],
+"p": [
+4,
+0.01,
+48.58
+],
+"d": 0,
+"dist": 43.8
+},
+{
+"k": "Mesh :: MeshLambertMaterial#ffffff || Roads<jalan-raya-blender-v1>/Scene<jalan-raya-blender-v1> :: Asphalt#ffffff @y0.00",
+"px": 3,
+"nv": 2,
+"views": [
+"03-plaza-g01",
+"16-dermaga"
+],
+"p": [
+-90.42,
+0,
+-17.81
+],
+"d": 0,
+"dist": 79.7
+},
+{
+"k": "(tunggal) Mesh :: vegetasi_pohon#ffffff",
+"px": 3,
+"nv": 3,
+"views": [
+"04-plaza-g06g10",
+"11-utara",
+"tanah-plaza"
+],
+"p": [
+-146.76,
+3.09,
+-35.87
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.79",
+"px": 3,
+"nv": 2,
+"views": [
+"05-plaza-g09",
+"09-citywalk"
+],
+"p": [
+11.45,
+1.79,
+-55.5
+],
+"d": 0,
+"dist": 41.7
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.34",
+"px": 3,
+"nv": 2,
+"views": [
+"05-plaza-g09",
+"tanah-cw"
+],
+"p": [
+11.47,
+2.34,
+-55.5
+],
+"d": 0,
+"dist": 41.7
+},
+{
+"k": "eskrim_dark<gerobak-es-krim-blender-v1>/Scene<gerobak-es-krim-blender-v1> :: mat_dark#141111 || eskrim_wood<gerobak-es-krim-blender-v1>/Scene<gerobak-es-krim-blender-v1> :: mat_wood#ffffff @y0.80",
+"px": 3,
+"nv": 2,
+"views": [
+"06-plaza-g02g05",
+"13-pantai"
+],
+"p": [
+6.03,
+0.8,
+54.59
+],
+"d": 0,
+"dist": 46.8
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y1.10",
+"px": 3,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.21,
+1.1,
+7.67
+],
+"d": 0.0198,
+"dist": 11.6
+},
+{
+"k": "Cube008<gedung-g08-blender-v2>/Scene<gedung-g08-blender-v2> :: Putih#e8e2d8 || Cube631<gedung-g08-blender-v2>/Scene<gedung-g08-blender-v2> :: AtapNavy#050b25 @y5.73",
+"px": 3,
+"nv": 2,
+"views": [
+"07-pasar",
+"tanah-plaza"
+],
+"p": [
+31.83,
+5.73,
+-13.41
+],
+"d": 0.0067,
+"dist": 22.4
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.20",
+"px": 3,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.2,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.28",
+"px": 3,
+"nv": 2,
+"views": [
+"09-citywalk",
+"tanah-cw"
+],
+"p": [
+11.43,
+2.28,
+-55.5
+],
+"d": 0,
+"dist": 21.1
+},
+{
+"k": "(tunggal) Mesh/Group :: MeshLambertMaterial#a5713d",
+"px": 3,
+"nv": 3,
+"views": [
+"09-citywalk",
+"11-utara",
+"30-pulau"
+],
+"p": [
+-4.19,
+0.48,
+-104.1
+]
+},
+{
+"k": "(tunggal) Mesh/MENARA_U3 :: MeshLambertMaterial#ffffff",
+"px": 3,
+"nv": 3,
+"views": [
+"11-utara",
+"tanah-plaza",
+"tanah-cw"
+],
+"p": [
+-11,
+19.79,
+-117.19
+]
+},
+{
+"k": "Cube005<foodcourt-blender-v1>/Scene<foodcourt-blender-v1> :: TrimWhite#edede5 || Cube005<foodcourt-blender-v1>/Scene<foodcourt-blender-v1> :: TrimWhite#edede5 @y2.07",
+"px": 3,
+"nv": 1,
+"views": [
+"13-pantai"
+],
+"p": [
+57.92,
+2.07,
+203.19
+],
+"d": 0.0637,
+"dist": 173.2
+},
+{
+"k": "Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff || Merged_Putih<gedung-gym-v4>/Scene<gedung-gym-v4> :: Putih#f4efe5 @y7.98",
+"px": 3,
+"nv": 1,
+"views": [
+"14-mercu"
+],
+"p": [
+-188.15,
+7.98,
+71.29
+],
+"d": 0.1053,
+"dist": 163.6
+},
+{
+"k": "(tunggal) Cube002<danau-blender-v1>/pier<danau-blender-v1> :: Wood#7a512d",
+"px": 3,
+"nv": 1,
+"views": [
+"16-dermaga"
+],
+"p": [
+-180,
+0.96,
+-11.27
+]
+},
+{
+"k": "(tunggal) Mesh :: MeshLambertMaterial#d9b98a",
+"px": 3,
+"nv": 3,
+"views": [
+"14-mercu",
+"16-dermaga",
+"21-hutan-rumah"
+],
+"p": [
+-34.17,
+-0.43,
+135
+]
+},
+{
+"k": "GK_Shell_mesh<gedung-konser-blender-v1>/GK_Shell<gedung-konser-blender-v1> :: stone_ext#d6c6ad || GK_Stage_mesh_2<gedung-konser-blender-v1>/GK_Stage<gedung-konser-blender-v1> :: backdrop_navy#111630 @y5.64",
+"px": 3,
+"nv": 2,
+"views": [
+"13-pantai",
+"in-konser"
+],
+"p": [
+27.19,
+5.64,
+221.5
+],
+"d": 0,
+"dist": 183.5
+},
+{
+"k": "PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 || PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 @y0.67",
+"px": 3,
+"nv": 2,
+"views": [
+"16-dermaga",
+"19-sekolah"
+],
+"p": [
+-165.96,
+0.67,
+25.7
+],
+"d": 0.0004,
+"dist": 119.3
+},
+{
+"k": "PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 || PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 @y1.19",
+"px": 3,
+"nv": 3,
+"views": [
+"17-padang",
+"19-sekolah",
+"20-sekolah2"
+],
+"p": [
+-133.98,
+1.19,
+0.05
+],
+"d": 0.0329,
+"dist": 44.1
+},
+{
+"k": "Mesh :: MeshLambertMaterial#9a6b42 || Mesh :: MeshLambertMaterial#9a6b42 @y0.50",
+"px": 3,
+"nv": 2,
+"views": [
+"17-padang",
+"30-pulau"
+],
+"p": [
+-169.78,
+0.5,
+-20.38
+],
+"d": 0.0334,
+"dist": 82.5
+},
+{
+"k": "Cube002_1<lapangan-olahraga-blender-v1>/Lap_Grass<lapangan-olahraga-blender-v1> :: GrassLight#308438 || Lap_Track<lapangan-olahraga-blender-v1>/Scene<lapangan-olahraga-blender-v1> :: TrackRed#9e3d28 @y0.08",
+"px": 3,
+"nv": 1,
+"views": [
+"22-lapangan"
+],
+"p": [
+197,
+0.08,
+-47.38
+],
+"d": 0,
+"dist": 46.7
+},
+{
+"k": "Cube001<taman-bermain-blender-v1>/Mat<taman-bermain-blender-v1> :: RubberDark#0f2626 || Mesh :: MeshLambertMaterial#53a83b @y0.00",
+"px": 3,
+"nv": 2,
+"views": [
+"24-selatan-skate",
+"28-taman-bermain"
+],
+"p": [
+-52.48,
+0,
+197.09
+],
+"d": 0,
+"dist": 58.7
+},
+{
+"k": "Kolam_Deck<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: DeckTile#c6bfb2 || Mesh :: MeshLambertMaterial#53a83b @y0.00",
+"px": 3,
+"nv": 1,
+"views": [
+"25-selatan-kolam"
+],
+"p": [
+20.06,
+0,
+144.14
+],
+"d": 0,
+"dist": 12.4
+},
+{
+"k": "Merged_CourtBiruTua<gedung-gym-v4>/Scene<gedung-gym-v4> :: CourtBiruTua#142d66 || Merged_CourtBiruTua<gedung-gym-v4>/Scene<gedung-gym-v4> :: CourtBiruTua#142d66 @y0.03",
+"px": 3,
+"nv": 1,
+"views": [
+"in-gym"
+],
+"p": [
+-190.52,
+0.03,
+81.69
+],
+"d": 0.0119,
+"dist": 8.6
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || GableE<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Plester#ffffff @y1.75",
+"px": 3,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-203.46,
+1.75,
+79.98
+],
+"d": 0.0111,
+"dist": 7.9
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e @y1.74",
+"px": 3,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-203.54,
+1.74,
+80.04
+],
+"d": 0.0019,
+"dist": 7.9
+},
+{
+"k": "(tunggal) Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e",
+"px": 3,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-205.43,
+1.75,
+79.95
+]
+},
+{
+"k": "Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e || Burner0<gedung-kantin-v3>/Scene<gedung-kantin-v3> :: Logam#19191e @y1.75",
+"px": 3,
+"nv": 1,
+"views": [
+"in-kantin"
+],
+"p": [
+-205.91,
+1.75,
+79.95
+],
+"d": 0.0176,
+"dist": 7.1
+},
+{
+"k": "(tunggal) Mesh/ROTI_KOPI_LAMA :: MeshBasicMaterial#ffffff",
+"px": 3,
+"nv": 1,
+"views": [
+"tanah-plaza"
+],
+"p": [
+-3.14,
+3.52,
+-52.74
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.57",
+"px": 3,
+"nv": 1,
+"views": [
+"tanah-cw"
+],
+"p": [
+11.43,
+2.57,
+-55.5
+],
+"d": 0,
+"dist": 17.4
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.60",
+"px": 3,
+"nv": 1,
+"views": [
+"tanah-cw"
+],
+"p": [
+11.41,
+2.6,
+-55.48
+],
+"d": 0.0215,
+"dist": 17.4
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y2.80",
+"px": 3,
+"nv": 1,
+"views": [
+"tanah-cw"
+],
+"p": [
+11.43,
+2.8,
+-55.5
+],
+"d": 0,
+"dist": 17.4
+},
+{
+"k": "(tunggal) Balkon_Lantai<gedung-g04-blender-v5>/Scene<gedung-g04-blender-v5> :: Krem#edddc1",
+"px": 2,
+"nv": 1,
+"views": [
+"01-plaza-g04"
+],
+"p": [
+-11,
+1.05,
+19.63
+]
+},
+{
+"k": "Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 || Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 @y1.02",
+"px": 2,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"06-plaza-g02g05"
+],
+"p": [
+24.67,
+1.02,
+166.68
+],
+"d": 0,
+"dist": 163.3
+},
+{
+"k": "Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff || Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff @y8.18",
+"px": 2,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"02-plaza-g03"
+],
+"p": [
+-186.06,
+8.18,
+69.98
+],
+"d": 0.1482,
+"dist": 199
+},
+{
+"k": "BK_W0<gedung-g03-blender-v2>/Scene<gedung-g03-blender-v2> :: Kobalt#ffffff || BK_W0<gedung-g03-blender-v2>/Scene<gedung-g03-blender-v2> :: Kobalt#ffffff @y9.55",
+"px": 2,
+"nv": 1,
+"views": [
+"01-plaza-g04"
+],
+"p": [
+-18.82,
+9.55,
+20.23
+],
+"d": 0.0107,
+"dist": 26.5
+},
+{
+"k": "AR_V00<gedung-g03-blender-v2>/Scene<gedung-g03-blender-v2> :: Emas#b77f33 || AR_V00<gedung-g03-blender-v2>/Scene<gedung-g03-blender-v2> :: Emas#b77f33 @y9.28",
+"px": 2,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"02-plaza-g03"
+],
+"p": [
+-21.38,
+9.28,
+17.22
+],
+"d": 0.026,
+"dist": 27
+},
+{
+"k": "Merged_Plester<gedung-lab-v6>/Scene<gedung-lab-v6> :: Plester#ffffff || Merged_Plester<gedung-lab-v6>/Scene<gedung-lab-v6> :: Plester#ffffff @y7.21",
+"px": 2,
+"nv": 1,
+"views": [
+"02-plaza-g03"
+],
+"p": [
+-237.88,
+7.21,
+79.3
+],
+"d": 0.2624,
+"dist": 241.3
+},
+{
+"k": "Merged_Atap<gedung-gym-v4>/Scene<gedung-gym-v4> :: Atap#ffffff || Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff @y8.19",
+"px": 2,
+"nv": 1,
+"views": [
+"02-plaza-g03"
+],
+"p": [
+-186.06,
+8.19,
+72.33
+],
+"d": 0.0966,
+"dist": 190.1
+},
+{
+"k": "Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff || Merged_Plester<gedung-gym-v4>/Scene<gedung-gym-v4> :: Plester#ffffff @y8.16",
+"px": 2,
+"nv": 1,
+"views": [
+"02-plaza-g03"
+],
+"p": [
+-186.06,
+8.16,
+70.63
+],
+"d": 0.149,
+"dist": 189.5
+},
+{
+"k": "(tunggal) Mesh :: MeshLambertMaterial#7d5636",
+"px": 2,
+"nv": 1,
+"views": [
+"03-plaza-g01"
+],
+"p": [
+-59.37,
+0.4,
+2.53
+]
+},
+{
+"k": "Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 || Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 @y0.27",
+"px": 2,
+"nv": 1,
+"views": [
+"03-plaza-g01"
+],
+"p": [
+-178.99,
+0.27,
+-7.43
+],
+"d": 0.0586,
+"dist": 167.1
+},
+{
+"k": "Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 || Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 @y0.80",
+"px": 2,
+"nv": 1,
+"views": [
+"03-plaza-g01"
+],
+"p": [
+-179.08,
+0.8,
+-9.06
+],
+"d": 0.1401,
+"dist": 167.2
+},
+{
+"k": "Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 || Cube002_1<danau-blender-v1>/pier<danau-blender-v1> :: WoodDark#543821 @y0.79",
+"px": 2,
+"nv": 1,
+"views": [
+"03-plaza-g01"
+],
+"p": [
+-179.08,
+0.79,
+-9.52
+],
+"d": 0.1401,
+"dist": 167.2
+},
+{
+"k": "Int_Furn001<gedung-g07-blender-v2>/Int_Furn<gedung-g07-blender-v2> :: Kayu#251005 || Int_Furn001_2<gedung-g07-blender-v2>/Int_Furn<gedung-g07-blender-v2> :: KacaEtalase#bfe0ea @y1.11",
+"px": 2,
+"nv": 1,
+"views": [
+"06-plaza-g02g05"
+],
+"p": [
+32.42,
+1.11,
+17.49
+],
+"d": 0.005,
+"dist": 32
+},
+{
+"k": "Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 || Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 @y0.96",
+"px": 2,
+"nv": 2,
+"views": [
+"01-plaza-g04",
+"25-selatan-kolam"
+],
+"p": [
+18.84,
+0.96,
+166.68
+],
+"d": 0,
+"dist": 162.6
+},
+{
+"k": "PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 || PagarModul_tiang<pagar-blender-v1-tiang>/Scene<pagar-blender-v1-tiang> :: DarkMetal#191921 @y1.13",
+"px": 2,
+"nv": 2,
+"views": [
+"02-plaza-g03",
+"17-padang"
+],
+"p": [
+-133.95,
+1.13,
+2.61
+],
+"d": 0.1001,
+"dist": 126
+},
+{
+"k": "WinGlass<gedung-utama-sekolah-v4>/Scene<gedung-utama-sekolah-v4> :: Kaca#72a5bf || WinGlass<gedung-utama-sekolah-v4>/Scene<gedung-utama-sekolah-v4> :: Kaca#72a5bf @y11.99",
+"px": 2,
+"nv": 2,
+"views": [
+"02-plaza-g03",
+"16-dermaga"
+],
+"p": [
+-189.98,
+11.99,
+48.35
+],
+"d": 0.0206,
+"dist": 187
+},
+{
+"k": "(tunggal) Mesh :: MeshBasicMaterial#ffffff",
+"px": 2,
+"nv": 2,
+"views": [
+"03-plaza-g01",
+"30-pulau"
+],
+"p": [
+-224.53,
+0.05,
+-11.62
+]
+},
+{
+"k": "(tunggal) Mesh/Group :: MeshLambertMaterial#a83c2e",
+"px": 2,
+"nv": 2,
+"views": [
+"03-plaza-g01",
+"16-dermaga"
+],
+"p": [
+-149.5,
+2.48,
+6.73
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.67",
+"px": 2,
+"nv": 2,
+"views": [
+"05-plaza-g09",
+"09-citywalk"
+],
+"p": [
+11.45,
+1.67,
+-55.5
+],
+"d": 0,
+"dist": 41.7
+},
+{
+"k": "(tunggal) Cube001<menara-1-blender-v1>/Walls<menara-1-blender-v1> :: M1_Plaster#ffffff",
+"px": 2,
+"nv": 2,
+"views": [
+"05-plaza-g09",
+"tanah-plaza"
+],
+"p": [
+13.62,
+15.8,
+-90.42
+]
+},
+{
+"k": "Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 || Kolam_Fencemesh<kolam-renang-blender-v1>/Scene<kolam-renang-blender-v1> :: FenceMesh#8c9199 @y0.60",
+"px": 2,
+"nv": 2,
+"views": [
+"06-plaza-g02g05",
+"15-bukit"
+],
+"p": [
+16.59,
+0.6,
+143.29
+],
+"d": 0,
+"dist": 136.1
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.83",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.98,
+0.83,
+7.79
+],
+"d": 0.0039,
+"dist": 12.3
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.85",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.92,
+0.85,
+7.79
+],
+"d": 0.0039,
+"dist": 12.3
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.88",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.84,
+0.88,
+7.79
+],
+"d": 0.0039,
+"dist": 12.2
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.90",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.78,
+0.9,
+7.79
+],
+"d": 0.0039,
+"dist": 12.1
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.93",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.7,
+0.93,
+7.79
+],
+"d": 0.0039,
+"dist": 12.1
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.95",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.64,
+0.95,
+7.79
+],
+"d": 0.0039,
+"dist": 12
+},
+{
+"k": "wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff || wood<kios-biru-blender-v1>/Scene<kios-biru-blender-v1> :: kios_wood#ffffff @y0.99",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+22.53,
+0.99,
+7.79
+],
+"d": 0.0038,
+"dist": 11.9
+},
+{
+"k": "wood<kios-oranye-blender-v1>/Scene<kios-oranye-blender-v1> :: kios_wood#ffffff || wood<kios-oranye-blender-v1>/Scene<kios-oranye-blender-v1> :: kios_wood#ffffff @y0.95",
+"px": 2,
+"nv": 1,
+"views": [
+"07-pasar"
+],
+"p": [
+27.25,
+0.95,
+-6.54
+],
+"d": 0.02,
+"dist": 15.1
+},
+{
+"k": "sungai_bushes<sungai-blender-v4>/Scene<sungai-blender-v4> :: MatLeaf#3f8c3f || sungai_bushes<sungai-blender-v4>/Scene<sungai-blender-v4> :: MatLeaf#3f8c3f @y0.33",
+"px": 2,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+53.42,
+0.33,
+-11.62
+],
+"d": 0,
+"dist": 20.8
+},
+{
+"k": "Cube002<lapangan-olahraga-blender-v1>/Lap_Grass<lapangan-olahraga-blender-v1> :: GrassDark#216b2d || Cube002_1<lapangan-olahraga-blender-v1>/Lap_Grass<lapangan-olahraga-blender-v1> :: GrassLight#308438 @y0.01",
+"px": 2,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+162,
+0.01,
+-32.59
+],
+"d": 0,
+"dist": 130.8
+},
+{
+"k": "(tunggal) Mesh :: vegetasi_pinus#ffffff",
+"px": 2,
+"nv": 1,
+"views": [
+"08-sungai-jembatan"
+],
+"p": [
+203.17,
+2.86,
+-76.82
+]
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.52",
+"px": 2,
+"nv": 1,
+"views": [
+"09-citywalk"
+],
+"p": [
+11.44,
+1.52,
+-55.5
+],
+"d": 0,
+"dist": 21.2
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.63",
+"px": 2,
+"nv": 1,
+"views": [
+"09-citywalk"
+],
+"p": [
+11.44,
+1.63,
+-55.5
+],
+"d": 0,
+"dist": 21.2
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.75",
+"px": 2,
+"nv": 1,
+"views": [
+"09-citywalk"
+],
+"p": [
+11.44,
+1.75,
+-55.5
+],
+"d": 0,
+"dist": 21.2
+},
+{
+"k": "studio_glass<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_glass#192328 || studio_plaster<studio-foto-toko-blender-v1>/Scene<studio-foto-toko-blender-v1> :: m_plaster#ffffff @y1.90",
+"px": 2,
+"nv": 1,
+"views": [
+"09-citywalk"
+],
+"p": [
+11.44,
+1.9,
+-55.5
+],
+"d": 0,
+"dist": 21.2
+}
+],
+"err": []
+}
