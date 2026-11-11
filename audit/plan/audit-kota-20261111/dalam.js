@@ -1,0 +1,3 @@
+(function(){ var A = window.__aud, B = { aula:[-183.5,-172.5,71.5,79.5], gym:[-197.5,-188.5,70.5,81.5], lab:[-247.5,-238.5,72.5,79.5], kantin:[-211.5,-202.5,72.5,79.5], perpus:[-236,-219,54,66], sekolah:[-219,-191,40,51], konser:[18,42,185,213], g01:[-29,-25,-16,-12], g04:[-11,-8,21,26] }, out = {};
+ Object.keys(B).forEach(function(k){ var b = B[k], n = 0, r = 0; for (var x = b[0]; x <= b[1]; x += A.CELL) for (var z = b[2]; z <= b[3]; z += A.CELL){ var i = Math.floor((z - A.Z0) / A.CELL) * A.NX + Math.floor((x - A.X0) / A.CELL); n++; if (A.reach[i]) r++; } out[k] = +(r * A.CELL * A.CELL).toFixed(1) + ' m2 dari ' + (n * A.CELL * A.CELL).toFixed(0); });
+ return out; })()

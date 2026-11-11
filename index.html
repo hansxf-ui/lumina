@@ -1254,6 +1254,13 @@ penabrak.push({ x:0, z:0, r:4.0 });   /* air mancur plaza (0,0) */
           var wm = createWaterMaterial(THREE);
           o.material = wm.material;
           daftarAirShader.push(wm);
+          /* AUDIT 2026-11-11: vertex shader air MENGGANTI y verteks dengan tinggi gelombang
+             (y lokal = ±0,15). Verteks sungai_water di-bake di y -0,24..-0,37 dengan node y 0,
+             jadi permukaan sungai naik ke y ~0 dan menembus lobus darat (atas y 0) sebagai
+             tambalan bergerigi (sungai sekitar pasar/jembatan/City Walk). Turunkan node ke
+             rata-rata y verteks: puncak gelombang -0,15 < tanah 0. water.js tidak disentuh. */
+          if (!o.geometry.boundingBox) o.geometry.computeBoundingBox();
+          o.position.y += (o.geometry.boundingBox.min.y + o.geometry.boundingBox.max.y) / 2;
         }
       });
       model.position.set(0, 0, 0);
@@ -1471,11 +1478,13 @@ var ZONA_LARANG_VEG = [
    (duplikasi baris tidak mengubah apa pun; dibuktikan harness
    audit/plan/uji-kamera-marka.cjs). Dipakai HANYA oleh
    dorongKeluarTapak() di bawah. */
+/* AUDIT 2026-11-11: indeks baris ZONA_LARANG_KAMERA untuk gedung yang bisa DIMASUKI (G01). */
+var KAMERA_MASUK = { 0:true };
 var ZONA_LARANG_KAMERA = [
-  [-27.00, -14.00, 3.93, 2.99, 0.000, 8.91],   /* G01 (rect kode) */
+  [-26.97, -14.02, 4.84, 3.49, 4.232, 8.91],   /* G01 v3 (AUDIT 11-11: tapak nyata diputar seperti model, bukan rect kode sejajar sumbu) */
   [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
   [-23.83, 19.86, 5.05, 4.62, 5.404, 10.98],   /* G03 */
-  [-7.20, 17.89, 3.20, 9.41, 5.903, 19.06],    /* G04 — pusat VISUAL, bukan loader (-15,37.4)! */
+  [-9.42, 23.45, 3.15, 3.30, 5.903, 15.52],    /* G04 v3 (AUDIT 11-11: tapak badan nyata; slab 18,8 m lama = artefak v2) */
   [9.85, 32.42, 3.99, 4.05, 0.180, 15.77],     /* G05 */
   [-34.54, -31.40, 5.20, 5.11, 3.797, 15.34],  /* G06 */
   [29.72, 16.91, 5.36, 4.65, 1.249, 13.55],    /* G07 */
@@ -1510,27 +1519,28 @@ var ZONA_LARANG_KAMERA = [
    (boleh dilewati). Kolam: airnya diblokir, pagarnya tidak (lokasi gerbang
    tidak pasti). */
 var ZONA_LARANG_PEMAIN = [
-  [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
-  [-23.83, 19.86, 5.05, 4.62, 5.404, 10.98],   /* G03 */
-  [-7.20, 17.89, 3.20, 9.41, 5.903, 19.06],    /* G04 (visual) */
-  [9.85, 32.42, 3.99, 4.05, 0.180, 15.77],     /* G05 */
-  [-34.54, -31.40, 5.20, 5.11, 3.797, 15.34],  /* G06 */
-  [29.72, 16.91, 5.36, 4.65, 1.249, 13.55],    /* G07 */
-  [34.57, -14.92, 3.66, 3.66, 1.903, 15.86],   /* G08 */
-  [20.71, -27.53, 5.40, 7.80, 2.504, 12.48],   /* G09 */
-  [-14.00, -33.00, 7.35, 4.90, 3.321, 8.32],   /* G10 */
-  [-25.00, -46.45, 3.90, 4.35, 0.000, 23.75],  /* Menara Jam */
+  [15.03, 20.04, 4.40, 4.25, 3.785, 13.92],    /* G02 (AUDIT 11-11: tapak terukur raster 0,25 m) */
+  [-23.94, 19.93, 4.95, 4.27, 5.404, 10.98],   /* G03 (AUDIT 11-11) */
+  [-9.42, 23.45, 3.15, 3.30, 5.903, 15.52],    /* G04 v3 (AUDIT 11-11: tapak badan nyata) */
+  [9.86, 32.21, 3.85, 3.95, 0.180, 15.77],     /* G05 (AUDIT 11-11) */
+  [-34.98, -31.98, 5.00, 4.15, 3.797, 15.34],  /* G06 (AUDIT 11-11) */
+  [29.77, 16.92, 5.32, 4.61, 1.249, 13.55],    /* G07 (AUDIT 11-11) */
+  [34.60, -14.91, 3.63, 3.62, 1.903, 15.86],   /* G08 (AUDIT 11-11) */
+  [21.33, -27.04, 4.37, 7.57, 2.504, 12.48],   /* G09 (AUDIT 11-11) */
+  [-14.00, -33.07, 7.43, 4.37, 3.321, 8.32],   /* G10 (AUDIT 11-11) */
+  [-25.00, -46.25, 3.90, 4.15, 0.000, 23.75],  /* Menara Jam (AUDIT 11-11) */
   [76.76, -35.96, 5.00, 3.50, 0.500, 6.50],    /* Rumah Modern (75,-35) */
   [100.00, -55.00, 4.70, 3.00, -0.300, 6.00],  /* Rumah Tradisional (100,-55) */
   [125.00, -30.00, 4.20, 2.75, 0.800, 5.80],   /* Rumah Cottage (125,-30) */
-  [15.02, -91.84, 4.00, 4.50, -2.291, 14.50],  /* Menara Utara 1 */
-  [19.83, -107.58, 4.50, 4.00, -1.442, 17.40], /* Menara Utara 2 */
-  [11.15, -121.61, 5.00, 4.50, -0.592, 20.30], /* Menara Utara 3 */
-  [-9.74, -122.47, 4.00, 4.50, 0.509, 23.20],  /* Menara Utara 4 */
-  [-19.55, -109.22, 4.50, 4.00, 1.358, 26.10], /* Menara Utara 5 */
-  [-16.07, -93.09, 5.00, 4.50, 2.207, 14.50], /* Menara Utara 6 */
-  [65.00, 200.40, 9.66, 6.06, 0.000, 3.41],    /* Food Court (65,200) */
-  [30.85, 157.60, 11.80, 5.55, 0.000, 1.00]    /* Kolam — air (30,155) */
+  [15.05, -91.80, 3.05, 3.07, -2.291, 14.50],  /* Menara Utara 1 (AUDIT 11-11: tapak nyata, bukan bbox) */
+  [20.26, -107.64, 3.79, 4.22, -1.442, 17.40], /* Menara Utara 2 (AUDIT 11-11) */
+  [11.50, -122.13, 3.81, 4.40, -0.592, 20.30], /* Menara Utara 3 (AUDIT 11-11) */
+  [-10.11, -123.12, 3.63, 4.36, 0.509, 23.20], /* Menara Utara 4 (AUDIT 11-11) */
+  [-20.28, -109.38, 4.39, 5.14, 1.358, 26.10], /* Menara Utara 5 (AUDIT 11-11) */
+  [-16.45, -92.80, 3.76, 4.23, 2.207, 14.50],  /* Menara Utara 6 (AUDIT 11-11) */
+  /* Food Court (65,200): OBB 9,66x6,06 DICABUT (AUDIT 11-11) — menutup seluruh area makan terbuka (meja, payung, lorong antar stand) jadi tembok tak terlihat 38 m2; diganti collider geometri di pasangFoodCourtGLB. */
+  [30.85, 157.60, 11.80, 5.55, 0.000, 1.00],   /* Kolam — air (30,155) */
+  [-152.00, 6.00, 2.55, 3.55, 0.000, 5.40, 0.55]  /* Lumbung padang (AUDIT 11-11: ganti lingkaran r 5 yang menahan pemain 3 m dari dinding; margin 0,55 = jari-jari pemain) */
 ];
 /* Rect [x0,x1,z0,z1] — jalan terukur probe.py + sungai + perkemahan (hutan). */
 var RECT_LARANG_VEG = [
@@ -2057,8 +2067,8 @@ function teksturGedung(warnaDinding, malam){
          penabrak PEMAIN saja (bendera), BUKAN dari penabrak: pencabutan penuh menggeser 2 pohon
          kota s.d. 9,04 m (replay R6). Kamera S1 + snapshot pohon tetap memakai lingkaran ini. */
     if (i === 0){ /* G01 enterable: tanpa lingkaran ring */ }
-    else if (i === 3) penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7, tanpaPemain:true });
-    else penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7 });
+    else if (i === 3) penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7, tanpaPemain:true, tanpaKamera:true });   /* AUDIT 11-11: juga dilewati kamera S1 (lingkaran di udara kosong plaza) */
+    else penabrak.push({ x:p[0], z:p[1], r: Math.max(lebar, dalam)/2 + 0.7, tanpaPemain:true });   /* AUDIT 11-11: G02–G10 punya OBB tapak nyata di ZONA_LARANG_PEMAIN; lingkaran ring (setengah-diagonal box kode lama + 0,7) menahan pemain di udara kosong s.d. 2,4 m dari dinding (G09, G06, G03). Tetap dipakai snapshot vegetasi + kamera S1. */
   });
   /* --- G01 GLB: pola muat gaya gerbang (timeout 180 dtk, tanpa
      gedungGagal: gedung plaza bukan gedung KUNCI_GEDUNG). Fasad model
@@ -2072,24 +2082,30 @@ function teksturGedung(warnaDinding, malam){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
-    /* collider G01 v3: perimeter 7.85x5.97 di (-27,-14) dengan BUKAAN PINTU di depan */
+    /* collider G01 v3: perimeter 7.85x5.97 di (-27,-14) dengan BUKAAN PINTU di depan
+       AUDIT 2026-11-11: rantai ini SEJAJAR SUMBU, padahal model diputar 1,091+PI (tapak nyata
+       miring ±62° terhadap rantai) — pemain menembus sudut dinding miring, tertahan tembok
+       tak terlihat di dalam toko, dan 'bukaan pintu' rantai memotong dinding visual. Rantai
+       DIBIARKAN di array (snapshot vegetasi kota memakai posisinya; seed 20261040) tetapi
+       ditandai tanpaPemain + tanpaKamera; collider pemain kini dari geometri GLB (dinding,
+       kusen, rak, kasir) via pasangColliderOtomatis di callback muat di bawah. */
     (function(){
       var cx=-27, cz=-14, w=7.85, d=5.97;
       var x0=cx-w/2, x1=cx+w/2, z0=cz-d/2, z1=cz+d/2;
       var x, z;
       /* dinding belakang & samping penuh */
-      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6}); }
-      for (z=z0; z<=z1+0.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6}); penabrak.push({x:x1, z:z, r:0.6}); }
+      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
+      for (z=z0; z<=z1+0.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:x1, z:z, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
       /* dinding depan DENGAN bukaan pintu 1.8m di tengah */
       var doorW = 1.8, dx0 = cx-doorW/2, dx1 = cx+doorW/2;
       for (x=x0; x<=x1+0.01; x+=1){
-        if (x < dx0-0.3 || x > dx1+0.3){ penabrak.push({x:x, z:z1, r:0.6}); }
+        if (x < dx0-0.3 || x > dx1+0.3){ penabrak.push({x:x, z:z1, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
       }
       /* collider interior: rak kiri/kanan/belakang + kasir (sederhana) */
       for (z=z0+1; z<=z1-1; z+=1){
-        penabrak.push({x:x0+0.5, z:z, r:0.5}); penabrak.push({x:x1-0.5, z:z, r:0.5});
+        penabrak.push({x:x0+0.5, z:z, r:0.5, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:x1-0.5, z:z, r:0.5, tanpaPemain:true, tanpaKamera:true});
       }
-      for (x=x0+1; x<=x1-1; x+=1){ penabrak.push({x:x, z:z0+0.5, r:0.5}); }
+      for (x=x0+1; x<=x1-1; x+=1){ penabrak.push({x:x, z:z0+0.5, r:0.5, tanpaPemain:true, tanpaKamera:true}); }
     })();
     try {
       new THREE.GLTFLoader().load('gedung-g01-blender-v3.glb', function(gltf){
@@ -2101,6 +2117,15 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-27, 0, -14);
         scene.add(model);
+        /* AUDIT 11-11: collider dari geometri nyata (blok 0,35 m, r maks 0,25 — dinding tipis).
+           Pintu lengkung kaca ada di sisi lokal -Z (menghadap plaza, pusat dunia ±(-24,55;-12,72));
+           sampel di ambang pintu (|x lokal| < 1,1, z lokal -3,6..-1,9) dibuang supaya bisa masuk,
+           sama seperti bukaan pintu rantai lama. */
+        var cG = Math.cos(model.rotation.y), sG = Math.sin(model.rotation.y);
+        pasangColliderOtomatis(model, function(x, z){
+          var dx = x + 27, dz = z + 14, lx = dx * cG - dz * sG, lz = dx * sG + dz * cG;
+          return Math.abs(lx) < 1.1 && lz < -1.9 && lz > -3.6;
+        }, { blok:0.35, rmax:0.25, tanpaKamera:true });   /* kamera di dalam toko diatur dolly KAMERA_MASUK, bukan dorongan S1 per lingkaran */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2122,14 +2147,20 @@ function teksturGedung(warnaDinding, malam){
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
     try {
-      new THREE.GLTFLoader().load('gedung-g04-blender-v2.glb', function(gltf){
+      /* AUDIT 2026-11-11: v2 -> v3. v2 TERBALIK: cangkang (atap/badan/etalase/lantai balkon)
+         tercermin di Y — di game atapnya menancap ke tanah dan alasnya di ketinggian 14,9 m
+         (trik position.y 14,9 dulu hanya menutupi gejala). Interior melayang 2,1 m, 8 bola
+         balkon + 2 finial atap nyasar 4–12 m dari badan, lubang pintu terpotong di lantai
+         teratas, pelat tembaga padat menutup kaca etalase. v3 = semua transform di-bake ke
+         frame benar (alas y 0); rincian di audit/plan/LAPORAN-AUDIT-KOTA-20261111.md. */
+      new THREE.GLTFLoader().load('gedung-g04-blender-v3.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var model = gltf.scene;
         model.rotation.y = 2.761 + Math.PI;
         model.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        model.position.set(-15, 14.9, 37.4);
+        model.position.set(-15, 0, 37.4);
         scene.add(model);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
@@ -2461,26 +2492,11 @@ function teksturGedung(warnaDinding, malam){
   }
 })();
 
-/* --- G04: kollider pemain 3 lingkaran sepanjang sumbu slab visual (2026-11-09, ronde jembatan).
-   Lingkaran lama di (-15,37.4) r 4,5 (posisi loader) berjarak 9,67 m dari tapak visual — pemain
-   bisa jalan menembus badan visual G04 (pusat visual (-7,20;17,89), slab 6,4x18,8 m, ry 5,903).
-   Pola toko: 3 lingkaran r 4,5 di offset -6/0/+6 sepanjang sumbu panjang lokal Z (arah dunia
-   (sin ry, cos ry)). Sudut tapak terjauh 4,68 m dari pusat lingkaran terdekat < r+0,55 = 5,05
-   (dorongan pemain) — pemain tidak bisa masuk tapak; sisi tengah terjaga 0,66 m.
-   DITARUH DI SINI (sesudah snapshot `terlarang = penabrak.slice()` blok pohon kota di atas),
-   BUKAN di loop gedung: lingkaran ini TIDAK boleh masuk snapshot pohon — pohon hidup
-   (-8,53;28,10) berjarak 5,15 m dari lingkaran ujung < r+1,6 = 6,1 dan akan gugur +
-   menggeser aliran RNG (seed 20261040 harus byte-identik). Pemain/kamera membaca
-   `penabrak` live per frame, jadi push di sini tetap berlaku. Lingkaran lama (-15,37.4)
-   DIBIARKAN (sudah masuk snapshot pohon; mencabutnya juga menggeser pohon) — ia memblokir
-   petak plaza kosong, kondisi lama, bukan yang baru. */
-(function(){
-  var _gx = -7.20, _gz = 17.89, _gr = 5.903;
-  var _sx = Math.sin(_gr), _sz = Math.cos(_gr);
-  [-6, 0, 6].forEach(function(off){
-    penabrak.push({ x:_gx + _sx * off, z:_gz + _sz * off, r:4.5 });
-  });
-})();
+/* --- G04 (AUDIT 2026-11-11): 3 lingkaran r 4,5 sepanjang "slab visual" 6,4x18,8 m DICABUT.
+   Slab itu artefak GLB v2 (cangkang tercermin + detail tembaga nyasar s.d. 9 m dari badan);
+   badan nyata v3 hanya 6,2x6,5 m di (-9,42;23,45). Tapak pemain kini cukup baris OBB G04 di
+   ZONA_LARANG_PEMAIN (+1,5 m). Lingkaran ini dulu sengaja di luar snapshot pohon, jadi
+   mencabutnya tidak menggeser vegetasi (seed 20261040). */
 
 /* ---------- lampu taman + glow ---------- */
 var lampuGlow = [];
@@ -2813,7 +2829,11 @@ function tinggiTanah(x, z){
     if (hm > h) h = hm;
   }
   /* dek dermaga: landai 0 -> 0.5 pada x -57..-60, rata 0.5 sesudahnya */
-  if (x < -56.4 && Math.abs(z) < 3.4){
+  /* AUDIT 2026-11-11: batas barat x > -80,5 (ujung papan dek -79,9 ± 0,44). Dulu tanpa batas:
+     sejak Padang Barat (Fase 5) menyambung di x -71, pita z ±3,4 setinggi 0,5 m terus sampai
+     x -250 — pemain melayang 0,5 m di atas rumput padang, pagar/lumbung/pohon di pita itu
+     tampak "tenggelam". */
+  if (x < -56.4 && x > -80.5 && Math.abs(z) < 3.4){
     var hd = (-57 - x) / 3 * 0.5;
     hd = clamp(hd, 0, 0.5);
     if (hd > h) h = hd;
@@ -2870,6 +2890,7 @@ function dalamArea(x, z){
     if (x >= -45 && x <= 45 && z >= -205 && z <= -128) return true;  /* penghubung gunung */
     if (Math.hypot(x - GUNUNG.x, z - GUNUNG.z) <= 56.5) return true; /* cakram Gunung Awan */
   }
+  if (x >= -12 && x <= 12 && z >= 76 && z <= 137) return true;     /* AUDIT 11-11: jembatan darat selatan (jalan N–S ke daratan selatan) */
   /* AUDIT 2026-11-09 (TB2): daratan selatan rekreasi x -85..85, z 135..225 */
   if (x >= -85 && x <= 85 && z >= 135 && z <= 225) return true;
   return false;
@@ -4548,7 +4569,7 @@ pasangTokoGLB('TOKO_MAINAN', 'mainan-toko-blender-v4.glb', 15.2, -80, -1.5708, 1
     grup.position.set(px, 0, pz);
     grup.rotation.y = Math.atan2(0 - px, -105 - pz);
     scene.add(grup);
-    penabrak.push({ x:px, z:pz, r: Math.max(lebar, dalam) / 2 + 0.7 });
+    penabrak.push({ x:px, z:pz, r: Math.max(lebar, dalam) / 2 + 0.7, tanpaPemain:true });   /* AUDIT 11-11: pemain pakai OBB Menara Utara (tapak nyata); lingkaran r 5,2–5,7 menahan pemain s.d. 2,5 m dari dinding. Tetap untuk kamera S1. */
   });
 
   /* lampu + bangku + pohon mengitari plaza mini */
@@ -5212,6 +5233,11 @@ daratan5(60, -165, 245, -15, bahanPadang5(185, 150, true), 0);       /* Hutan Pi
 daratan5(46, -42, 62, -6, bahanRumput, 0.004);                       /* jembatan darat timur */
 daratan5(28, -138, 80, -92, bahanRumput, 0.004);                     /* jembatan darat utara */
 daratan5(-45, -210, 45, -128, bahanRumput, 0.004);                    /* penghubung gunung */
+/* AUDIT 2026-11-11: jembatan darat selatan. Jalan N–S GLB (jalan-raya-blender-v1, z -96..195)
+   melintas laut z ~80..135 sebagai pita aspal melayang tanpa daratan, dan dalamArea() tidak
+   mengizinkan pita itu -> SELURUH daratan selatan (konser, kolam, skate park, food court, taman
+   bunga, taman bermain) mustahil dicapai pemain. Pola sama dengan jembatan darat timur/utara. */
+daratan5(-12, 76, 12, 137, bahanRumput, 0.004);                       /* jembatan darat selatan */
 
 /* ----- jalan setapak tanah (murni penunjuk visual) ----- */
 function jalanStrip5(x1, z1, x2, z2, w){
@@ -5338,7 +5364,7 @@ function pohonBiasa5(x, z, s, zona){
   jend.position.set(-1.4, 2.3, 3.56); g.add(jend);
   g.position.set(-152, 0, 6);
   scene.add(g);
-  penabrak.push({ x:-152, z:6, r:5.0 }); /* TUGAS 4: r 4,4 -> 5,0 (setengah-diagonal tapak) */
+  penabrak.push({ x:-152, z:6, r:5.0, tanpaPemain:true }); /* TUGAS 4: r 4,4 -> 5,0. AUDIT 11-11: pemain kini pakai OBB lumbung di ZONA_LARANG_PEMAIN (lingkaran ini menahan pemain 3 m dari dinding panjang); lingkaran tetap untuk snapshot vegetasi + kamera */
   /* silo */
   var silo = new THREE.Group();
   var tabung = new THREE.Mesh(new THREE.CylinderGeometry(1.6, 1.6, 6.8, 14),
@@ -5378,39 +5404,42 @@ function pohonBiasa5(x, z, s, zona){
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
     try {
-      new THREE.GLTFLoader().load('pagar-blender-v1-segmen.glb', function(gltf){
+      /* AUDIT 2026-11-11: dulu pagar-blender-v1-segmen.glb — panel rel TANPA tiang yang
+         alasnya y 0,50 (rel melayang setengah meter, tanpa satu pun tiang ke tanah).
+         Kini modul pagar-blender-v1-tiang.glb (tiang di x 0 + panel 2,1 m, sama dengan
+         pagar sekolah), tiap bentang dibagi bulat lalu modul diregang <=5% di X agar
+         pas. Rantai tertutup: tiap sudut dapat tiang dari bentang berikutnya; satu-satunya
+         ujung bebas (sudut tenggara) dapat modul balik. Collider (titikPagar + palang)
+         TIDAK berubah karena garis pagar sama. */
+      new THREE.GLTFLoader().load('pagar-blender-v1-tiang.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var dasar = gltf.scene;
-        dasar.scale.setScalar(1.0);   /* pagar Blender v1, real meters */
         dasar.traverse(function(o){
           if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; }
         });
-        var LEBAR = 1.0859 * 2.08;
-        function bentangX(z, x1, x2, rotY){
-          var n = Math.max(1, Math.round((x2 - x1) / LEBAR));
-          var st = (x2 - x1) / n, i, c;
+        var MODUL = 2.1;
+        function bentang(x1, z1, x2, z2){
+          var dx = x2 - x1, dz = z2 - z1, len = Math.hypot(dx, dz);
+          var n = Math.max(1, Math.round(len / MODUL)), st = len / n;
+          var ux = dx / len, uz = dz / len, ry = Math.atan2(-uz, ux), i, c;
           for (i = 0; i < n; i++){
             c = dasar.clone(true);
-            c.rotation.y = rotY;
-            c.position.set(x1 + st * (i + 0.5), 0, z);
+            c.rotation.y = ry;
+            c.scale.x = st / MODUL;
+            c.position.set(x1 + ux * st * i, 0, z1 + uz * st * i);
             scene.add(c);
           }
+          return st;
         }
-        function bentangZ(x, z1, z2, rotY){
-          var n = Math.max(1, Math.round((z2 - z1) / LEBAR));
-          var st = (z2 - z1) / n, i, c;
-          for (i = 0; i < n; i++){
-            c = dasar.clone(true);
-            c.rotation.y = rotY;
-            c.position.set(x, 0, z1 + st * (i + 0.5));
-            scene.add(c);
-          }
-        }
-        bentangX(Z1, X1, X2, 0);
-        bentangX(Z2, X1, X2, Math.PI);
-        bentangZ(X1, Z1, Z2, Math.PI / 2);
-        bentangZ(X2, Z1, 13.5, -Math.PI / 2);
-        bentangZ(X2, 19.5, Z2, -Math.PI / 2);
+        var stS = bentang(X1, Z1, X2, Z1);           /* selatan: tiang di (X1,Z1)..           */
+        bentang(X2, 13.5, X2, Z1);                   /* timur bawah: tiang gerbang (X2,13.5)  */
+        bentang(X2, 19.5, X2, Z2);                   /* timur atas: tiang gerbang (X2,19.5)   */
+        bentang(X2, Z2, X1, Z2);                     /* utara: tiang sudut timur laut         */
+        bentang(X1, Z2, X1, Z1);                     /* barat: tiang sudut barat laut         */
+        /* sudut tenggara (X2,Z1): modul balik di atas modul selatan terakhir (panel berimpit) */
+        var cb = dasar.clone(true);
+        cb.rotation.y = Math.PI; cb.scale.x = stS / MODUL; cb.position.set(X2, 0, Z1);
+        scene.add(cb);
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -5833,7 +5862,9 @@ function pohonBiasa5(x, z, s, zona){
     penabrak.push({ x:p[0], z:p[1], r:0.5 });
   });
   /* --- lampu jalan reuse di jalan masuk + lapangan --- */
-  [[-120, 42], [-145, 48], [-166, 55], [-186, 66], [-217, 54], [-193, 67]].forEach(function(p){
+  /* AUDIT 2026-11-11: lampu pertama (-120,42) -> (-117.2,41.2): dulu tiangnya 0,44 m dari batang
+     pinus padang (-120.36,41.75; s 1,4) — lentera tenggelam di tajuk. Vegetasi tidak disentuh (seed). */
+  [[-117.2, 41.2], [-145, 48], [-166, 55], [-186, 66], [-217, 54], [-193, 67]].forEach(function(p){
     lampuF2(p[0], p[1]);
     penabrak.push({ x:p[0], z:p[1], r:0.3 }); /* RAPiH (B6): lampu sekolah kini bercollider */
   });
@@ -5951,8 +5982,11 @@ function pohonBiasa5(x, z, s, zona){
     }
     tabrakRect2(cx, cz, w, d);
   }
-  gedungT2(-228, 45, 16, 10, 9, 'S');
-  gedungT2(-182, 45, 16, 10, 9, 'S');
+  /* AUDIT 2026-11-11: sayap kode digeser 0,4 m keluar — dulu dindingnya menembus ujung
+     gedung-utama-sekolah-v4 (tapak GLB x -220,0..-190,25) 0,25 m di kedua sisi (tumpang
+     2,6 + 1,9 m2 setinggi badan). Collider tabrakRect2 ikut (dipanggil di dalam gedungT2). */
+  gedungT2(-228.4, 45, 16, 10, 9, 'S');
+  gedungT2(-181.6, 45, 16, 10, 9, 'S');
   /* perpustakaan (-228,60): DIGANTI GLB Blender v4 (2026-10-30, vonis pemilik "gas" 21:56) — lihat pasangPerpusGLB di bawah */
   /* lab (-243,76): DIGANTI GLB Blender v6 (2026-10-31, vonis pemilik "gas" 06:26) — lihat pasangLabGLB di bawah */
   /* kantin (-207,76): DIGANTI GLB Blender v2 (2026-10-31, vonis pemilik "lolos" 07:26, re-install ?fresh=63 pasca-krisis) */
@@ -5960,15 +5994,35 @@ function pohonBiasa5(x, z, s, zona){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
-    /* collider kantin 10x8 di (-207,76) */
+    /* collider kantin 10x8 di (-207,76)
+       AUDIT 2026-11-11: pintu ganda GLB TERBUKA (bukaan x -207,9..-206,0 di dinding utara z 72,
+       daun terbuka ke utara s.d. z 70,6) dan interiornya lengkap (4 meja + konter dapur), tapi
+       rantai lingkaran dulu menutup penuh dinding utara — tembok tak terlihat di ambang pintu.
+       Kini: celah pintu di dinding utara (tiang r 0,3 rapat di kusen), daun pintu ber-collider,
+       meja/konter/lemari dalam ber-collider. */
     (function(){
       var cx=-207, cz=76, w=10, d=8;
       var x0=cx-w/2, x1=cx+w/2, z0=cz-d/2, z1=cz+d/2, x, z;
-      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6}); penabrak.push({x:x, z:z1, r:0.6}); }
+      for (x=x0; x<=x1+0.01; x+=1){
+        if (x < -208.9 || x > -205.1) penabrak.push({x:x, z:z0, r:0.6});   /* dinding utara, kecuali bukaan pintu */
+        penabrak.push({x:x, z:z1, r:0.6});
+      }
       for (z=z0+1; z<=z1-1.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6}); penabrak.push({x:x1, z:z, r:0.6}); }
+      /* kusen pintu: dinding sisa di kiri/kanan bukaan */
+      [-208.6, -208.25, -205.65, -205.3].forEach(function(xk){ penabrak.push({x:xk, z:z0, r:0.3}); });
+      /* daun pintu terbuka (tegak lurus dinding, ke utara) */
+      [70.9, 71.6, 72.3].forEach(function(zk){ penabrak.push({x:-208.2, z:zk, r:0.25}); penabrak.push({x:-205.7, z:zk, r:0.25}); });
+      /* 4 meja makan + kursi */
+      [[-209.6, 75.1], [-209.6, 77.35], [-204.4, 75.1], [-204.4, 77.35]].forEach(function(m){
+        penabrak.push({x:m[0], z:m[1] - 0.45, r:0.75}); penabrak.push({x:m[0], z:m[1] + 0.45, r:0.75});
+      });
+      /* konter dapur dinding selatan + lemari pojok timur laut */
+      for (x=-210; x<=-206.9; x+=1) penabrak.push({x:x, z:79.1, r:0.5});
+      penabrak.push({x:-203.7, z:73.05, r:0.5});
     })();
     try {
-      new THREE.GLTFLoader().load('gedung-kantin-v2.glb', function(gltf){
+      /* AUDIT 2026-11-11: v2 -> v3 — 4 material bertekstur (atap terakota, plester, batu, meja) di v2 tanpa UV (tekstur jatuh ke 1 texel/warna rata); v3 = UV planar per muka. */
+      new THREE.GLTFLoader().load('gedung-kantin-v3.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var model = gltf.scene;
         model.traverse(function(o){ if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
@@ -5984,17 +6038,22 @@ function pohonBiasa5(x, z, s, zona){
     var sudah = false;
     var batas = setTimeout(function(){ sudah = true; }, 180000);
     /* collider aula — game coords; model TANPA rotasi di (-178,-0.01,75.5) */
+    /* AUDIT 2026-11-11: rantai tangan di bawah menutup interior aula sepenuhnya (lorong tengah
+       x -179..-177 tertutup lingkaran blok kursi kiri/kanan; area dalam terjangkau 0,1 m2 dari
+       93 m2) padahal pintu ganda dibuka kode. Rantai dibiarkan (kamera S1 + snapshot
+       vegetasi) tetapi ditandai tanpaPemain; collider pemain dari geometri GLB nyata
+       sesudah daun pintu diputar (pasangColliderOtomatis di callback muat). */
     function kelilingAula(cx, cz, w, d){
       var x0=cx-w/2, x1=cx+w/2, z0=cz-d/2, z1=cz+d/2, x, z;
-      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6}); penabrak.push({x:x, z:z1, r:0.6}); }
-      for (z=z0+1; z<=z1-1.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6}); penabrak.push({x:x1, z:z, r:0.6}); }
+      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6, tanpaPemain:true}); penabrak.push({x:x, z:z1, r:0.6, tanpaPemain:true}); }
+      for (z=z0+1; z<=z1-1.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6, tanpaPemain:true}); penabrak.push({x:x1, z:z, r:0.6, tanpaPemain:true}); }
     }
     var xa, za;
-    for (xa=-184; xa<=-179.3; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6});
-    for (xa=-176.7; xa<=-172; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6});
-    for (xa=-184; xa<=-172; xa+=1) penabrak.push({x:xa, z:80.0, r:0.6});
-    for (za=71; za<=80; za+=1){ penabrak.push({x:-184, z:za, r:0.6}); penabrak.push({x:-172, z:za, r:0.6}); }
-    for (za=68.6; za<=71.0; za+=0.8){ penabrak.push({x:-180.2, z:za, r:0.6}); penabrak.push({x:-175.8, z:za, r:0.6}); }
+    for (xa=-184; xa<=-179.3; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true});
+    for (xa=-176.7; xa<=-172; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true});
+    for (xa=-184; xa<=-172; xa+=1) penabrak.push({x:xa, z:80.0, r:0.6, tanpaPemain:true});
+    for (za=71; za<=80; za+=1){ penabrak.push({x:-184, z:za, r:0.6, tanpaPemain:true}); penabrak.push({x:-172, z:za, r:0.6, tanpaPemain:true}); }
+    for (za=68.6; za<=71.0; za+=0.8){ penabrak.push({x:-180.2, z:za, r:0.6, tanpaPemain:true}); penabrak.push({x:-175.8, z:za, r:0.6, tanpaPemain:true}); }
     kelilingAula(-178, 78.45, 8, 2.5);
     kelilingAula(-180.75, 74.05, 3.5, 4.3);
     kelilingAula(-174.625, 74.05, 4.75, 4.3);
@@ -6019,6 +6078,7 @@ function pohonBiasa5(x, z, s, zona){
           o.rotation.y += ang;
         });
         scene.add(model);
+        pasangColliderOtomatis(model, null, { blok:0.35, rmax:0.25, tanpaKamera:true });   /* AUDIT 11-11 */
       }, undefined, function(){ if (sudah) return; sudah = true; clearTimeout(batas); });
     } catch(e){}
   })();
@@ -6033,8 +6093,12 @@ function pohonBiasa5(x, z, s, zona){
     for (gz=78; gz<=82; gz+=1) penabrak.push({x:-198, z:gz, r:0.6});
     for (gz=70; gz<=82; gz+=1) penabrak.push({x:-188, z:gz, r:0.6});
     for (gx=-198; gx<=-188; gx+=1){ penabrak.push({x:gx, z:70, r:0.6}); penabrak.push({x:gx, z:82, r:0.6}); }
-    /* tangga: blok sisi, buka tengah */
-    for (gx=-200.7; gx<=-198; gx+=0.9){ penabrak.push({x:gx, z:73.5, r:0.6}); penabrak.push({x:gx, z:78.5, r:0.6}); }
+    /* tangga: blok sisi, buka tengah — DICABUT (AUDIT 2026-11-11): tangga menghadap dinding
+       timur kantin yang hanya 1,3 m di depannya, jadi satu-satunya jalan ke pintu gym adalah
+       lorong kantin–gym dari utara/selatan; lingkaran sisi tangga (z 73,5 / 78,5, x -200,7..-198)
+       menyatu dengan lingkaran dinding kantin dan menutup lorong itu di kedua ujung — interior
+       gym (tribun, ring, rak bola) mustahil dicapai. Tangga rendah tanpa pipi; lorong kini
+       x -200,85..-199,15 (lebar bebas 1,7 m) dan pintu gym terbuka dari lorong. */
     /* tribun dalam (sisi timur) */
     for (gx=-190; gx<=-188.2; gx+=0.9){ penabrak.push({x:gx, z:72, r:0.6}); penabrak.push({x:gx, z:80, r:0.6}); }
     for (gz=72; gz<=80; gz+=1) penabrak.push({x:-190, z:gz, r:0.6});
@@ -8118,7 +8182,8 @@ function dorongPemainKeluarTapak(v){
     var dx = v.x - o[0], dz = v.z - o[1];
     var c = Math.cos(o[4]), s = Math.sin(o[4]);
     var lx = dx * c - dz * s, lz = dx * s + dz * c;
-    var hx = o[2] + 1.5, hz = o[3] + 1.5;
+    var mg = (o.length > 6) ? o[6] : 1.5;   /* AUDIT 11-11: kolom ke-7 opsional = margin (default 1,5 m) */
+    var hx = o[2] + mg, hz = o[3] + mg;
     if (Math.abs(lx) <= hx && Math.abs(lz) <= hz){
       if (hx - Math.abs(lx) < hz - Math.abs(lz)) lx = (lx >= 0 ? 1 : -1) * hx;
       else lz = (lz >= 0 ? 1 : -1) * hz;
@@ -8175,6 +8240,13 @@ function dorongKeluarTapak(v, px, pz){
     if (v.y >= o[5]) continue;   /* di atas atap: bebas, jangan didorong */
     var dx = v.x - o[0], dz = v.z - o[1];
     var c = Math.cos(o[4]), s = Math.sin(o[4]);
+    if (sadarPemain && KAMERA_MASUK[i]){
+      /* AUDIT 2026-11-11: pemain DI DALAM gedung enterable (G01) — dulu kamera didorong ke
+         sisi luar dinding sehingga pemain hilang di balik dinding. Selama pemain di dalam
+         tapaknya, tapak itu tidak mendorong; jarakDollyBersih menahan kamera di dalam. */
+      var pdx = px - o[0], pdz = pz - o[1];
+      if (Math.abs(pdx * c - pdz * s) <= o[2] && Math.abs(pdx * s + pdz * c) <= o[3]) continue;
+    }
     var lx = dx * c - dz * s, lz = dx * s + dz * c;
     if (Math.abs(lx) <= o[2] + 0.3 && Math.abs(lz) <= o[3] + 0.3){
       if (sadarPemain){
@@ -8235,7 +8307,12 @@ function jarakDollyBersih(px, py, pz, tx, ty, tz){
       }
     }
     if (!ok || t0 > t1) continue;
-    if (t0 <= 0) continue;   /* mata di dalam OBB: dilewati */
+    if (t0 <= 0){
+      /* mata di dalam OBB: dilewati — KECUALI gedung enterable (AUDIT 11-11): kamera
+         ditahan di dalam ruangan, 1,2 m sebelum tepi tapak yang ditembus ray (undakan + rak dinding). */
+      if (KAMERA_MASUK[i] && py < maxY && t1 - 1.2 < bersih) bersih = Math.max(0, t1 - 1.2);   /* 1,2 m: OBB G01 memuat undakan pintu 0,6 m di luar dinding + rak dinding ±0,5 m */
+      continue;
+    }
     if (t0 >= bersih) continue;
     var tA = t0, tB = t1;
     if (uy > 1e-12){ tB = Math.min(tB, (maxY - py) / uy); }
@@ -8273,6 +8350,7 @@ function perbaruiKamera(dt, detik){
   var passS1, iS1, dxS1, dzS1, dS1, rS1;
   for (passS1 = 0; passS1 < 2; passS1++){
     for (iS1 = 0; iS1 < penabrak.length; iS1++){
+      if (penabrak[iS1].tanpaKamera) continue;   /* AUDIT 11-11: lingkaran snapshot-vegetasi tanpa geometri */
       dxS1 = camTarget.x - penabrak[iS1].x; dzS1 = camTarget.z - penabrak[iS1].z;
       dS1 = Math.sqrt(dxS1 * dxS1 + dzS1 * dzS1); rS1 = penabrak[iS1].r + 0.3;
       if (dS1 < rS1){
@@ -9271,6 +9349,56 @@ window.__antreMuatKosong = function(){
   } catch (e) {}
 })();
 
+/* --- AUDIT 2026-11-11: collider otomatis dari geometri GLB (rekreasi selatan).
+   Taman bermain, kolam renang (pagar, kursi santai, payung, pot), skate park (ramp/rail/funbox),
+   taman bunga (gapura, air mancur, bangku) dan kursi penonton konser dulu TANPA collider
+   sama sekali — pemain jalan menembus perosotan, ayunan, ramp, pagar kolam. Fungsi ini
+   menyampel segitiga setinggi badan (0,45–1,6 m di atas tanah datar y 0) ke blok 0,75 m,
+   lalu memasang satu lingkaran per blok (pusat = rata-rata sampel, r = jarak sampel
+   terjauh + 0,125, maks 0,6). Deterministik (murni dari geometri). `kecuali(x,z)` membuang
+   sampel (mis. air kolam yang sudah diblokir OBB). Dipanggil di callback muat GLB, jadi
+   penabrak ditambah SESUDAH semua snapshot vegetasi (seed 20261040 tidak tersentuh). */
+function pasangColliderOtomatis(model, kecuali, opsi){
+  opsi = opsi || {};
+  var BLOK = opsi.blok || 0.75, RMAX = opsi.rmax || 0.6, Y0 = (opsi.y0 !== undefined) ? opsi.y0 : 0.45, Y1 = (opsi.y1 !== undefined) ? opsi.y1 : 1.6;
+  model.updateMatrixWorld(true);
+  var blok = {}, a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), p = new THREE.Vector3();
+  function catat(v){
+    if (v.y < Y0 || v.y > Y1) return;
+    if (kecuali && kecuali(v.x, v.z)) return;
+    var k = Math.floor(v.x / BLOK) + ',' + Math.floor(v.z / BLOK);
+    var e = blok[k] || (blok[k] = { n:0, x:0, z:0, pts:[] });
+    e.n++; e.x += v.x; e.z += v.z; e.pts.push(v.x, v.z);
+  }
+  model.traverse(function(o){
+    if (!o.isMesh || !o.visible || !o.geometry || !o.geometry.attributes.position) return;
+    if (opsi.lewati && opsi.lewati.test(o.name || '')) return;
+    var pos = o.geometry.attributes.position, ix = o.geometry.index, n = ix ? ix.count : pos.count, t;
+    for (t = 0; t + 2 < n; t += 3){
+      a.fromBufferAttribute(pos, ix ? ix.getX(t) : t).applyMatrix4(o.matrixWorld);
+      b.fromBufferAttribute(pos, ix ? ix.getX(t + 1) : t + 1).applyMatrix4(o.matrixWorld);
+      c.fromBufferAttribute(pos, ix ? ix.getX(t + 2) : t + 2).applyMatrix4(o.matrixWorld);
+      if (Math.max(a.y, b.y, c.y) < Y0 || Math.min(a.y, b.y, c.y) > Y1) continue;
+      var m = Math.ceil(Math.max(a.distanceTo(b), b.distanceTo(c), c.distanceTo(a)) / 0.25), i, j;
+      if (m > 60) m = 60;
+      for (i = 0; i <= m; i++) for (j = 0; j <= m - i; j++){
+        var u = i / m || 0, w = j / m || 0;
+        p.set(a.x + (b.x - a.x) * u + (c.x - a.x) * w, a.y + (b.y - a.y) * u + (c.y - a.y) * w, a.z + (b.z - a.z) * u + (c.z - a.z) * w);
+        catat(p);
+      }
+    }
+  });
+  var jml = 0;
+  Object.keys(blok).forEach(function(k){
+    var e = blok[k]; if (e.n < 3) return;
+    var cx = e.x / e.n, cz = e.z / e.n, r = 0, q;
+    for (q = 0; q < e.pts.length; q += 2) r = Math.max(r, Math.hypot(e.pts[q] - cx, e.pts[q + 1] - cz));
+    penabrak.push({ x:cx, z:cz, r:Math.min(RMAX, r + 0.125), oto:true, tanpaKamera:!!opsi.tanpaKamera });
+    jml++;
+  });
+  return jml;
+}
+
 /* --- taman bermain: Blender v1 (2026-11-03, vonis pemilik "gas masukin").
    Playground dengan perosotan wave, ayunan, jungkat-jungkit, dll. */
 (function pasangTamanBermainGLB(){
@@ -9286,6 +9414,7 @@ window.__antreMuatKosong = function(){
       });
       model.position.set(-60, 0, 200);
       scene.add(model);
+      pasangColliderOtomatis(model);   /* AUDIT 11-11: perosotan, ayunan, jungkat-jungkit dulu tanpa collider */
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
@@ -9332,6 +9461,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
       });
       model.position.set(65, 0, 200);
       scene.add(model);
+      pasangColliderOtomatis(model);   /* AUDIT 11-11: stand, meja, payung (ganti OBB yang menutup seluruh area) */
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
@@ -9359,6 +9489,9 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
       });
       model.position.set(30, 0, 155);
       scene.add(model);
+      /* AUDIT 11-11: pagar, kursi santai, payung, pot, seluncur dulu tanpa collider. Air kolam
+         sudah diblokir OBB "Kolam — air" di ZONA_LARANG_PEMAIN: sampel di sana dibuang. */
+      pasangColliderOtomatis(model, function(x, z){ return Math.abs(x - 30.85) <= 12.1 && Math.abs(z - 157.6) <= 5.85; });
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
@@ -9403,16 +9536,20 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
      Pintu GLB ada di sisi UTARA (z 185.95–188.18, menghadap jalan), panggung di sisi
      SELATAN (z 213.94–221.50) — jadi celah pintu di dinding UTARA, panggung diblokir
      di ujung SELATAN (KEBALIKAN dari pola lama). */
+  /* AUDIT 2026-11-11: rantai ini 2 m di utara dinding GLB (dinding nyata z ±185,5 — tembok tak
+     terlihat 15 m2 di depan fasad) dan deret kursi + balkon di dalam tidak ber-collider (pemain
+     menembus 65 m2 kursi). Rantai dibiarkan untuk kamera S1 (tanpaPemain); collider pemain dari
+     geometri GLB di pasangGedungKonserGLB, bukaan pintu utara dibiarkan terbuka. */
   var cx = 30, cz = 203.2, hw = 12.85, hd = 19.65;
   var px, pz;
   /* dinding selatan (z = cz+hd) penuh */
-  for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz+hd, r:0.6 }); }
+  for (px = cx-hw; px <= cx+hw; px++){ penabrak.push({ x:px, z:cz+hd, r:0.6, tanpaPemain:true }); }
   /* dinding utara (z = cz-hd): CELAH PINTU x 26.76..33.24 (pintu GLB, lebar 6,48 m) */
-  for (px = cx-hw; px <= cx+hw; px++){ if (px >= 26.76 && px <= 33.24) continue; penabrak.push({ x:px, z:cz-hd, r:0.6 }); }
+  for (px = cx-hw; px <= cx+hw; px++){ if (px >= 26.76 && px <= 33.24) continue; penabrak.push({ x:px, z:cz-hd, r:0.6, tanpaPemain:true }); }
   /* dinding samping (x = cx±hw) */
-  for (pz = cz-hd; pz <= cz+hd; pz++){ penabrak.push({ x:cx-hw, z:pz, r:0.6 }); penabrak.push({ x:cx+hw, z:pz, r:0.6 }); }
+  for (pz = cz-hd; pz <= cz+hd; pz++){ penabrak.push({ x:cx-hw, z:pz, r:0.6, tanpaPemain:true }); penabrak.push({ x:cx+hw, z:pz, r:0.6, tanpaPemain:true }); }
   /* panggung: blokir area panggung GLB (x 21.90–38.10, z 213.94–221.50) biar pemain tidak naik ke atasnya */
-  for (px = 21.9; px <= 38.1; px++){ for (pz = 213.94; pz <= 221.5; pz++){ penabrak.push({ x:px, z:pz, r:0.5 }); } }
+  for (px = 21.9; px <= 38.1; px++){ for (pz = 213.94; pz <= 221.5; pz++){ penabrak.push({ x:px, z:pz, r:0.5, tanpaPemain:true }); } }
 })();
 (function pasangGedungKonserGLB(){
   if (typeof THREE.GLTFLoader !== 'function') return;
@@ -9427,6 +9564,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
       });
       model.position.set(30, 0, 204);
       scene.add(model);
+      pasangColliderOtomatis(model, function(x, z){ return x > 26.9 && x < 33.1 && z < 188.4; }, { blok:0.5, rmax:0.4, tanpaKamera:true });   /* AUDIT 11-11: pintu utara x 26,76–33,24 */
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
@@ -9461,6 +9599,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
       });
       model.position.set(-60, 0, 155);
       scene.add(model);
+      pasangColliderOtomatis(model);   /* AUDIT 11-11: ramp, half-pipe, rail, funbox dulu bisa ditembus (hanya pagar keliling) */
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
@@ -9495,6 +9634,7 @@ pasangRumahWarga('rumah-cottage-v1.glb', 125, -30, 0.8);
       });
       model.position.set(65, 0, 155);
       scene.add(model);
+      pasangColliderOtomatis(model);   /* AUDIT 11-11: gapura, air mancur mini, bangku dulu bisa ditembus (hanya pagar keliling) */
     }, undefined, function(){
       if (sudah) return; sudah = true; clearTimeout(batas);
     });
