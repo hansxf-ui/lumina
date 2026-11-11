@@ -12,13 +12,13 @@ grep index.html). Jangan pernah ngomong dari ingatan.
 ## Gedung sekolah & fasilitas (live di index.html)
 - gedung-utama-sekolah-v4.glb — sekolah v4 (diterima pemilik apa adanya 30 Okt)
 - gedung-perpustakaan-v4.glb — perpustakaan v4 (enterable)
-- gedung-aula-v1d.glb — aula v1d (ENTERABLE + interior; pintu ganda mahoni TERMODEL di GLB, bukan pintu kode)
+- gedung-aula-v1e.glb — aula v1e (LANJUTAN 2026-11-11: = v1d + lambris dinding depan dalam dipotong di bukaan pintu; dulu list 0,38–1,41 m menutup pintu). BISA DIMASUKI pemain: lantai (undakan, marmer, panggung 0,60) di peta tinggi via LANTAI_GLB, collider tipis dari geometri, kamera ikut masuk (plafon 6,62). v1d tetap di disk.
 - gedung-gym-v4.glb — gym v4 (sudah ADA interiornya — jangan usulkan bikin interior lagi)
 - gedung-lab-v6.glb — lab v6
 - gedung-kantin-v3.glb — kantin v3 (AUDIT 2026-11-11: = v2 + UV planar untuk atap terakota/plester/batu/meja yang di v2 tanpa UV; geometri sama; v2 tetap di disk)
 - gedung-g01-blender-v3.glb — G01 v3 (enterable)
 - gedung-g02-blender-v3.glb — G02 v3 (enterable, bakery interior) ✓
-- gedung-g04-blender-v3.glb — G04 v3 "Emerald Glow" (AUDIT 2026-11-11: v2 TERBALIK di game — cangkang tercermin Y, atap menancap tanah; v3 = semua transform di-bake ke frame benar, alas y 0, + bingkai etalase tembaga & kaca tembus pandang; loader y 0, bukan 14,9). Interior perhiasan ada, pintu model tertutup → tidak dimasuki (sama seperti sebelumnya). v2 tetap di disk.
+- gedung-g04-blender-v5.glb — G04 v5 "Emerald Glow" (LANJUTAN 2026-11-11: = v3 + pintu kayu dibuka 90° ke dalam + undakan marmer 3 x 0,20 m + atas etalase kayu tidak koplanar list tembaga [v4], + 20 panel kaca jendela di kusen yang dulu padat [v5]). BISA DIMASUKI: lantai interior 0,64 di LANTAI_GLB, collider dari geometri dengan bukaan pintu, kamera ikut masuk (plafon 3,66). v2/v3 tetap di disk; v4 = langkah antara (dibuat fix-g04-v4.js, tidak di-commit).
 - gedung-g05-blender-v2.glb — G05 v2 "Rose Boutique" (enterable, clothing interior) ✓
 - gedung-g07-blender-v2.glb — G07 v2 "Café Coral" (enterable, café interior) ✓
 - gedung-g06-blender-v2.glb — G06 v2 "Lavender Bloom" (enterable, flower shop interior) ✓
@@ -30,6 +30,10 @@ grep index.html). Jangan pernah ngomong dari ingatan.
 - taman-bunga-blender-v1.glb — Taman Bunga v1 (4 bedeng + gapura + air mancur mini, spot foto) ✓
 - jalan-raya-blender-v1.glb — Jalan Raya v1 (aspal + trotoar + marka, ganti semua jalan kode) ✓
 gedung-g03-blender-v2.glb — G03 (DIPARKIR — tetap v2, belum enterable)
+
+## Malam & kedip (LANJUTAN 2026-11-11)
+- Jendela G01–G10 GLB menyala malam: pasangJendelaMalam() memecah kaca luar per panel, sebagian menyala hangat (pola tetap), via bahanJendela.
+- 53 GLB: muka koplanar di dalam GLB digeser 5 mm (audit/plan/lanjutan-20261111/zfix.js, log zfix-log.txt). Tanah kode polygonOffset +1/+1 (OFFSET_TANAH). Near kamera 0,25 (dulu 0,1).
 
 ## Toko (semua Blender, live)
 - bunga-toko-blender-v1.glb (Toko Bunga v1), mainan-toko-blender-v4.glb (Toko Mainan v4),

@@ -697,7 +697,13 @@ setInterval(function(){
 }, 500);
 scene.background = new THREE.Color(0x0a0e24);
 scene.fog = new THREE.Fog(0x0a0e24, 110, 520);   /* Fase 5: kabut dilebarkan untuk skala benua (dari puncak, kota + laut tetap terlihat) */
-var camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 600);
+/* LANJUTAN 2026-11-11 (kedip): near 0,1 -> 0,25. Presisi depth perspektif ~ z^2 / near: di
+   jarak 150 m (G04/konser dari plaza) near 0,1 hanya membedakan permukaan berjarak >= 1,3 cm
+   (24-bit; HP 16-bit jauh lebih buruk) sehingga list/papan nama/kusen yang menempel di dinding
+   berkedip dari jauh. Near 0,25 = 2,5x lebih presisi di semua jarak. Kamera game tidak pernah
+   < 0,25 m dari geometri (dolly min 0,9 m dari pemain, dorongan lingkaran r + 0,3 m, ruangan
+   enterable 1,2 m dari tepi tapak), jadi tidak ada yang terpotong near plane. */
+var camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.25, 600);
 
 var hemi = new THREE.HemisphereLight(0xbfd9ff, 0x6a7a52, 0.3);
 scene.add(hemi);
@@ -901,7 +907,14 @@ scene.add(laut);
 var daftarAirShader = [];   /* semua air shader tambahan (danau, dll) — di-update bareng di animate + terapkanLangit */
 
 var bahanSisiPulau = new THREE.MeshLambertMaterial({ color:0xd9b98a });
-var bahanRumput = new THREE.MeshLambertMaterial({ color:0x53a83b });
+/* LANJUTAN 2026-11-11 (kedip di tanah): permukaan tanah (rumput pulau/lobus/daratan selatan/
+   jembatan darat + padang bertekstur di bawah) didorong mundur di depth buffer (polygonOffset
+   +1/+1). Banyak GLB berlantai TEPAT di y 0 (jalan raya, alas lapangan olahraga, dek kolam,
+   skate park, food court, lantai lab/perpus/sekolah, taman bunga...) — koplanar dengan tanah
+   sehingga berkedip bergantian sepanjang kamera bergerak (diukur ~30.000 m2). Dengan offset,
+   apa pun yang koplanar dengan tanah selalu menang; posisi geometri tidak berubah. */
+var OFFSET_TANAH = { polygonOffset:true, polygonOffsetFactor:1, polygonOffsetUnits:1 };
+var bahanRumput = new THREE.MeshLambertMaterial(Object.assign({ color:0x53a83b }, OFFSET_TANAH));
 var pulau = new THREE.Mesh(
   new THREE.CylinderGeometry(60, 56, 2.4, 56),
   [bahanSisiPulau, bahanRumput, bahanSisiPulau]
@@ -1479,7 +1492,7 @@ var ZONA_LARANG_VEG = [
    audit/plan/uji-kamera-marka.cjs). Dipakai HANYA oleh
    dorongKeluarTapak() di bawah. */
 /* AUDIT 2026-11-11: indeks baris ZONA_LARANG_KAMERA untuk gedung yang bisa DIMASUKI (G01). */
-var KAMERA_MASUK = { 0:true };
+var KAMERA_MASUK = { 0:2.75, 3:3.66, 23:6.62 };   /* indeks baris -> tinggi plafon dalam (m). 0 = G01, 3 = G04, 23 = aula (LANJUTAN 11-11) */
 var ZONA_LARANG_KAMERA = [
   [-26.97, -14.02, 4.84, 3.49, 4.232, 8.91],   /* G01 v3 (AUDIT 11-11: tapak nyata diputar seperti model, bukan rect kode sejajar sumbu) */
   [14.75, 19.66, 4.45, 4.72, 3.785, 13.92],    /* G02 */
@@ -1503,7 +1516,8 @@ var ZONA_LARANG_KAMERA = [
   [22.44, 0.00, 3.40, 1.06, 1.571, 5.13],      /* Gerbang Pasar */
   [21.84, -11.69, 1.19, 0.55, 0.500, 2.09],    /* Gerobak Pasar 1 */
   [39.77, 11.31, 1.19, 0.55, -2.200, 2.09],    /* Gerobak Pasar 2 */
-  [6.51, 55.59, 0.55, 1.19, 0.120, 2.09]       /* Gerobak Es Krim */
+  [6.51, 55.59, 0.55, 1.19, 0.120, 2.09],      /* Gerobak Es Krim */
+  [-178.00, 75.50, 6.00, 4.60, 0.000, 10.80]   /* Aula (LANJUTAN 11-11: interior bisa dimasuki; kamera ikut masuk via KAMERA_MASUK) */
 ];
 /* ===== TUGAS 4 (2026-11-10): keep-out KHUSUS PEMAIN =====
    OBB tapak nyata gedung (pusat visual dari bbox.json / ukur GLB per-mesh) + margin
@@ -1521,7 +1535,7 @@ var ZONA_LARANG_KAMERA = [
 var ZONA_LARANG_PEMAIN = [
   [15.03, 20.04, 4.40, 4.25, 3.785, 13.92],    /* G02 (AUDIT 11-11: tapak terukur raster 0,25 m) */
   [-23.94, 19.93, 4.95, 4.27, 5.404, 10.98],   /* G03 (AUDIT 11-11) */
-  [-9.42, 23.45, 3.15, 3.30, 5.903, 15.52],    /* G04 v3 (AUDIT 11-11: tapak badan nyata) */
+  /* G04: baris OBB pemain DICABUT (LANJUTAN 11-11) — G04 kini bisa dimasuki; collider dari geometri GLB v4 di pasangGedungG04Blender. */
   [9.86, 32.21, 3.85, 3.95, 0.180, 15.77],     /* G05 (AUDIT 11-11) */
   [-34.98, -31.98, 5.00, 4.15, 3.797, 15.34],  /* G06 (AUDIT 11-11) */
   [29.77, 16.92, 5.32, 4.61, 1.249, 13.55],    /* G07 (AUDIT 11-11) */
@@ -1990,6 +2004,70 @@ setInterval(cekJarakVegetasi, 500);
 
 /* ---------- gedung-gedung ---------- */
 var bahanJendela = [];
+/* LANJUTAN 2026-11-11 (perintah pemilik): jendela GLB G01–G10 menyala di malam hari, gaya sama
+   dengan jendela box kode (teksturGedung): sebagian panel menyala hangat, sisanya tetap gelap.
+   Kaca luar tiap gedung dipecah per panel (komponen terhubung). Panel lantai dasar (etalase,
+   pusat < 3,2 m) selalu menyala; panel atas menyala bila hash posisi dunia < 0,6 (pola TETAP,
+   bukan Math.random — tidak berubah tiap muat). Panel menyala = mesh kedua yang berbagi atribut
+   geometri asal + material klon kaca ber-emissive, didaftarkan ke bahanJendela (intensitas =
+   langit.night x 1,35, sama seperti jendela kode; tidak dilipat pass gabung). Siang hari
+   emissiveIntensity 0, jadi tampilan siang tidak berubah. Warna: 80 % kuning hangat, 20 % krem. */
+var WARNA_JENDELA_GLB = [0xc98a45, 0xd2b48a];   /* emissive linear; x1,35 malam ≈ lampu kamar hangat, tidak menyilaukan */
+function pasangJendelaMalam(model, reKaca){
+  var hasil = 0, daftar = [], v = new THREE.Vector3();
+  model.updateMatrixWorld(true);
+  model.traverse(function(o){ if (o.isMesh && o.geometry && o.geometry.index && o.material && !Array.isArray(o.material) && reKaca.test(o.material.name || '')) daftar.push(o); });
+  var sudahGeo = new Set();
+  daftar.forEach(function(o){
+    if (sudahGeo.has(o.geometry)) o.geometry = o.geometry.clone();   /* geometri dipakai bersama node lain: pisahkan dulu */
+    sudahGeo.add(o.geometry);
+    var geo = o.geometry, pos = geo.attributes.position, ia = geo.index.array, nv = pos.count, i, t;
+    var par = new Int32Array(nv), kunci = {};
+    for (i = 0; i < nv; i++) par[i] = i;
+    function akar(x){ while (par[x] !== x){ par[x] = par[par[x]]; x = par[x]; } return x; }
+    function satukan(a, b){ a = akar(a); b = akar(b); if (a !== b) par[b] = a; }
+    for (i = 0; i < nv; i++){
+      var k = Math.round(pos.getX(i) * 1e4) + ',' + Math.round(pos.getY(i) * 1e4) + ',' + Math.round(pos.getZ(i) * 1e4);
+      if (kunci[k] !== undefined) satukan(kunci[k], i); else kunci[k] = i;
+    }
+    for (t = 0; t < ia.length; t += 3){ satukan(ia[t], ia[t + 1]); satukan(ia[t], ia[t + 2]); }
+    var pusat = {};
+    for (i = 0; i < nv; i++){ var r = akar(i), e = pusat[r] || (pusat[r] = [0, 0, 0, 0]); e[0] += pos.getX(i); e[1] += pos.getY(i); e[2] += pos.getZ(i); e[3]++; }
+    var nasib = {};
+    Object.keys(pusat).forEach(function(r){
+      var e = pusat[r]; v.set(e[0] / e[3], e[1] / e[3], e[2] / e[3]).applyMatrix4(o.matrixWorld);
+      var h = Math.sin(v.x * 12.9898 + v.y * 78.233 + v.z * 37.719) * 43758.5453; h -= Math.floor(h);
+      var h2 = Math.sin(v.x * 39.346 + v.y * 11.135 + v.z * 83.155) * 24634.6345; h2 -= Math.floor(h2);
+      nasib[r] = (v.y < 3.2 || h < 0.6) ? (h2 < 0.2 ? 2 : 1) : 0;
+    });
+    var bagi = [[], [], []];
+    for (t = 0; t < ia.length; t += 3){ var b = bagi[nasib[akar(ia[t])]]; b.push(ia[t], ia[t + 1], ia[t + 2]); }
+    if (!bagi[1].length && !bagi[2].length) return;
+    var Tipe = ia.constructor;
+    geo.setIndex(new THREE.BufferAttribute(new Tipe(bagi[0]), 1));
+    if (!bagi[0].length) o.visible = false;
+    [1, 2].forEach(function(j){
+      if (!bagi[j].length) return;
+      var g2 = new THREE.BufferGeometry();
+      Object.keys(geo.attributes).forEach(function(nm){ g2.setAttribute(nm, geo.attributes[nm]); });
+      g2.setIndex(new THREE.BufferAttribute(new Tipe(bagi[j]), 1));
+      g2.computeBoundingSphere(); g2.computeBoundingBox();
+      var m = o.material.clone();
+      m.name = (o.material.name || 'kaca') + '_malam';
+      m.emissive = new THREE.Color(WARNA_JENDELA_GLB[j - 1]);
+      m.emissiveIntensity = 0;
+      bahanJendela.push(m);
+      var me = new THREE.Mesh(g2, m);
+      me.name = (o.name || 'kaca') + '_nyala';
+      me.position.copy(o.position); me.quaternion.copy(o.quaternion); me.scale.copy(o.scale);
+      me.castShadow = false; me.receiveShadow = o.receiveShadow;
+      o.parent.add(me);
+      hasil += bagi[j].length / 3;
+    });
+    geo.computeBoundingSphere(); geo.computeBoundingBox();
+  });
+  return hasil;
+}
 function teksturGedung(warnaDinding, malam){
   var cv = document.createElement('canvas');
   cv.width = 256; cv.height = 64;
@@ -2075,8 +2153,8 @@ function teksturGedung(warnaDinding, malam){
      (pintu) ada di sisi Blender -Y = three +Z; rotation.y 1.091 membuat
      fasad menghadap air mancur plaza (0,0) dari (-27,-14). Skala 1.0 (ukuran dari GLB): tinggi 8.05 m (kode 8.7), tapak 7.26 x 5.53 m (kode 6.5 x 6).
      CATATAN: box kode G01 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G01 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   /* G01 "Mint Glaze" v3 ENTERABLE (2026-10-31, vonis pemilik "lolos" 17:06 — interior toko bisa dimasukin) */
   (function pasangGedungG01v3(){
     if (typeof THREE.GLTFLoader !== 'function') return;
@@ -2117,6 +2195,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-27, 0, -14);
         scene.add(model);
+        pasangJendelaMalam(model, /^(Kaca|KacaToko)$/);   /* LANJUTAN 11-11: jendela menyala malam */
         /* AUDIT 11-11: collider dari geometri nyata (blok 0,35 m, r maks 0,25 — dinding tipis).
            Pintu lengkung kaca ada di sisi lokal -Z (menghadap plaza, pusat dunia ±(-24,55;-12,72));
            sampel di ambang pintu (|x lokal| < 1,1, z lokal -3,6..-1,9) dibuang supaya bisa masuk,
@@ -2139,8 +2218,8 @@ function teksturGedung(warnaDinding, malam){
      (= kode), tapak 5.65 x 5.67 m (kode 6.5 x 7.6, lebih kecil —
      setengah-diagonal 4.00 m < collider r 4.5, aman).
      CATATAN: box kode G04 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G04 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   /* G04 "Emerald Glow" v1 Blender (2026-10-31, 153 prim merge) */
   (function pasangGedungG04Blender(){
     if (typeof THREE.GLTFLoader !== 'function') return;
@@ -2153,7 +2232,14 @@ function teksturGedung(warnaDinding, malam){
          balkon + 2 finial atap nyasar 4–12 m dari badan, lubang pintu terpotong di lantai
          teratas, pelat tembaga padat menutup kaca etalase. v3 = semua transform di-bake ke
          frame benar (alas y 0); rincian di audit/plan/LAPORAN-AUDIT-KOTA-20261111.md. */
-      new THREE.GLTFLoader().load('gedung-g04-blender-v3.glb', function(gltf){
+      /* LANJUTAN 2026-11-11 (perintah pemilik): v3 -> v4 = pintu kayu dibuka 90° ke dalam,
+         undakan marmer 3 x 0,20 m di depan pintu (lantai interior 0,64 di atas plinth),
+         badan etalase tidak lagi koplanar dengan list tembaga. Interior bisa dijelajahi:
+         lantai dipanggang ke LANTAI_GLB, collider dari geometri (dinding, etalase, alas
+         zamrud, konter) dengan bukaan pintu, kamera ikut masuk (KAMERA_MASUK[3]).
+         v4 -> v5: + node Jendela_Kaca (20 panel kaca 1,05 x 1,45 m di depan kusen krem yang
+         dulu padat tanpa kaca) supaya jendela bisa menyala malam (pasangJendelaMalam). */
+      new THREE.GLTFLoader().load('gedung-g04-blender-v5.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var model = gltf.scene;
         model.rotation.y = 2.761 + Math.PI;
@@ -2162,6 +2248,24 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-15, 0, 37.4);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaJendela$/);   /* LANJUTAN 11-11: jendela menyala malam */
+        model.updateMatrixWorld(true);
+        var lokalG04 = new THREE.Vector3();
+        bakarLantaiGLB(model, { nama:'G04', x0:-15.5, z0:17.5, x1:-3.5, z1:29.5, s:0.25, yAtas:2.45,
+          terima:function(o, p){
+            if (/^(Undakan_Pintu|Int_Shell|Int_Rug)/.test(o.name)) return true;
+            model.worldToLocal(lokalG04.copy(p));
+            if (/^Atap/.test(o.name) && Math.abs(lokalG04.x) < 0.6 && lokalG04.z > -18.05 && lokalG04.z < -17.7) return true;   /* ambang pintu = atas plinth 0,60 */
+            if (Math.abs(lokalG04.x) < 2.84 && lokalG04.z > -17.79 && lokalG04.z < -12.01) return 0.64;   /* di bawah etalase/konter */
+            return false;
+          } });
+        var tanahG04 = function(x, z){ var m = 0, i, j, v; for (i = -1; i <= 1; i++) for (j = -1; j <= 1; j++){ v = lantaiGLB(x + i * 0.25, z + j * 0.25); if (v === v && v > m) m = v; } return m; };
+        var cG4 = Math.cos(model.rotation.y), sG4 = Math.sin(model.rotation.y);
+        pasangColliderOtomatis(model, function(x, z){
+          /* bukaan pintu + undakan (lokal |x| < 0,52, z -18,9..-17,85) dibiarkan terbuka */
+          var dx = x + 15, dz = z - 37.4, lx = dx * cG4 - dz * sG4, lz = dx * sG4 + dz * cG4;
+          return Math.abs(lx) < 0.52 && lz > -18.9 && lz < -17.85;
+        }, { blok:0.25, rmax:0.5, susut:0.375, tanpaKamera:true, tanah:tanahG04, tanahMaks:0.7 });
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2181,8 +2285,8 @@ function teksturGedung(warnaDinding, malam){
      sudut dinding akan menonjol 0.81 m dari collider. Taman depan
      (pagar bata rendah) ikut dalam model dan menghadap plaza.
      CATATAN: box kode G05 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G05 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG05GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2197,6 +2301,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(10, 0, 33);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2218,8 +2323,8 @@ function teksturGedung(warnaDinding, malam){
      10.81 m, skala dari tinggi murni 17.83 ditolak karena sudut
      menonjol 2.69 m).
      CATATAN: box kode G03 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G03 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   /* G03 "Royal Cobalt" v2 Blender (2026-10-31, vonis pemilik "lanjut" 16:23, merge 15 prim) */
   (function pasangGedungG03Blender(){
     if (typeof THREE.GLTFLoader !== 'function') return;
@@ -2235,6 +2340,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-24, 0, 20);
         scene.add(model);
+        pasangJendelaMalam(model, /^(Kaca|KacaToko)$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2247,8 +2353,8 @@ function teksturGedung(warnaDinding, malam){
      dari (-29,4). Skala seragam 12.0 (kompromi, tanpa distorsi):
      tinggi 10.34 m (kode 11.6), tapak 9.05 x 6.47 m (kode 7.9 x 6).
      CATATAN: box kode G02 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G02 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   /* G02 "Sunset Brick" v2 Blender (2026-10-31, fix jendela: kaca gelap opaque, 12 prim) */
   (function pasangGedungG02Blender(){
     if (typeof THREE.GLTFLoader !== 'function') return;
@@ -2264,6 +2370,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(15, 0, 20);
         scene.add(model);
+        pasangJendelaMalam(model, /^Kaca$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2286,8 +2393,8 @@ function teksturGedung(warnaDinding, malam){
      dengan tinggi pas, skala dari lebar murni 11.03 ditolak karena
      tinggi jadi 8.29 m).
      CATATAN: box kode G09 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G09 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG09GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2302,6 +2409,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(20, 0, -27);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2325,8 +2433,8 @@ function teksturGedung(warnaDinding, malam){
      7.69 m). Model 3 lantai (koreksi intake: catatan persiapan lama
      menulis 4 lantai, referensi + GLB = ground + 2 atas).
      CATATAN: box kode G10 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G10 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG10GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2341,6 +2449,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-14, 0, -33);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2361,8 +2470,8 @@ function teksturGedung(warnaDinding, malam){
      r 4.65 (AUDIT 2026-11-09: filter kios kini pakai footprint AABB asli, bukan lingkaran), jadi NOL tonjolan sudut, tidak seperti G02/G03/G10;
      skala dari lebar ditolak karena tinggi jadi 21.7-26.8 m).
      CATATAN: box kode G08 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G08 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG08GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2377,6 +2486,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(34.8, 0, -15);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2400,8 +2510,8 @@ function teksturGedung(warnaDinding, malam){
      karena tonjolan 2.99 m, skala dari lebar murni 8.66 ditolak
      karena tinggi jadi 7.76 m).
      CATATAN: box kode G07 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G07 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG07GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2416,6 +2526,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(30, 0, 17);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2433,8 +2544,8 @@ function teksturGedung(warnaDinding, malam){
      murni 15.48 ditolak (tonjolan 2.18 m); skala dari lebar murni
      11.28 ditolak (tinggi jadi 8.45 m).
      CATATAN: box kode G06 punya jendela malam menyala (bahanJendela);
-     GLB ini tidak membawa glow itu — malam hari G06 gelap, tanpa solusi
-     tambahan (sengaja tidak dikarang). */
+     GLB ini tidak membawa glow itu; LANJUTAN 11-11: kaca luarnya kini menyala
+     malam lewat pasangJendelaMalam (bahanJendela). */
   (function pasangGedungG06GLB(){
     if (typeof THREE.GLTFLoader !== 'function') return;
     var sudah = false;
@@ -2449,6 +2560,7 @@ function teksturGedung(warnaDinding, malam){
         });
         model.position.set(-35, 0, -32);
         scene.add(model);
+        pasangJendelaMalam(model, /^KacaGelap$/);   /* LANJUTAN 11-11: jendela menyala malam */
       }, undefined, function(){
         if (sudah) return; sudah = true; clearTimeout(batas);
       });
@@ -2813,6 +2925,48 @@ function tinggiBukit(d, a){
   return 5.4;
 }
 /* tinggi permukaan yang bisa diinjak di titik (x, z) */
+/* ===== LANTAI GLB (2026-11-11, lanjutan audit) =====
+   Peta tinggi lantai dari geometri GLB nyata, dipanggang SEKALI saat GLB termuat (raycast
+   ke bawah per sel). Dipakai untuk permukaan berjalan yang tidak dikenal fungsi tanah
+   analitik: undakan + lantai aula, undakan + lantai G04, dek jembatan batu. Di dalam
+   wilayahnya, nilai sel (bila ada) MENGGANTIKAN tinggi tanah. Wilayah kosong saat boot
+   (GLB belum termuat) -> semua pemanggil tinggiTanah saat boot (vegetasi seed 20261040)
+   tidak terpengaruh. */
+var LANTAI_GLB = [];
+function lantaiGLB(x, z){
+  for (var i = 0; i < LANTAI_GLB.length; i++){
+    var L = LANTAI_GLB[i];
+    var gx = Math.floor((x - L.x0) / L.s), gz = Math.floor((z - L.z0) / L.s);
+    if (gx < 0 || gz < 0 || gx >= L.nx || gz >= L.nz) continue;
+    var v = L.h[gz * L.nx + gx];
+    if (v === v) return v;
+  }
+  return NaN;
+}
+/* opsi: { x0, z0, x1, z1, s, yAtas, terima(objek, titikHit) -> true (pakai y hit) | angka (pakai angka) | false (bukan lantai) } */
+function bakarLantaiGLB(model, opsi){
+  model.updateMatrixWorld(true);
+  var s = opsi.s || 0.25, nx = Math.ceil((opsi.x1 - opsi.x0) / s), nz = Math.ceil((opsi.z1 - opsi.z0) / s);
+  var h = new Float32Array(nx * nz), rc = new THREE.Raycaster(), o = new THREE.Vector3(), turun = new THREE.Vector3(0, -1, 0), n = new THREE.Vector3(), isi = 0;
+  for (var gz = 0; gz < nz; gz++) for (var gx = 0; gx < nx; gx++){
+    o.set(opsi.x0 + (gx + 0.5) * s, opsi.yAtas, opsi.z0 + (gz + 0.5) * s);
+    rc.set(o, turun);
+    var hits = rc.intersectObject(model, true), v = NaN;
+    for (var k = 0; k < hits.length; k++){
+      var hk = hits[k]; if (!hk.object.isMesh || !hk.object.visible || !hk.face) continue;
+      n.copy(hk.face.normal).transformDirection(hk.object.matrixWorld);
+      if (n.y < 0.7) continue;
+      var t = opsi.terima(hk.object, hk.point);
+      if (t === true){ v = hk.point.y; isi++; }
+      else if (typeof t === 'number'){ v = t; isi++; }   /* penghalang di atas lantai yang diketahui (etalase, meja): lantai di bawahnya */
+      break;   /* permukaan menghadap atas pertama: lantai atau penghalang (kursi, meja) */
+    }
+    h[gz * nx + gx] = v;
+  }
+  var L = { x0:opsi.x0, z0:opsi.z0, s:s, nx:nx, nz:nz, h:h, nama:opsi.nama || '' };
+  LANTAI_GLB.push(L);
+  return isi;
+}
 function tinggiTanah(x, z){
   var h = 0;
   var dx = x - BUKIT.x, dz = z - BUKIT.z;
@@ -2856,6 +3010,8 @@ function tinggiTanah(x, z){
     var hg = tinggiGunung(gd, Math.atan2(gz, gx)) + 0.02;
     if (hg > h) h = hg;
   }
+  /* LANTAI GLB (aula, G04, dek jembatan batu): permukaan berjalan dari geometri nyata */
+  if (LANTAI_GLB.length){ var hl = lantaiGLB(x, z); if (hl === hl) h = hl; }
   return h;
 }
 /* area yang sah diinjak: pulau utama, lobus tenggara, dek dermaga,
@@ -5222,9 +5378,9 @@ function daratan5(x1, z1, x2, z2, matAtas, turun){
   return m;
 }
 function bahanPadang5(w, d, gelap){
-  return new THREE.MeshLambertMaterial({
+  return new THREE.MeshLambertMaterial(Object.assign({
     map: teksturPadang5(Math.max(1, Math.round(w / 26)), Math.max(1, Math.round(d / 26)), gelap)
-  });
+  }, OFFSET_TANAH));   /* LANJUTAN 11-11: lihat OFFSET_TANAH */
 }
 daratan5(-250, -61, -71, 91, bahanPadang5(179, 152, false), 0);       /* Padang Barat */
 daratan5(-71.5, 8, -38, 80, bahanPadang5(34, 72, false), 0.004);     /* penghubung selatan */
@@ -6045,20 +6201,22 @@ function pohonBiasa5(x, z, s, zona){
        sesudah daun pintu diputar (pasangColliderOtomatis di callback muat). */
     function kelilingAula(cx, cz, w, d){
       var x0=cx-w/2, x1=cx+w/2, z0=cz-d/2, z1=cz+d/2, x, z;
-      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6, tanpaPemain:true}); penabrak.push({x:x, z:z1, r:0.6, tanpaPemain:true}); }
-      for (z=z0+1; z<=z1-1.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6, tanpaPemain:true}); penabrak.push({x:x1, z:z, r:0.6, tanpaPemain:true}); }
+      for (x=x0; x<=x1+0.01; x+=1){ penabrak.push({x:x, z:z0, r:0.6, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:x, z:z1, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
+      for (z=z0+1; z<=z1-1.01; z+=1){ penabrak.push({x:x0, z:z, r:0.6, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:x1, z:z, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
     }
     var xa, za;
-    for (xa=-184; xa<=-179.3; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true});
-    for (xa=-176.7; xa<=-172; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true});
-    for (xa=-184; xa<=-172; xa+=1) penabrak.push({x:xa, z:80.0, r:0.6, tanpaPemain:true});
-    for (za=71; za<=80; za+=1){ penabrak.push({x:-184, z:za, r:0.6, tanpaPemain:true}); penabrak.push({x:-172, z:za, r:0.6, tanpaPemain:true}); }
-    for (za=68.6; za<=71.0; za+=0.8){ penabrak.push({x:-180.2, z:za, r:0.6, tanpaPemain:true}); penabrak.push({x:-175.8, z:za, r:0.6, tanpaPemain:true}); }
+    for (xa=-184; xa<=-179.3; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true, tanpaKamera:true});
+    for (xa=-176.7; xa<=-172; xa+=1) penabrak.push({x:xa, z:71.0, r:0.6, tanpaPemain:true, tanpaKamera:true});
+    for (xa=-184; xa<=-172; xa+=1) penabrak.push({x:xa, z:80.0, r:0.6, tanpaPemain:true, tanpaKamera:true});
+    for (za=71; za<=80; za+=1){ penabrak.push({x:-184, z:za, r:0.6, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:-172, z:za, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
+    for (za=68.6; za<=71.0; za+=0.8){ penabrak.push({x:-180.2, z:za, r:0.6, tanpaPemain:true, tanpaKamera:true}); penabrak.push({x:-175.8, z:za, r:0.6, tanpaPemain:true, tanpaKamera:true}); }
     kelilingAula(-178, 78.45, 8, 2.5);
     kelilingAula(-180.75, 74.05, 3.5, 4.3);
     kelilingAula(-174.625, 74.05, 4.75, 4.3);
     try {
-      new THREE.GLTFLoader().load('gedung-aula-v1d.glb', function(gltf){
+      /* v1e (LANJUTAN 11-11): = v1d + lambris dinding depan dalam (panel putih, list emas, list
+         plester 0,38–1,41 m) dipotong di bukaan pintu x lokal ±1,19 — dulu melintang menutup pintu */
+      new THREE.GLTFLoader().load('gedung-aula-v1e.glb', function(gltf){
         if (sudah) return; sudah = true; clearTimeout(batas);
         var model = gltf.scene;
         model.traverse(function(o){ if (o.isMesh){ o.castShadow = true; o.receiveShadow = true; } });
@@ -6078,7 +6236,22 @@ function pohonBiasa5(x, z, s, zona){
           o.rotation.y += ang;
         });
         scene.add(model);
-        pasangColliderOtomatis(model, null, { blok:0.35, rmax:0.25, tanpaKamera:true });   /* AUDIT 11-11 */
+        /* LANJUTAN AUDIT 2026-11-11 (disetujui pemilik): interior aula bisa dimasuki.
+           Lantai: undakan pintu (batu 0,13 -> 0,33 -> 0,50, turun 0,16 ke lantai marmer 0),
+           lantai marmer + karpet lorong + panggung kayu 0,60 dipanggang ke LANTAI_GLB.
+           Kursi beludru TIDAK diterima sebagai lantai (jadi penghalang). */
+        bakarLantaiGLB(model, { nama:'aula', x0:-185, z0:68, x1:-171, z1:81, s:0.25, yAtas:4.6,
+          terima:function(o, p){
+            if (/^(LantaiMarmer|Merged_KayuPanggung)/.test(o.name)) return true;
+            if (/^Merged_MarmerGelap/.test(o.name)) return p.y < 0.1;   /* jalur lantai; alas pot 0,8 m = penghalang */
+            return /^Merged_Batu/.test(o.name) && p.x > -180.6 && p.x < -175.4 && p.z > 68.4 && p.z < 71.9 && p.y < 0.6;
+          } });
+        /* collider dari geometri, diukur relatif lantai (maks lantai 3x3 sel: tepi panggung &
+           undakan bukan penghalang) dan TIPIS (blok 0,125 + rmax 0,5 + susut 0,425 + rmin -0,30 ->
+           dorongan = sebaran sampel blok + 0,25 m: badan 0,25–0,3 m dari kursi/dinding):
+           lorong kursi aula hanya ±1 m. */
+        var tanahAula = function(x, z){ var m = 0, i, j, v; for (i = -1; i <= 1; i++) for (j = -1; j <= 1; j++){ v = lantaiGLB(x + i * 0.25, z + j * 0.25); if (v === v && v > m) m = v; } return m; };
+        pasangColliderOtomatis(model, null, { blok:0.125, rmax:0.5, susut:0.425, rmin:-0.30, tanpaKamera:true, tanah:tanahAula, tanahMaks:0.7 });
       }, undefined, function(){ if (sudah) return; sudah = true; clearTimeout(batas); });
     } catch(e){}
   })();
@@ -8322,6 +8495,15 @@ function jarakDollyBersih(px, py, pz, tx, ty, tz){
   }
   return bersih;
 }
+/* LANJUTAN 11-11: indeks baris ZONA_LARANG_KAMERA gedung enterable (KAMERA_MASUK) yang
+   tapaknya memuat titik (px, pz); -1 bila tidak ada. */
+function gedungMasukDi(px, pz){
+  for (var k in KAMERA_MASUK){
+    var o = ZONA_LARANG_KAMERA[+k], c = Math.cos(o[4]), s = Math.sin(o[4]), dx = px - o[0], dz = pz - o[1];
+    if (Math.abs(dx * c - dz * s) <= o[2] && Math.abs(dx * s + dz * c) <= o[3]) return +k;
+  }
+  return -1;
+}
 function perbaruiKamera(dt, detik){
   if (!sudahMasuk){
     var a = detik * 0.05;
@@ -8380,12 +8562,15 @@ function perbaruiKamera(dt, detik){
     /* Margin 0,3 m hanya bila ADA penghalang (dBersih < d0); bila garis bersih,
        jangan pendekkan apa pun (bug awal: kamera selalu masuk 0,3 m). */
     var dTujuan3 = (dBersih3 < d03) ? Math.min(d03, dBersih3 - 0.3) : d03;
-    if (dTujuan3 < 2.0) dTujuan3 = 2.0;
+    /* LANJUTAN 11-11: di dalam ruangan enterable minimum dolly 0,9 m (G04 hanya 5,6 m:
+       minimum 2,0 m menaruh kamera DI DALAM dinding depan saat pemain dekat pintu) */
+    var dMin3 = (gedungMasukDi(px, pz) >= 0) ? 0.9 : 2.0;
+    if (dTujuan3 < dMin3) dTujuan3 = dMin3;
     if (dTujuan3 > d03) dTujuan3 = d03;
     if (camJarakEfektif > camJarak) camJarakEfektif = camJarak;
     var lajuDolly3 = (dTujuan3 < camJarakEfektif) ? 8 : 2;
     camJarakEfektif += (dTujuan3 - camJarakEfektif) * (1 - Math.exp(-dt * lajuDolly3));
-    if (camJarakEfektif < 2.0) camJarakEfektif = 2.0;
+    if (camJarakEfektif < dMin3) camJarakEfektif = dMin3;
     if (camJarakEfektif > camJarak) camJarakEfektif = camJarak;
     var skala3 = camJarakEfektif / d03;
     if (skala3 < 1){
@@ -8396,6 +8581,10 @@ function perbaruiKamera(dt, detik){
       if (camTarget.y < tanahCam3 + 0.7) camTarget.y = tanahCam3 + 0.7;
     }
   }
+  /* LANJUTAN 2026-11-11: di dalam gedung enterable (KAMERA_MASUK) kamera tidak menembus
+     plafon (G01 2,75 m, G04 3,66 m, aula 6,62 m) — 0,3 m di bawah plafon. */
+  var iPl = gedungMasukDi(px, pz);
+  if (iPl >= 0 && camTarget.y > KAMERA_MASUK[iPl] - 0.3) camTarget.y = KAMERA_MASUK[iPl] - 0.3;
   camera.position.lerp(camTarget, 1 - Math.exp(-dt * 6));
   /* R6-KAMERA: jepit JUGA posisi hasil lerp — segmen lerp dari posisi lama
      ke target baru bisa memotong sudut bangunan walau kedua ujungnya di
@@ -9361,10 +9550,18 @@ window.__antreMuatKosong = function(){
 function pasangColliderOtomatis(model, kecuali, opsi){
   opsi = opsi || {};
   var BLOK = opsi.blok || 0.75, RMAX = opsi.rmax || 0.6, Y0 = (opsi.y0 !== undefined) ? opsi.y0 : 0.45, Y1 = (opsi.y1 !== undefined) ? opsi.y1 : 1.6;
+  /* opsi.tanah(x,z): tinggi lantai lokal (default 0) — sampel diukur relatif lantai itu
+     (undakan/panggung bukan penghalang, kursi di atasnya tetap). opsi.susut: lingkaran
+     dikecilkan (boleh negatif s.d. -0,25 -> dorongan efektif 0,30 m) untuk interior sempit:
+     badan pemain boleh 0,3 m dari permukaan, bukan 0,55 m (lebar lorong kursi aula ±1 m).
+     Dengan rmax 0,5 + susut 0,375: r = sebaran - 0,25 -> dorongan = sebaran sampel + 0,30 m. */
+  var TANAH = opsi.tanah || function(){ return 0; }, SUSUT = opsi.susut || 0, TMAX = opsi.tanahMaks || 0;
+  var RMIN = (opsi.rmin !== undefined) ? opsi.rmin : -0.25;   /* aula: -0,30 -> badan min 0,25 m (lorong tengah kursi) */
   model.updateMatrixWorld(true);
   var blok = {}, a = new THREE.Vector3(), b = new THREE.Vector3(), c = new THREE.Vector3(), p = new THREE.Vector3();
   function catat(v){
-    if (v.y < Y0 || v.y > Y1) return;
+    var t0 = TANAH(v.x, v.z);
+    if (v.y - t0 < Y0 || v.y - t0 > Y1) return;
     if (kecuali && kecuali(v.x, v.z)) return;
     var k = Math.floor(v.x / BLOK) + ',' + Math.floor(v.z / BLOK);
     var e = blok[k] || (blok[k] = { n:0, x:0, z:0, pts:[] });
@@ -9378,7 +9575,7 @@ function pasangColliderOtomatis(model, kecuali, opsi){
       a.fromBufferAttribute(pos, ix ? ix.getX(t) : t).applyMatrix4(o.matrixWorld);
       b.fromBufferAttribute(pos, ix ? ix.getX(t + 1) : t + 1).applyMatrix4(o.matrixWorld);
       c.fromBufferAttribute(pos, ix ? ix.getX(t + 2) : t + 2).applyMatrix4(o.matrixWorld);
-      if (Math.max(a.y, b.y, c.y) < Y0 || Math.min(a.y, b.y, c.y) > Y1) continue;
+      if (Math.max(a.y, b.y, c.y) < Y0 || Math.min(a.y, b.y, c.y) > Y1 + TMAX) continue;
       var m = Math.ceil(Math.max(a.distanceTo(b), b.distanceTo(c), c.distanceTo(a)) / 0.25), i, j;
       if (m > 60) m = 60;
       for (i = 0; i <= m; i++) for (j = 0; j <= m - i; j++){
@@ -9393,7 +9590,7 @@ function pasangColliderOtomatis(model, kecuali, opsi){
     var e = blok[k]; if (e.n < 3) return;
     var cx = e.x / e.n, cz = e.z / e.n, r = 0, q;
     for (q = 0; q < e.pts.length; q += 2) r = Math.max(r, Math.hypot(e.pts[q] - cx, e.pts[q + 1] - cz));
-    penabrak.push({ x:cx, z:cz, r:Math.min(RMAX, r + 0.125), oto:true, tanpaKamera:!!opsi.tanpaKamera });
+    penabrak.push({ x:cx, z:cz, r:Math.max(RMIN, Math.min(RMAX, r + 0.125) - SUSUT), oto:true, tanpaKamera:!!opsi.tanpaKamera });
     jml++;
   });
   return jml;

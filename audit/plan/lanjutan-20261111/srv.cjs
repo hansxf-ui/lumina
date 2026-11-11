@@ -1,0 +1,3 @@
+const http=require('http'),fs=require('fs'),path=require('path');
+const MIME={'.html':'text/html','.js':'application/javascript','.glb':'model/gltf-binary','.png':'image/png','.json':'application/json','.jpg':'image/jpeg','.svg':'image/svg+xml'};
+module.exports=function(root,port){return new Promise(r=>{const s=http.createServer((q,res)=>{let u=decodeURIComponent(q.url.split('?')[0]);if(u==='/')u='/index.html';const f=path.join(root,u);fs.readFile(f,(e,d)=>{if(e){res.writeHead(404);res.end();return;}res.writeHead(200,{'Content-Type':MIME[path.extname(f)]||'application/octet-stream'});res.end(d);});});s.listen(port,()=>r(s));});};
