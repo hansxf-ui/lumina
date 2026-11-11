@@ -163,7 +163,7 @@ in-g04, tanah-plaza/cw/sekolah). Detektor yang sama dijalankan pada worktree `ma
 | tanah-sekolah | 175 | 7 |
 | **Total 42 view** | **26695** | **3138** |
 
-Sisa terbesar (branch): list emas & kursi aula (±560 px di view dalam aula, muka emas kecil
+Sisa terbesar (branch): list emas & kursi aula (view dalam aula 674 px, main 778; muka emas kecil
 berbeda normal), kaca studio foto vs plester (154 px), sambungan pagar modul (143 px), meja
 dapur kantin (75 px). Akan dikejar lagi bersama PR sungai.
 
